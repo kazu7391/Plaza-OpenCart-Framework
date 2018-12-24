@@ -1,9 +1,9 @@
 <?php
-class ControllerDivaModule extends Controller
+class ControllerPlazaModule extends Controller
 {
     public function index() {
-        $this->load->language('diva/module');
-        $this->load->language('diva/adminmenu');
+        $this->load->language('plaza/module');
+        $this->load->language('plaza/adminmenu');
 
         $this->load->model('setting/extension');
 
@@ -34,7 +34,7 @@ class ControllerDivaModule extends Controller
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true)
+            'href' => $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true)
         );
 
         $data['user_token'] = $this->session->data['user_token'];
@@ -57,7 +57,7 @@ class ControllerDivaModule extends Controller
         $language = new Language($this->config->get('config_language'));
 
         // Compatibility code for old extension folders
-        $files = glob(DIR_APPLICATION . 'controller/extension/module/dv*.php');
+        $files = glob(DIR_APPLICATION . 'controller/extension/module/pt*.php');
 
         if ($files) {
             foreach ($files as $file) {
@@ -82,7 +82,7 @@ class ControllerDivaModule extends Controller
                         'status'    => (isset($setting_info['status']) && $setting_info['status']) ? 1 : 0,
                         'stt_text'  => (isset($setting_info['status']) && $setting_info['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
                         'edit'      => $this->url->link('extension/module/' . $extension, 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $module['module_id'], true),
-                        'delete'    => $this->url->link('diva/module/delete', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $module['module_id'], true)
+                        'delete'    => $this->url->link('plaza/module/delete', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $module['module_id'], true)
                     );
                 }
 
@@ -91,8 +91,8 @@ class ControllerDivaModule extends Controller
                     'status'    => $this->config->get('module_' . $extension . '_status') ? 1 : 0,
                     'stt_text'  => $this->config->get('module_' . $extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
                     'module'    => $module_data,
-                    'install'   => $this->url->link('diva/module/install', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
-                    'uninstall' => $this->url->link('diva/module/uninstall', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
+                    'install'   => $this->url->link('plaza/module/install', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
+                    'uninstall' => $this->url->link('plaza/module/uninstall', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension, true),
                     'installed' => in_array($extension, $extensions),
                     'edit'      => $this->url->link('extension/module/' . $extension, 'user_token=' . $this->session->data['user_token'], true)
                 );
@@ -107,69 +107,69 @@ class ControllerDivaModule extends Controller
 
         array_multisort($sort_order, SORT_ASC, $data['extensions']);
 
-        $data['diva_menus'] = array();
+        $data['plaza_menus'] = array();
 
-        if($this->user->hasPermission('access', 'extension/module/dvcontrolpanel')) {
-            $data['diva_menus'][] = array(
+        if($this->user->hasPermission('access', 'extension/module/ptcontrolpanel')) {
+            $data['plaza_menus'][] = array(
                 'title'  => '<i class="a fa fa-magic"></i> ' . $this->language->get('text_control_panel'),
-                'url'    => $this->url->link('extension/module/dvcontrolpanel', 'user_token=' . $this->session->data['user_token'], true),
+                'url'    => $this->url->link('extension/module/ptcontrolpanel', 'user_token=' . $this->session->data['user_token'], true),
                 'active' => 0
             );
         }
 
-        if($this->user->hasPermission('access', 'diva/module')) {
-            $data['diva_menus'][] = array(
+        if($this->user->hasPermission('access', 'plaza/module')) {
+            $data['plaza_menus'][] = array(
                 'title'  => '<i class="a fa fa-puzzle-piece"></i> ' . $this->language->get('text_theme_module'),
-                'url'    => $this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true),
+                'url'    => $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true),
                 'active' => 1
             );
         }
 
-        if($this->user->hasPermission('access', 'diva/featuredcate')) {
-            $data['diva_menus'][] = array(
+        if($this->user->hasPermission('access', 'plaza/featuredcate')) {
+            $data['plaza_menus'][] = array(
                 'title'  => '<i class="a fa fa-tag"></i> ' . $this->language->get('text_special_category'),
-                'url'    => $this->url->link('diva/featuredcate', 'user_token=' . $this->session->data['user_token'], true),
+                'url'    => $this->url->link('plaza/featuredcate', 'user_token=' . $this->session->data['user_token'], true),
                 'active' => 0
             );
         }
 
-        if($this->user->hasPermission('access', 'diva/ultimatemenu')) {
-            $data['diva_menus'][] = array(
+        if($this->user->hasPermission('access', 'plaza/ultimatemenu')) {
+            $data['plaza_menus'][] = array(
                 'title'  => '<i class="a fa fa-bars"></i> ' . $this->language->get('text_ultimate_menu'),
-                'url'    => $this->url->link('diva/ultimatemenu/menuList', 'user_token=' . $this->session->data['user_token'], true),
+                'url'    => $this->url->link('plaza/ultimatemenu/menuList', 'user_token=' . $this->session->data['user_token'], true),
                 'active' => 0
             );
         }
 
-        if ($this->user->hasPermission('access', 'diva/blog')) {
+        if ($this->user->hasPermission('access', 'plaza/blog')) {
             $blog_menu = array();
 
-            if ($this->user->hasPermission('access', 'diva/blog/post')) {
+            if ($this->user->hasPermission('access', 'plaza/blog/post')) {
                 $blog_menu[] = array(
                     'title'  => $this->language->get('text_posts'),
-                    'url'    => $this->url->link('diva/blog/post', 'user_token=' . $this->session->data['user_token'], true),
+                    'url'    => $this->url->link('plaza/blog/post', 'user_token=' . $this->session->data['user_token'], true),
                     'active' => 0
                 );
             }
 
-            if ($this->user->hasPermission('access', 'diva/blog/list')) {
+            if ($this->user->hasPermission('access', 'plaza/blog/list')) {
                 $blog_menu[] = array(
                     'title'  => $this->language->get('text_posts_list'),
-                    'url'    => $this->url->link('diva/blog/list', 'user_token=' . $this->session->data['user_token'], true),
+                    'url'    => $this->url->link('plaza/blog/list', 'user_token=' . $this->session->data['user_token'], true),
                     'active' => 0
                 );
             }
 
-            if ($this->user->hasPermission('access', 'diva/blog/setting')) {
+            if ($this->user->hasPermission('access', 'plaza/blog/setting')) {
                 $blog_menu[] = array(
                     'title'  => $this->language->get('text_blog_setting'),
-                    'url'    => $this->url->link('diva/blog/setting', 'user_token=' . $this->session->data['user_token'], true),
+                    'url'    => $this->url->link('plaza/blog/setting', 'user_token=' . $this->session->data['user_token'], true),
                     'active' => 0
                 );
             }
 
             if($blog_menu) {
-                $data['diva_menus'][] = array(
+                $data['plaza_menus'][] = array(
                     'title'  => '<i class="a fa fa-ticket"></i> ' . $this->language->get('text_blog'),
                     'child'  => $blog_menu,
                     'active' => 0
@@ -177,41 +177,41 @@ class ControllerDivaModule extends Controller
             }
         }
 
-        if($this->user->hasPermission('access', 'diva/slider')) {
-            $data['diva_menus'][] = array(
+        if($this->user->hasPermission('access', 'plaza/slider')) {
+            $data['plaza_menus'][] = array(
                 'title'  => '<i class="a fa fa-film"></i> ' . $this->language->get('text_slider'),
-                'url'    => $this->url->link('diva/slider', 'user_token=' . $this->session->data['user_token'], true),
+                'url'    => $this->url->link('plaza/slider', 'user_token=' . $this->session->data['user_token'], true),
                 'active' => 0
             );
         }
 
-        if($this->user->hasPermission('access', 'diva/testimonial')) {
-            $data['diva_menus'][] = array(
+        if($this->user->hasPermission('access', 'plaza/testimonial')) {
+            $data['plaza_menus'][] = array(
                 'title'  => '<i class="a fa fa-comment"></i> ' . $this->language->get('text_testimonial'),
-                'url'    => $this->url->link('diva/testimonial', 'user_token=' . $this->session->data['user_token'], true),
+                'url'    => $this->url->link('plaza/testimonial', 'user_token=' . $this->session->data['user_token'], true),
                 'active' => 0
             );
         }
 
-        if($this->user->hasPermission('access', 'diva/newsletter')) {
-            $data['diva_menus'][] = array(
+        if($this->user->hasPermission('access', 'plaza/newsletter')) {
+            $data['plaza_menus'][] = array(
                 'title'  => '<i class="a fa fa-envelope"></i> ' . $this->language->get('text_newsletter'),
-                'url'    => $this->url->link('diva/newsletter', 'user_token=' . $this->session->data['user_token'], true),
+                'url'    => $this->url->link('plaza/newsletter', 'user_token=' . $this->session->data['user_token'], true),
                 'active' => 0
             );
         }
 
-        $this->document->addStyle('view/stylesheet/divawebs/themeadmin.css');
+        $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
         
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-        $this->response->setOutput($this->load->view('diva/module/list', $data));
+        $this->response->setOutput($this->load->view('plaza/module/list', $data));
     }
 
     public function install() {
-        $this->load->language('diva/module');
+        $this->load->language('plaza/module');
 
         $this->load->model('setting/extension');
 
@@ -233,11 +233,11 @@ class ControllerDivaModule extends Controller
             $this->session->data['error'] = $this->error['warning'];
         }
 
-        $this->response->redirect($this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true));
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
     }
 
     public function uninstall() {
-        $this->load->language('diva/module');
+        $this->load->language('plaza/module');
 
         $this->load->model('setting/extension');
 
@@ -254,11 +254,11 @@ class ControllerDivaModule extends Controller
             $this->session->data['success'] = $this->language->get('text_success');
         }
 
-        $this->response->redirect($this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true));
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
     }
 
     public function add() {
-        $this->load->language('diva/module');
+        $this->load->language('plaza/module');
 
         $this->load->model('setting/extension');
 
@@ -272,11 +272,11 @@ class ControllerDivaModule extends Controller
             $this->session->data['success'] = $this->language->get('text_success');
         }
 
-        $this->response->redirect($this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true));
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
     }
 
     public function delete() {
-        $this->load->language('diva/module');
+        $this->load->language('plaza/module');
 
         $this->load->model('setting/extension');
 
@@ -288,7 +288,7 @@ class ControllerDivaModule extends Controller
             $this->session->data['success'] = $this->language->get('text_success');
         }
 
-        $this->response->redirect($this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true));
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
     }
 
     protected function validate() {

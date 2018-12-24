@@ -1,7 +1,7 @@
 <?php
 // Heading
-$_['heading_title']          = '<b style="color: #eb5202;"><i><i class="fa fa-tag"></i> DIVA Special Categories</i></b>';
-$_['page_title']             = 'DIVA Special Categories';
+$_['heading_title']          = '<b style="color: #eb5202;"><i><i class="fa fa-tag"></i> Plaza Special Categories</i></b>';
+$_['page_title']             = 'Plaza Special Categories';
 
 // Text
 $_['text_success']           = 'Success: You have modified Special Categories!';

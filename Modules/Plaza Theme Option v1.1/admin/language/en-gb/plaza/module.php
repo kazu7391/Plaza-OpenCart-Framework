@@ -1,11 +1,11 @@
 <?php
 // Heading
-$_['heading_title']     = '<b style="color: #eb5202;"><i><i class="fa fa-puzzle-piece"></i> DIVA Modules</i></b>';
-$_['page_title']        = 'DIVA Modules';
+$_['heading_title']     = '<b style="color: #eb5202;"><i><i class="fa fa-puzzle-piece"></i> Plaza Modules</i></b>';
+$_['page_title']        = 'Plaza Modules';
 
 // Text
 $_['text_success']      = 'Success: You have modified extensions!';
-$_['text_list']         = 'DIVA Modules List';
+$_['text_list']         = 'Plaza Modules List';
 
 // Column
 $_['column_name']       = 'Module Name';

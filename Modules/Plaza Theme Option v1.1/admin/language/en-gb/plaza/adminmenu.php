@@ -1,5 +1,5 @@
 <?php
-$_['text_theme_dashboard']  = "DIVA Dashboard";
+$_['text_theme_dashboard']  = "PlazaThemes Dashboard";
 $_['text_dashboard_menu']   = "Dashboard Menu";
 $_['text_control_panel']    = "Control Panel";
 $_['text_theme_module']     = "Modules";
