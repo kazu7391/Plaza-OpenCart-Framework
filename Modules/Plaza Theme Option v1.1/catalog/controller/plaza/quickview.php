@@ -367,7 +367,7 @@ class ControllerPlazaQuickview extends Controller
         
         if (!empty($_SERVER['HTTPS'])) {
             // SSL connection
-            $common_url = str_replace('http', 'https', $this->config->get('config_url'));
+            $common_url = str_replace('http://', 'https://', $this->config->get('config_url'));
         } else {
             $common_url = $this->config->get('config_url');
         }
