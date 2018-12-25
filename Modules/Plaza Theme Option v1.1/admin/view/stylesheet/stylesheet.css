@@ -7,8 +7,8 @@ html, body {
 	color: #545454;
 	text-rendering: optimizeLegibility;
 }
-.fa-diva:before {
-	content: url("../../../image/logo/diva.png");
+.fa-plaza:before {
+	content: url("../../../image/logo/plaza.png");
 }
 h1, h2, h3, h4, h5, h6, p {
 	margin-top: 0;

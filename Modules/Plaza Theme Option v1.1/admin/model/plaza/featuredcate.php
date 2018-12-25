@@ -1,8 +1,8 @@
 <?php
-class ModelDivaFeaturedcate extends Model
+class ModelPlazaFeaturedcate extends Model
 {
     public function createFeaturedCate() {
-        $this->load->language('diva/featuredcate');
+        $this->load->language('plaza/featuredcate');
 
         $result = false;
 

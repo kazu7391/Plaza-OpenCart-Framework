@@ -33,13 +33,13 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">{{ text_dashboard_menu }}</h3>
                         </div>
-                        <ul class="nav nav-tabs menu-sections dv-dashboard-menu">
+                        <ul class="nav nav-tabs menu-sections pt-dashboard-menu">
                             {% set i = 0 %}
-                            {% for menu in diva_menus %}
+                            {% for menu in plaza_menus %}
                                 {% if menu.child %}
                                     <li {% if menu.active %} class="active" {% endif %}>
-                                        <a href="#dvcollapse_{{ i }}" data-toggle="collapse" class="parent {% if not menu.active %} collapsed {% endif %}">{{ menu.title }}</a>
-                                        <ul id="dvcollapse_{{ i }}" class="collapse {% if menu.active %} in {% endif %}">
+                                        <a href="#ptcollapse_{{ i }}" data-toggle="collapse" class="parent {% if not menu.active %} collapsed {% endif %}">{{ menu.title }}</a>
+                                        <ul id="ptcollapse_{{ i }}" class="collapse {% if menu.active %} in {% endif %}">
                                             {% for item in menu.child %}
                                                 <li {% if item.active %} class="active" {% endif %}><a href="{{ item.url }}">{{ item.title }}</a></li>
                                             {% endfor %}
