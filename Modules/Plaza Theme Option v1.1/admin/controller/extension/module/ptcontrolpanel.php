@@ -550,10 +550,10 @@ class ControllerExtensionModulePtcontrolpanel extends Controller
             $data['module_ptcontrolpanel_cate_swatches_height'] = $this->config->get('module_ptcontrolpanel_cate_swatches_height');
         }
 
-        if (isset($this->request->post['module_ptcontrolpanel_aptance_view'])) {
-            $data['module_ptcontrolpanel_aptance_view'] = $this->request->post['module_ptcontrolpanel_aptance_view'];
+        if (isset($this->request->post['module_ptcontrolpanel_advance_view'])) {
+            $data['module_ptcontrolpanel_advance_view'] = $this->request->post['module_ptcontrolpanel_advance_view'];
         } else {
-            $data['module_ptcontrolpanel_aptance_view'] = $this->config->get('module_ptcontrolpanel_aptance_view');
+            $data['module_ptcontrolpanel_advance_view'] = $this->config->get('module_ptcontrolpanel_advance_view');
         }
 
         if (isset($this->request->post['module_ptcontrolpanel_default_view'])) {
