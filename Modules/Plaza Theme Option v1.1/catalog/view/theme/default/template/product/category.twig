@@ -81,8 +81,8 @@
                             <div class="form-group input-group input-group-sm">
                                 {% if use_filter %}
                                     <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
-                                    <select id="input-sort" class="form-control" onchange="dvfilter.filter(this.value);">
-                                        {% for sorts in dv_sorts %}
+                                    <select id="input-sort" class="form-control" onchange="ptfilter.filter(this.value);">
+                                        {% for sorts in pt_sorts %}
                                             {% if sorts.value == '%s-%s'|format(sort, order) %}
                                                 <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
                                             {% else %}
@@ -108,8 +108,8 @@
                             <div class="form-group input-group input-group-sm">
                                 {% if use_filter %}
                                     <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
-                                    <select id="input-limit" class="form-control" onchange="dvfilter.filter(this.value);">
-                                        {% for limits in dv_limits %}
+                                    <select id="input-limit" class="form-control" onchange="ptfilter.filter(this.value);">
+                                        {% for limits in pt_limits %}
                                             {% if limits.value == limit %}
                                                 <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
                                             {% else %}
@@ -149,7 +149,7 @@
                                                 {% endif %}
                                             </a>
                                             {% if use_quick_view %}
-                                                <button type="button" title="{{ product.name }}" onclick="dvquickview.ajaxView('{{ product.href }}')"><i class="fa fa-search-plus"></i></button>
+                                                <button type="button" title="{{ product.name }}" onclick="ptquickview.ajaxView('{{ product.href }}')"><i class="fa fa-search-plus"></i></button>
                                             {% endif %}
                                         </div>
                                         <div class="category-options">
@@ -182,7 +182,7 @@
                                                 {% endif %}
                                             </a>
                                             {% if use_quick_view %}
-                                                <button type="button" title="{{ product.name }}" onclick="dvquickview.ajaxView('{{ product.href }}')"><i class="fa fa-search-plus"></i></button>
+                                                <button type="button" title="{{ product.name }}" onclick="ptquickview.ajaxView('{{ product.href }}')"><i class="fa fa-search-plus"></i></button>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -223,7 +223,7 @@
                     </div>
                     <div class="row ">
                         {% if use_filter %}
-                            <div class="col-sm-6 text-left ajax_pagination">{{ dv_pagination }}</div>
+                            <div class="col-sm-6 text-left ajax_pagination">{{ pt_pagination }}</div>
                         {% else %}
                             <div class="col-sm-6 text-left">{{ pagination }}</div>
                         {% endif %}
