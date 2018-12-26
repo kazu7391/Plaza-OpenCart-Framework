@@ -1,8 +1,8 @@
 <?php
-class ControllerExtensionModuleDvinstagram extends Controller
+class ControllerExtensionModulePtinstagram extends Controller
 {
     public function index($setting) {
-        $this->load->language('diva/module/dvinstagram');
+        $this->load->language('plaza/module/ptinstagram');
 
         $data = array();
 
@@ -58,6 +58,6 @@ class ControllerExtensionModuleDvinstagram extends Controller
         $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
         $this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
 
-        return $this->load->view('diva/module/dvinstagram', $data);
+        return $this->load->view('plaza/module/ptinstagram', $data);
     }
 }

@@ -1,10 +1,10 @@
 <?php
-class ControllerExtensionModuleDvinstagram extends Controller
+class ControllerExtensionModulePtinstagram extends Controller
 {
     private $error = array();
 
     public function index() {
-        $this->load->language('extension/module/dvinstagram');
+        $this->load->language('extension/module/ptinstagram');
 
         $this->document->setTitle($this->language->get('page_title'));
 
@@ -12,14 +12,14 @@ class ControllerExtensionModuleDvinstagram extends Controller
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             if (!isset($this->request->get['module_id'])) {
-                $this->model_setting_module->addModule('dvinstagram', $this->request->post);
+                $this->model_setting_module->addModule('ptinstagram', $this->request->post);
             } else {
                 $this->model_setting_module->editModule($this->request->get['module_id'], $this->request->post);
             }
 
             $this->session->data['success'] = $this->language->get('text_success');
 
-            $this->response->redirect($this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true));
+            $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
         }
 
         if (isset($this->error['warning'])) {
@@ -55,28 +55,28 @@ class ControllerExtensionModuleDvinstagram extends Controller
 
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_extension'),
-            'href' => $this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true)
+            'href' => $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true)
         );
 
         if (!isset($this->request->get['module_id'])) {
             $data['breadcrumbs'][] = array(
                 'text' => $this->language->get('heading_title'),
-                'href' => $this->url->link('extension/module/dvinstagram', 'user_token=' . $this->session->data['user_token'], true)
+                'href' => $this->url->link('extension/module/ptinstagram', 'user_token=' . $this->session->data['user_token'], true)
             );
         } else {
             $data['breadcrumbs'][] = array(
                 'text' => $this->language->get('heading_title'),
-                'href' => $this->url->link('extension/module/dvinstagram', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true)
+                'href' => $this->url->link('extension/module/ptinstagram', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true)
             );
         }
 
         if (!isset($this->request->get['module_id'])) {
-            $data['action'] = $this->url->link('extension/module/dvinstagram', 'user_token=' . $this->session->data['user_token'], true);
+            $data['action'] = $this->url->link('extension/module/ptinstagram', 'user_token=' . $this->session->data['user_token'], true);
         } else {
-            $data['action'] = $this->url->link('extension/module/dvinstagram', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true);
+            $data['action'] = $this->url->link('extension/module/ptinstagram', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'], true);
         }
 
-        $data['cancel'] = $this->url->link('diva/module', 'user_token=' . $this->session->data['user_token'], true);
+        $data['cancel'] = $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true);
 
         if (isset($this->request->get['module_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
             $module_info = $this->model_setting_module->getModule($this->request->get['module_id']);
@@ -178,19 +178,19 @@ class ControllerExtensionModuleDvinstagram extends Controller
             $data['rows'] = 1;
         }
 
-        $this->document->addStyle('view/stylesheet/divawebs/themeadmin.css');
-        $this->document->addScript('view/javascript/divawebs/switch-toggle/js/bootstrap-toggle.min.js');
-        $this->document->addStyle('view/javascript/divawebs/switch-toggle/css/bootstrap-toggle.min.css');
+        $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
+        $this->document->addScript('view/javascript/plaza/switch-toggle/js/bootstrap-toggle.min.js');
+        $this->document->addStyle('view/javascript/plaza/switch-toggle/css/bootstrap-toggle.min.css');
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-        $this->response->setOutput($this->load->view('diva/module/dvinstagram', $data));
+        $this->response->setOutput($this->load->view('plaza/module/ptinstagram', $data));
     }
 
     protected function validate() {
-        if (!$this->user->hasPermission('modify', 'extension/module/dvinstagram')) {
+        if (!$this->user->hasPermission('modify', 'extension/module/ptinstagram')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

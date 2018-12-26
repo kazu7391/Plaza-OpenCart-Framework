@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']     = '<b style="color: #eb5202;"><i><i class="u fa fa-instagram"></i> DIVA Instagram</i></b>';
-$_['page_title']        = 'DIVA Instagram';
+$_['heading_title']     = '<b style="color: #eb5202;"><i><i class="u fa fa-instagram"></i> Plaza Instagram</i></b>';
+$_['page_title']        = 'Plaza Instagram';
 
 // Text
 $_['text_extension']    = 'Extensions';
-$_['text_success']      = 'Success: You have modified DIVA Instagram module!';
-$_['text_edit']         = 'Edit DIVA Instagram Module';
+$_['text_success']      = 'Success: You have modified Plaza Instagram module!';
+$_['text_edit']         = 'Edit Plaza Instagram Module';
 $_['text_gallery_mode'] = 'Gallery';
 $_['text_slider_mode']  = 'Slider';
 
