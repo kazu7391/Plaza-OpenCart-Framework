@@ -1,5 +1,5 @@
 <?php
-class ControllerExtensionModuleDvstaticblock extends Controller
+class ControllerExtensionModulePtstaticblock extends Controller
 {
     public function index($setting) {
         if (isset($setting['module_description'][$this->config->get('config_language_id')])) {
@@ -11,7 +11,7 @@ class ControllerExtensionModuleDvstaticblock extends Controller
             $data['title'] = html_entity_decode($setting['module_description'][$this->config->get('config_language_id')]['title'], ENT_QUOTES, 'UTF-8');
             $data['block_content'] = html_entity_decode($setting['module_description'][$this->config->get('config_language_id')]['description'], ENT_QUOTES, 'UTF-8');
 
-            return $this->load->view('diva/module/dvstaticblock', $data);
+            return $this->load->view('plaza/module/ptstaticblock', $data);
         }
     }
 }

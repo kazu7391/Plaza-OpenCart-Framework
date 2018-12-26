@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']     = '<b style="color: #eb5202;"><i><i class="d fa fa-object-group"></i> DIVA Static Block</i></b>';
-$_['page_title']        = 'DIVA Static Block';
+$_['heading_title']     = '<b style="color: #eb5202;"><i><i class="d fa fa-object-group"></i> Plaza Static Block</i></b>';
+$_['page_title']        = 'Plaza Static Block';
 
 // Text
 $_['text_extension']    = 'Extensions';
 $_['text_success']      = 'Success: You have modified module!';
-$_['text_edit']         = 'Edit DIVA Static Block Module';
+$_['text_edit']         = 'Edit Plaza Static Block Module';
 
 // Entry
 $_['entry_name']        = 'Module Name';
