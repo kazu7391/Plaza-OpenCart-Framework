@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']        = '<b style="color: #eb5202;"><i><i class="a fa fa-magic"></i> DIVA Control Panel</i></b>';
-$_['page_title']           = 'DIVA Control Panel';
+$_['heading_title']        = '<b style="color: #eb5202;"><i><i class="a fa fa-magic"></i> Plaza Control Panel</i></b>';
+$_['page_title']           = 'Plaza Control Panel';
 
 // Text
 $_['text_extension']       = 'Extensions';
-$_['text_edit']            = 'DIVA Control Panel';
-$_['text_success']         = 'Success: You have modified Diva Settings!';
+$_['text_edit']            = 'Plaza Control Panel';
+$_['text_success']         = 'Success: You have modified Plaza Settings!';
 $_['text_import_success']  = 'Success: You have imported database!';
 $_['text_list']            = 'List View';
 $_['text_grid']            = 'Grid View';
@@ -103,5 +103,5 @@ $_['entry_custom_css']     = 'Customize Stylesheet';
 $_['entry_custom_js']      = 'Customize Javascript';
 
 //Error
-$_['error_permission']     = 'Warning: You do not have permission to modify Diva Theme!';
+$_['error_permission']     = 'Warning: You do not have permission to modify Plaza Theme!';
 $_['error_load_file']      = 'Could not load sql file: %s';
