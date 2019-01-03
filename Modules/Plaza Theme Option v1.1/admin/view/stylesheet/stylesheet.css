@@ -7,8 +7,11 @@ html, body {
 	color: #545454;
 	text-rendering: optimizeLegibility;
 }
-.fa-plaza:before {
-	content: url("../../../image/logo/plaza.png");
+.fa-plaza {
+	width: 16px;
+	height: 16px;
+	background: url(../../../image/logo/plaza.png) center no-repeat;
+	background-size: contain;
 }
 h1, h2, h3, h4, h5, h6, p {
 	margin-top: 0;
