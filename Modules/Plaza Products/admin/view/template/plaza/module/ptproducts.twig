@@ -21,11 +21,11 @@
         {% endif %}
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module">
             <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-7 col-sm-12">
                     <div class="theme-option-container">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+                                <h3 class="panel-title"><i class="fa fa-puzzle-piece"></i> {{ text_module_settings }}</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-horizontal">
@@ -54,10 +54,20 @@
                                         <div class="col-sm-9">
                                             {% for language in languages %}
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">{{ language.name }}</span>
-                                                    <input type="text" name="module_title[{{ language.code }}][title]" value="{{ module_title[language.code].title ? module_title[language.code].title }}" placeholder="" id="input-title{{ language.language_id }}" class="form-control" />
+                                                    <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                                                    <input type="text" name="module_title[{{ language.language_id }}]" value="{{ module_title[language.language_id] ? module_title[language.language_id] }}" placeholder="" id="input-title{{ language.language_id }}" class="form-control" />
                                                 </div>
                                             {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-type">{{ entry_module_type }}</label>
+                                        <div class="col-sm-6">
+                                            <select id="input-type" class="form-control" name="module_type">
+                                                <option value="single_tab" {% if module_type == "single_tab" %} selected="selected" {% endif %}>{{ text_type_single }}</option>
+                                                <option value="multi_tabs" {% if module_type == "multi_tabs" %} selected="selected" {% endif %}>{{ text_type_multiple }}</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -71,13 +81,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-type">{{ entry_module_type }}</label>
-                                        <div class="col-sm-6">
-                                            <select id="input-type" class="form-control" name="module_type">
-                                                <option value="single_tab" {% if module_type == "single_tab" %} selected="selected" {% endif %}>{{ text_type_single }}</option>
-                                                <option value="multi_tabs" {% if module_type == "multi_tabs" %} selected="selected" {% endif %}>{{ text_type_multiple }}</option>
-                                            </select>
+                                    <div class="form-group form-module-des">
+                                        <label class="col-sm-3 control-label" for="input-module-des">{{ entry_module_des }}</label>
+                                        <div class="col-sm-9">
+                                            <ul class="nav nav-tabs" id="module-des-language">
+                                                {% for language in languages %}
+                                                    <li><a href="#module-des-language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                            <div class="tab-content">
+                                                {% for language in languages %}
+                                                <div class="tab-pane" id="module-des-language{{ language.language_id }}">
+                                                    <textarea name="module_description[{{ language.language_id }}]" placeholder="{{ entry_module_des }}" id="input-module-des{{ language.language_id }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ module_description[language.language_id] ? module_description[language.language_id] }}</textarea>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -85,14 +103,84 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12"></div>
+                <div class="col-md-5 col-sm-12">
+                    <div class="theme-option-container data-settings-container single-type-module">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-collection">{{ entry_collection }}</label>
+                                        <div class="col-sm-9">
+                                            <div class="switch switch-multi3">
+                                                <input type="radio" name="single_product_collection" class="switch-input" id="single-type-specified" value="specified" {% if single_product_collection == 'specified' %} checked="checked"{% endif %}/>
+                                                <label for="single-type-specified" class="switch-label switch-label-1">{{ text_specified_product }}</label>
+
+                                                <input type="radio" name="single_product_collection" class="switch-input" id="single-type-category" value="category" {% if single_product_collection == 'category' %} checked="checked"{% endif %}/>
+                                                <label for="single-type-category" class="switch-label switch-label-2">{{ text_category_product }}</label>
+
+                                                <input type="radio" name="single_product_collection" class="switch-input" id="single-type-special" value="special" {% if single_product_collection == 'special' %} checked="checked"{% endif %}/>
+                                                <label for="single-type-special" class="switch-label switch-label-3">{{ text_special_product }}</label>
+
+                                                <span class="switch-selection"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-film"></i> {{ text_slider_settings }}</h3>
+                            </div>
+                            <div class="panel-body">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="theme-option-container data-settings-container multi-type-module">
+                        b
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>
+                            </div>
+                            <div class="panel-body">
+
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-film"></i> {{ text_slider_settings }}</h3>
+                            </div>
+                            <div class="panel-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </form>
-
     </div>
 </div>
+<link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+<link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script>
+<script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script>
+<script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script>
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
 <script>
+    $('#module-des-language a:first').tab('show');
+    $('.data-settings-container').hide();
+    $('.form-module-des').hide();
+
     $(document).ready(function() {
         $('.toggle.btn').on('click', function () {
             var ckb_status = parseInt($(this).find('.ckb-switch').val());
@@ -102,6 +190,29 @@
                 $(this).find('.ckb-switch').val('1');
             }
         });
+
+        var show_module_des = parseInt($('#input-show-module-des').val());
+        var show_module_des_select = $('#input-show-module-des').closest('.toggle');
+        if(show_module_des == 1) $('.form-module-des').show();
+        show_module_des_select.on('click', function () {
+            var ckb_status = parseInt($(this).find('.ckb-switch').val());
+            if(ckb_status == 1) {
+                $('.form-module-des').show();
+            } else {
+                $('.form-module-des').hide();
+            }
+        });
+
+        var module_type = $('#input-type').val();
+        if(module_type == "single_tab") $('.single-type-module').show();
+        if(module_type == "multi_tabs") $('.multi-type-module').show();
     })
+
+    $('#input-type').on('change', function () {
+        var module_type = $(this).val();
+        $('.data-settings-container').hide();
+        if(module_type == "single_tab") $('.single-type-module').show();
+        if(module_type == "multi_tabs") $('.multi-type-module').show();
+    });
 </script>
 {{ footer }}

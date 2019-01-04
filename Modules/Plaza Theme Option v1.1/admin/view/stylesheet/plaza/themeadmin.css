@@ -165,7 +165,7 @@
 }
 /*Slider show admin*/
 #form-slider {
-    
+
 }
 #form-slider #module {
     padding-bottom: 15px;
@@ -180,7 +180,7 @@
 #form-slider #module li .btn-theme-option {
     background: #fff !important;
     color: #333 !important;
-    border-color: #ddd; 
+    border-color: #ddd;
 }
 #form-slider #module li.active .btn-theme-option {
     background-color: #eb5202 !Important;
@@ -192,4 +192,57 @@
     line-height: inherit;
     margin-left: 10px;
 }
-/*----*/
+.switch {
+    position: relative;
+    height: 35px;
+    width: 100%;
+    background: #000;
+    border-radius: 3px;
+}
+.switch-label {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 33%;
+    line-height: 36px;
+    font-size: 12px;
+    text-transform: capitalize;
+    color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+}
+.switch-bol .switch-label {
+    text-transform: uppercase;
+}
+.switch-input {
+    opacity: 0 ;
+    position: absolute !important;
+}
+.switch-input:checked + .switch-label {
+    color: #fff;
+    -webkit-transition: 0.15s ease-out;
+    -moz-transition: 0.15s ease-out;
+    -o-transition: 0.15s ease-out;
+    transition: 0.15s ease-out;
+}
+.switch-multi3 .switch-input:checked + .switch-label-2 ~ .switch-selection {
+    left: 33%;
+}
+.switch-multi3 .switch-input:checked + .switch-label-3 ~ .switch-selection {
+    left: 66%;
+}
+.switch-selection {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 3px;
+    left: 3px;
+    width: 33%;
+    height: 29px;
+    background: #eb5202;
+    border-radius: 3px;
+    -webkit-transition: left 0.15s ease-out;
+    -moz-transition: left 0.15s ease-out;
+    -o-transition: left 0.15s ease-out;
+    transition: left 0.15s ease-out;
+}

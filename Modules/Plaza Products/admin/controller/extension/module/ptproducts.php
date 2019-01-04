@@ -150,6 +150,14 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['module_type'] = 'single_tab';
         }
 
+        if (isset($this->request->post['single_product_collection'])) {
+            $data['single_product_collection'] = $this->request->post['single_product_collection'];
+        } elseif (!empty($module_info)) {
+            $data['single_product_collection'] = $module_info['single_product_collection'];
+        } else {
+            $data['single_product_collection'] = 'specified';
+        }
+
         $this->load->model('catalog/product');
 
         $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
