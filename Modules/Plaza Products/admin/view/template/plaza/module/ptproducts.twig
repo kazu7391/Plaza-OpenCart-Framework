@@ -112,7 +112,7 @@
                             <div class="panel-body">
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-collection">{{ entry_collection }}</label>
+                                        <label class="col-sm-3 control-label" for="input-single-collection">{{ entry_collection }}</label>
                                         <div class="col-sm-9">
                                             <div class="switch switch-multi3">
                                                 <input type="radio" name="single_product_collection" class="switch-input" id="single-type-specified" value="specified" {% if single_product_collection == 'specified' %} checked="checked"{% endif %}/>
@@ -126,6 +126,38 @@
 
                                                 <span class="switch-selection"></span>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="module-single-type-specified" class="module-single-type-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label" for="input-single-specified-products">{{ entry_products }}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="single_specified_product" value="" placeholder="{{ entry_products }}" id="input-single-specified-products" class="form-control" />
+                                                <div id="single-specified-product" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                    {% for product in single_specified_products %}
+                                                        <div id="single-specified-product{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+                                                            <input type="hidden" name="single_specified_products[]" value="{{ product.product_id }}" />
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="module-single-type-category" class="module-single-type-content">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label" for="input-single-category">{{ entry_categories }}</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="cate_name" value="{{ cate_ids.name }}" placeholder="Search category" id="input-single-category" class="form-control" /><i class="fa fa-times"></i>
+                                                <input type="hidden" name="single_category" value="{{ cate_ids.category_id }}" id="input-cate_id" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="module-single-type-special" class="module-single-type-content">
+                                        <div class="form-group">
+
                                         </div>
                                     </div>
                                 </div>
@@ -180,6 +212,35 @@
     $('#module-des-language a:first').tab('show');
     $('.data-settings-container').hide();
     $('.form-module-des').hide();
+    $('.module-single-type-content').hide();
+
+    $('input[name=\'single_specified_product\']').autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item['name'],
+                            value: item['product_id']
+                        }
+                    }));
+                }
+            });
+        },
+        select: function(item) {
+            $('input[name=\'single_specified_product\']').val('');
+
+            $('#single-specified-product' + item['value']).remove();
+
+            $('#single-specified-product').append('<div id="single-specified-product' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="single_specified_products[]" value="' + item['value'] + '" /></div>');
+        }
+    });
+
+    $('#single-specified-product').delegate('.fa-minus-circle', 'click', function() {
+        $(this).parent().remove();
+    });
 
     $(document).ready(function() {
         $('.toggle.btn').on('click', function () {
@@ -206,7 +267,16 @@
         var module_type = $('#input-type').val();
         if(module_type == "single_tab") $('.single-type-module').show();
         if(module_type == "multi_tabs") $('.multi-type-module').show();
-    })
+
+        var single_product_collection = $('input[name=\'single_product_collection\']:checked').val();
+        $('#module-single-type-' + single_product_collection).show();
+    });
+
+    $('input[name=\'single_product_collection\']').on('change', function () {
+        var single_product_collection = $(this).val();
+        $('.module-single-type-content').hide();
+        $('#module-single-type-' + single_product_collection).show();
+    });
 
     $('#input-type').on('change', function () {
         var module_type = $(this).val();

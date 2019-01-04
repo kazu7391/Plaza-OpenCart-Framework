@@ -25,6 +25,8 @@ $_['entry_show_module_des']  = 'Show Module Description';
 $_['entry_module_des']       = 'Module Description';
 $_['entry_module_type']      = 'Module Type';
 $_['entry_collection']       = 'Collection';
+$_['entry_products']         = 'Products';
+$_['entry_categories']       = 'Categories';
 
 // Help
 $_['help_product']     = '(Autocomplete)';

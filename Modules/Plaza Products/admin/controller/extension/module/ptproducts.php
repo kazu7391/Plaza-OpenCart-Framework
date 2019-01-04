@@ -9,7 +9,8 @@ class ControllerExtensionModulePtproducts extends Controller {
         $this->document->setTitle($this->language->get('page_title'));
 
         $this->load->model('setting/module');
-
+        $this->load->model('catalog/product');
+        $this->load->model('catalog/category');
         $this->load->model('tool/image');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
@@ -158,7 +159,34 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['single_product_collection'] = 'specified';
         }
 
-        $this->load->model('catalog/product');
+        $data['single_specified_products'] = array();
+
+        if (!empty($this->request->post['single_specified_products'])) {
+            $single_specified_products = $this->request->post['single_specified_products'];
+        } elseif (!empty($module_info['single_specified_products'])) {
+            $single_specified_products = $module_info['single_specified_products'];
+        } else {
+            $single_specified_products = array();
+        }
+
+        foreach ($single_specified_products as $product_id) {
+            $product_info = $this->model_catalog_product->getProduct($product_id);
+
+            if ($product_info) {
+                $data['single_specified_products'][] = array(
+                    'product_id' => $product_info['product_id'],
+                    'name'       => $product_info['name']
+                );
+            }
+        }
+
+        if (isset($this->request->post['single_category'])) {
+            $data['single_category'] = $this->request->post['single_category'];
+        } elseif (!empty($module_info)) {
+            $data['single_category'] = $module_info['single_category'];
+        } else {
+            $data['single_category'] = '';
+        }
 
         $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
         $this->document->addScript('view/javascript/plaza/switch-toggle/js/bootstrap-toggle.min.js');
