@@ -147,10 +147,50 @@
 
                                     <div id="module-single-type-category" class="module-single-type-content">
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label" for="input-single-category">{{ entry_categories }}</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="cate_name" value="{{ cate_ids.name }}" placeholder="Search category" id="input-single-category" class="form-control" /><i class="fa fa-times"></i>
-                                                <input type="hidden" name="single_category" value="{{ cate_ids.category_id }}" id="input-cate_id" />
+                                            <label class="col-sm-3 control-label" for="input-single-category">{{ entry_category }}</label>
+                                            <div class="col-sm-9">
+                                                <select id="input-single-category" class="form-control selectpicker" data-live-search="true" title="{{ entry_category }}">
+                                                    {% for category in categories %}
+                                                        <option value="{{ category.category_id }}" {% if single_category == category.category_id %}selected="selected"{% endif %}>{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <input type="hidden" name="single_category" value="{{ single_category }}" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label" for="input-single-category-product">{{ entry_products }}</label>
+                                            <div class="col-sm-9">
+                                                <div class="switch switch-multi3">
+                                                    <input type="radio" name="single_category_product_type" class="switch-input" id="single-category-product-all" value="all" {% if single_category_product_type == 'all' %} checked="checked"{% endif %}/>
+                                                    <label for="single-category-product-all" class="switch-label switch-label-1">{{ text_all_products }}</label>
+
+                                                    <input type="radio" name="single_category_product_type" class="switch-input" id="single-category-product-specified" value="specified" {% if single_category_product_type == 'specified' %} checked="checked"{% endif %}/>
+                                                    <label for="single-category-product-specified" class="switch-label switch-label-2">{{ text_specified_product }}</label>
+
+                                                    <input type="radio" name="single_category_product_type" class="switch-input" id="single-category-product-special" value="special" {% if single_category_product_type == 'special' %} checked="checked"{% endif %}/>
+                                                    <label for="single-category-product-special" class="switch-label switch-label-3">{{ text_special_product }}</label>
+
+                                                    <span class="switch-selection"></span>
+                                                </div>
+
+                                                <input type="text" name="single_category_product" value="" placeholder="{{ entry_products }}" id="input-single-category-products" class="form-control" />
+                                                <div id="single-category-product" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                    {% for product in single_category_products %}
+                                                        <div id="single-category-product{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+                                                            <input type="hidden" name="single_category_products[]" value="{{ product.product_id }}" />
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+
+                                                <select id="input-single-category-product-special-type" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                    <option value="mostviewed" {% if single_category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
+                                                    <option value="bestseller" {% if single_category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
+                                                    <option value="special"    {% if single_category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
+                                                    <option value="latest"     {% if single_category_product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
+                                                    <option value="random"     {% if single_category_product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
+                                                </select>
+                                                <input type="hidden" name="single_category_product_special_type" value="{{ single_category_product_special_type }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -214,6 +254,7 @@
     $('.form-module-des').hide();
     $('.module-single-type-content').hide();
 
+    // Single Specified Products
     $('input[name=\'single_specified_product\']').autocomplete({
         source: function(request, response) {
             $.ajax({
@@ -240,6 +281,44 @@
 
     $('#single-specified-product').delegate('.fa-minus-circle', 'click', function() {
         $(this).parent().remove();
+    });
+
+    // Single Category Products
+    $('#input-single-category').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        $('input[name=\'single_category\']').val($(this).val());
+    });
+
+    $('input[name=\'single_category_product\']').autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: 'index.php?route=extension/module/ptproducts/autoGetProductsByCategory&user_token={{ user_token }}&category_id='+ $('input[name=\'single_category\']').val() +'&filter_name=' +  encodeURIComponent(request),
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item['name'],
+                            value: item['product_id']
+                        }
+                    }));
+                }
+            });
+        },
+        select: function(item) {
+            $('input[name=\'single_category_product\']').val('');
+
+            $('#single-category-product' + item['value']).remove();
+
+            $('#single-category-product').append('<div id="single-category-product' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="single_category_products[]" value="' + item['value'] + '" /></div>');
+        }
+    });
+
+    $('#single-category-product').delegate('.fa-minus-circle', 'click', function() {
+        $(this).parent().remove();
+    });
+
+    // Single Category Product Special Type
+    $('#input-single-category-product-special-type').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        $('input[name=\'single_category_product_special_type\']').val($(this).val());
     });
 
     $(document).ready(function() {

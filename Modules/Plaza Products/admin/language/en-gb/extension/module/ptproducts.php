@@ -3,6 +3,19 @@
 $_['heading_title']    		 = '<b style="color: #eb5202;"><i><i class="a fa fa-shopping-bag"></i> Plaza Products </i></b>';
 $_['page_title']             = 'Plaza Products';
 
+// Entry
+$_['entry_name']       		 = 'Module Name';
+$_['entry_status']           = 'Status';
+$_['entry_title']            = 'Module Title';
+$_['entry_show_module_des']  = 'Show Module Description';
+$_['entry_module_des']       = 'Module Description';
+$_['entry_module_type']      = 'Module Type';
+$_['entry_collection']       = 'Collection';
+$_['entry_products']         = 'Products';
+$_['entry_category']         = 'Category';
+$_['entry_categories']       = 'Categories';
+$_['entry_products_type']    = 'Products Type';
+
 // Text
 $_['text_module']      		 = 'Modules';
 $_['text_success']     		 = 'Success: You have modified Plaza Products module!';
@@ -16,17 +29,12 @@ $_['text_tab_settings']      = 'Tabs Settings';
 $_['text_specified_product'] = 'Specified';
 $_['text_category_product']  = 'By Category';
 $_['text_special_product']   = 'Special Types';
-
-// Entry
-$_['entry_name']       		 = 'Module Name';
-$_['entry_status']           = 'Status';
-$_['entry_title']            = 'Module Title';
-$_['entry_show_module_des']  = 'Show Module Description';
-$_['entry_module_des']       = 'Module Description';
-$_['entry_module_type']      = 'Module Type';
-$_['entry_collection']       = 'Collection';
-$_['entry_products']         = 'Products';
-$_['entry_categories']       = 'Categories';
+$_['text_all_products']      = 'All Products';
+$_['text_most_viewed']       = 'Most Viewed';
+$_['text_bestseller']        = 'Bestseller';
+$_['text_random']            = 'Random';
+$_['text_special']           = 'Special';
+$_['text_latest']            = 'Latest';
 
 // Help
 $_['help_product']     = '(Autocomplete)';
