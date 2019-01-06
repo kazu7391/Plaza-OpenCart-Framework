@@ -29,7 +29,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="form-horizontal">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label class="col-sm-3 control-label" for="input-name">{{ entry_name }}</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
@@ -95,6 +95,42 @@
                                                     <textarea name="module_description[{{ language.language_id }}]" placeholder="{{ entry_module_des }}" id="input-module-des{{ language.language_id }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ module_description[language.language_id] ? module_description[language.language_id] }}</textarea>
                                                 </div>
                                                 {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="theme-option-container">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-television"></i> {{ text_layout_settings }}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-single-collection-layout">{{ entry_layout }}</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-6 radio-layout-type">
+                                                <input type="radio" name="layout_type" id="layout-type-slider" value="slider" {% if layout_type == 'slider' %} checked="checked" {% endif %} />
+                                                <label class="lb-layout-type {% if layout_type == 'slider' %} active {% endif %}" for="layout-type-slider"><img width="100px" src="../image/plaza/slider.png" /></label>
+                                                <span>{{ text_slider }}</span>
+                                            </div>
+                                            <div class="col-sm-6 radio-layout-type">
+                                                <input type="radio" name="layout_type" id="layout-type-gallery" value="gallery" {% if layout_type == 'gallery' %} checked="checked" {% endif %} />
+                                                <label class="lb-layout-type {% if layout_type == 'gallery' %} active {% endif %}" for="layout-type-gallery"><img width="100px" src="../image/plaza/gallery.png" /></label>
+                                                <span>{{ text_gallery }}</span>
+                                            </div>
+                                            <div class="col-sm-6 radio-layout-type">
+                                                <input type="radio" name="layout_type" id="layout-type-large-item" value="large_item" {% if layout_type == 'large_item' %} checked="checked" {% endif %} />
+                                                <label class="lb-layout-type {% if layout_type == 'large_item' %} active {% endif %}" for="layout-type-large-item"><img width="100px" src="../image/plaza/large_slider.png" /></label>
+                                                <span>{{ text_large_item }}</span>
+                                            </div>
+                                            <div class="col-sm-6 radio-layout-type">
+                                                <input type="radio" name="layout_type" id="layout-type-image" value="image" {% if layout_type == 'image' %} checked="checked" {% endif %} />
+                                                <label class="lb-layout-type {% if layout_type == 'image' %} active {% endif %}" for="layout-type-image"><img width="100px" src="../image/plaza/image_slider.png" /></label>
+                                                <span>{{ text_image_slider }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -174,30 +210,44 @@
                                                     <span class="switch-selection"></span>
                                                 </div>
 
-                                                <input type="text" name="single_category_product" value="" placeholder="{{ entry_products }}" id="input-single-category-products" class="form-control" />
-                                                <div id="single-category-product" class="well well-sm" style="height: 100px; overflow: auto;">
-                                                    {% for product in single_category_products %}
-                                                        <div id="single-category-product{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
-                                                            <input type="hidden" name="single_category_products[]" value="{{ product.product_id }}" />
-                                                        </div>
-                                                    {% endfor %}
+                                                <div class="single-category-product-specified single-category-type-chosen">
+                                                    <input type="text" name="single_category_product" value="" placeholder="{{ entry_products }}" id="input-single-category-products" class="form-control" />
+                                                    <div id="single-category-product" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                        {% for product in single_category_products %}
+                                                            <div id="single-category-product{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+                                                                <input type="hidden" name="single_category_products[]" value="{{ product.product_id }}" />
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
                                                 </div>
 
-                                                <select id="input-single-category-product-special-type" class="form-control selectpicker" title="{{ entry_products_type }}">
-                                                    <option value="mostviewed" {% if single_category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
-                                                    <option value="bestseller" {% if single_category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
-                                                    <option value="special"    {% if single_category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
-                                                    <option value="latest"     {% if single_category_product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
-                                                    <option value="random"     {% if single_category_product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
-                                                </select>
-                                                <input type="hidden" name="single_category_product_special_type" value="{{ single_category_product_special_type }}" />
+                                                <div class="single-category-product-special single-category-type-chosen">
+                                                    <select id="input-single-category-product-special-type" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                        <option value="mostviewed" {% if single_category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
+                                                        <option value="bestseller" {% if single_category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
+                                                        <option value="special"    {% if single_category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
+                                                        <option value="latest"     {% if single_category_product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
+                                                        <option value="random"     {% if single_category_product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
+                                                    </select>
+                                                    <input type="hidden" name="single_category_product_special_type" value="{{ single_category_product_special_type }}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div id="module-single-type-special" class="module-single-type-content">
                                         <div class="form-group">
-
+                                            <label class="col-sm-3 control-label" for="input-single-product-special-type">{{ entry_products_type }}</label>
+                                            <div class="col-sm-9">
+                                                <select id="input-single-product-special-type" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                    <option value="mostviewed" {% if single_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
+                                                    <option value="bestseller" {% if single_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
+                                                    <option value="special"    {% if single_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
+                                                    <option value="latest"     {% if single_product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
+                                                    <option value="random"     {% if single_product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
+                                                </select>
+                                                <input type="hidden" name="single_product_special_type" value="{{ single_product_special_type }}" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +259,45 @@
                                 <h3 class="panel-title"><i class="fa fa-film"></i> {{ text_slider_settings }}</h3>
                             </div>
                             <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group required">
+                                        <label class="col-sm-3 control-label" for="input-single-slider-width">{{ entry_width }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="single_slider_width" value="{{ single_slider_width }}" placeholder="{{ entry_width }}" id="input-single-slider-width" class="form-control" />
+                                            {% if error_single_slider_width %}
+                                                <div class="text-danger">{{ error_single_slider_width }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
 
+                                    <div class="form-group required">
+                                        <label class="col-sm-3 control-label" for="input-single-slider-height">{{ entry_height }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="single_slider_height" value="{{ single_slider_height }}" placeholder="{{ entry_height }}" id="input-single-slider-height" class="form-control" />
+                                            {% if error_single_slider_height %}
+                                                <div class="text-danger">{{ error_single_slider_height }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-single-slider-auto">{{ entry_auto }}</label>
+                                        <div class="col-sm-6">
+                                            <input type="hidden" name="single_slider_auto" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="single_slider_auto" id="input-single-slider-auto"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if single_slider_auto %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-single-slider-item">{{ entry_item }}</label>
+                                        <div class="col-sm-6">
+                                            <i class="fa fa-desktop"></i>
+                                            <input class="form-control-inline" type="text" name="single_slider_item['desktop']" value="{{ single_slider_item.desktop }}" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -252,7 +340,6 @@
     $('#module-des-language a:first').tab('show');
     $('.data-settings-container').hide();
     $('.form-module-des').hide();
-    $('.module-single-type-content').hide();
 
     // Single Specified Products
     $('input[name=\'single_specified_product\']').autocomplete({
@@ -347,14 +434,34 @@
         if(module_type == "single_tab") $('.single-type-module').show();
         if(module_type == "multi_tabs") $('.multi-type-module').show();
 
+        $('.module-single-type-content').hide();
         var single_product_collection = $('input[name=\'single_product_collection\']:checked').val();
         $('#module-single-type-' + single_product_collection).show();
+
+        $('.single-category-type-chosen').hide();
+        var single_category_product_chosen = $('input[name=\'single_category_product_type\']:checked').val();
+        $('.single-category-product-' + single_category_product_chosen).show();
+
+        var layout_type_chosen = $('input[name=\'layout_type\']:checked').attr('id');
+        $('#' + layout_type_chosen).closest('radio-layout-type').find('lb-layout-type').addClass('active');
     });
 
     $('input[name=\'single_product_collection\']').on('change', function () {
         var single_product_collection = $(this).val();
         $('.module-single-type-content').hide();
         $('#module-single-type-' + single_product_collection).show();
+    });
+
+    $('input[name=\'single_category_product_type\']').on('change', function () {
+        var single_category_product_chosen = $(this).val();
+        $('.single-category-type-chosen').hide();
+        $('.single-category-product-' + single_category_product_chosen).show();
+    });
+
+    $('input[name=\'layout_type\']').on('change', function () {
+        var layout_type_chosen = $(this).attr('id');
+        $('.lb-layout-type').removeClass('active');
+        $('#' + layout_type_chosen).closest('.radio-layout-type').find('.lb-layout-type').addClass('active');
     });
 
     $('#input-type').on('change', function () {

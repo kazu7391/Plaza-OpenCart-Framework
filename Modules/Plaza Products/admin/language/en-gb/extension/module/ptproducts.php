@@ -15,6 +15,11 @@ $_['entry_products']         = 'Products';
 $_['entry_category']         = 'Category';
 $_['entry_categories']       = 'Categories';
 $_['entry_products_type']    = 'Products Type';
+$_['entry_layout']           = 'Layout';
+$_['entry_width']            = 'Width';
+$_['entry_height']           = 'Height';
+$_['entry_auto']             = 'Auto';
+$_['entry_item']             = 'Items';
 
 // Text
 $_['text_module']      		 = 'Modules';
@@ -25,6 +30,7 @@ $_['text_type_multiple']     = 'Multiple Tabs';
 $_['text_module_settings']   = 'Module Settings';
 $_['text_product_settings']  = 'Products Settings';
 $_['text_slider_settings']   = 'Slider Settings';
+$_['text_layout_settings']   = 'Layout Settings';
 $_['text_tab_settings']      = 'Tabs Settings';
 $_['text_specified_product'] = 'Specified';
 $_['text_category_product']  = 'By Category';
@@ -35,13 +41,13 @@ $_['text_bestseller']        = 'Bestseller';
 $_['text_random']            = 'Random';
 $_['text_special']           = 'Special';
 $_['text_latest']            = 'Latest';
-
-// Help
-$_['help_product']     = '(Autocomplete)';
+$_['text_slider']            = 'Slider';
+$_['text_gallery']           = 'Gallery';
+$_['text_large_item']        = 'Large Item(s) + Slider';
+$_['text_image_slider']      = 'Image + Slider';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify Plaza Products module!';
 $_['error_name']       = 'Module Name must be between 3 and 64 characters!';
 $_['error_width']      = 'Width required!';
 $_['error_height']     = 'Height required!';
-$_['error_category']     = 'You have to select a category !';

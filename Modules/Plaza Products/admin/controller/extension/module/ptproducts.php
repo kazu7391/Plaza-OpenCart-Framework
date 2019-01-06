@@ -53,18 +53,6 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['error_name'] = '';
         }
 
-        if (isset($this->error['width'])) {
-            $data['error_width'] = $this->error['width'];
-        } else {
-            $data['error_width'] = '';
-        }
-
-        if (isset($this->error['height'])) {
-            $data['error_height'] = $this->error['height'];
-        } else {
-            $data['error_height'] = '';
-        }
-
         $data['breadcrumbs'] = array();
 
         $data['breadcrumbs'][] = array(
@@ -149,6 +137,14 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['module_type'] = $module_info['module_type'];
         } else {
             $data['module_type'] = 'single_tab';
+        }
+
+        if (isset($this->request->post['layout_type'])) {
+            $data['layout_type'] = $this->request->post['layout_type'];
+        } elseif (!empty($module_info)) {
+            $data['layout_type'] = $module_info['layout_type'];
+        } else {
+            $data['layout_type'] = 'slider';
         }
 
         if (isset($this->request->post['single_product_collection'])) {
@@ -247,6 +243,58 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['single_category_product_special_type'] = '';
         }
 
+        if (isset($this->request->post['single_product_special_type'])) {
+            $data['single_product_special_type'] = $this->request->post['single_product_special_type'];
+        } elseif (!empty($module_info)) {
+            $data['single_product_special_type'] = $module_info['single_product_special_type'];
+        } else {
+            $data['single_product_special_type'] = '';
+        }
+
+        if (isset($this->request->post['single_slider_width'])) {
+            $data['single_slider_width'] = $this->request->post['single_slider_width'];
+        } elseif (!empty($module_info)) {
+            $data['single_slider_width'] = $module_info['single_slider_width'];
+        } else {
+            $data['single_slider_width'] = 200;
+        }
+
+        if (isset($this->error['single_slider_width_error'])) {
+            $data['error_single_slider_width'] = $this->error['single_slider_width_error'];
+        } else {
+            $data['error_single_slider_width'] = '';
+        }
+
+        if (isset($this->request->post['single_slider_height'])) {
+            $data['single_slider_height'] = $this->request->post['single_slider_height'];
+        } elseif (!empty($module_info)) {
+            $data['single_slider_height'] = $module_info['single_slider_height'];
+        } else {
+            $data['single_slider_height'] = 200;
+        }
+
+        if (isset($this->error['single_slider_height_error'])) {
+            $data['error_single_slider_height'] = $this->error['single_slider_height_error'];
+        } else {
+            $data['error_single_slider_height'] = '';
+        }
+
+        if (isset($this->request->post['single_slider_auto'])) {
+            $data['single_slider_auto'] = $this->request->post['single_slider_auto'];
+        } elseif (!empty($module_info)) {
+            $data['single_slider_auto'] = $module_info['single_slider_auto'];
+        } else {
+            $data['single_slider_auto'] = 1;
+        }
+
+        if (isset($this->request->post['single_slider_item'])) {
+            $data['single_slider_item'] = $this->request->post['single_slider_item'];
+        } elseif (!empty($module_info)) {
+            $data['single_slider_item'] = $module_info['single_slider_item'];
+        } else {
+            $data['single_slider_item'] = array();
+        }
+
         $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
         $this->document->addScript('view/javascript/plaza/switch-toggle/js/bootstrap-toggle.min.js');
         $this->document->addScript('view/javascript/plaza/selection/js/bootstrap-select.min.js');
@@ -309,13 +357,13 @@ class ControllerExtensionModulePtproducts extends Controller {
             $this->error['name'] = $this->language->get('error_name');
         }
 
-//        if (!$this->request->post['width']) {
-//            $this->error['width'] = $this->language->get('error_width');
-//        }
-//
-//        if (!$this->request->post['height']) {
-//            $this->error['height'] = $this->language->get('error_height');
-//        }
+        if (!$this->request->post['single_slider_width']) {
+            $this->error['single_slider_width_error'] = $this->language->get('error_width');
+        }
+
+        if (!$this->request->post['single_slider_height']) {
+            $this->error['single_slider_height_error'] = $this->language->get('error_height');
+        }
 
         return !$this->error;
     }

@@ -246,3 +246,21 @@
     -o-transition: left 0.15s ease-out;
     transition: left 0.15s ease-out;
 }
+.radio-layout-type {
+    margin-bottom:  20px;
+    text-align: center;
+}
+.radio-layout-type input[name='layout_type'] {
+    display: none;
+}
+.radio-layout-type .lb-layout-type {
+    width: 100%;
+    margin: 10px 0;
+}
+.radio-layout-type .lb-layout-type img {
+    border: 2px solid #d8d0d0;
+    padding: 10px;
+}
+.radio-layout-type .lb-layout-type.active img {
+    border-color: #eb5202;
+}
