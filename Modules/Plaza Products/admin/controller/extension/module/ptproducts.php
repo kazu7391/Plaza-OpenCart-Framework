@@ -136,7 +136,7 @@ class ControllerExtensionModulePtproducts extends Controller {
         } elseif (!empty($module_info)) {
             $data['module_type'] = $module_info['module_type'];
         } else {
-            $data['module_type'] = 'single_tab';
+            $data['module_type'] = 'multi_tabs';
         }
 
         if (isset($this->request->post['layout_type'])) {
@@ -145,6 +145,90 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['layout_type'] = $module_info['layout_type'];
         } else {
             $data['layout_type'] = 'slider';
+        }
+
+        if (isset($this->request->post['slider_width'])) {
+            $data['slider_width'] = $this->request->post['slider_width'];
+        } elseif (!empty($module_info)) {
+            $data['slider_width'] = $module_info['slider_width'];
+        } else {
+            $data['slider_width'] = 200;
+        }
+
+        if (isset($this->error['slider_width_error'])) {
+            $data['error_slider_width'] = $this->error['slider_width_error'];
+        } else {
+            $data['error_slider_width'] = '';
+        }
+
+        if (isset($this->request->post['slider_height'])) {
+            $data['slider_height'] = $this->request->post['slider_height'];
+        } elseif (!empty($module_info)) {
+            $data['slider_height'] = $module_info['slider_height'];
+        } else {
+            $data['slider_height'] = 200;
+        }
+
+        if (isset($this->error['slider_height_error'])) {
+            $data['error_slider_height'] = $this->error['slider_height_error'];
+        } else {
+            $data['error_slider_height'] = '';
+        }
+
+        if (isset($this->request->post['auto'])) {
+            $data['auto'] = $this->request->post['auto'];
+        } elseif (!empty($module_info)) {
+            $data['auto'] = $module_info['auto'];
+        } else {
+            $data['auto'] = 1;
+        }
+
+        if (isset($this->request->post['item'])) {
+            $data['item'] = $this->request->post['item'];
+        } elseif (!empty($module_info)) {
+            $data['item'] = $module_info['item'];
+        } else {
+            $data['item'] = array();
+        }
+
+        if (isset($this->request->post['row'])) {
+            $data['row'] = $this->request->post['row'];
+        } elseif (!empty($module_info)) {
+            $data['row'] = $module_info['row'];
+        } else {
+            $data['row'] = 1;
+        }
+
+        if (isset($this->request->post['limit'])) {
+            $data['limit'] = $this->request->post['limit'];
+        } elseif (!empty($module_info)) {
+            $data['limit'] = $module_info['limit'];
+        } else {
+            $data['limit'] = 10;
+        }
+
+        if (isset($this->request->post['speed'])) {
+            $data['speed'] = $this->request->post['speed'];
+        } elseif (!empty($module_info)) {
+            $data['speed'] = $module_info['speed'];
+        } else {
+            $data['speed'] = 500;
+        }
+
+        if (isset($this->request->post['navigation'])) {
+            $data['navigation'] = $this->request->post['navigation'];
+        } elseif (!empty($module_info)) {
+            $data['navigation'] = $module_info['navigation'];
+        } else {
+            $data['navigation'] = 1;
+        }
+
+        if (isset($this->request->post['pagination'])) {
+            $data['pagination'] = $this->request->post['pagination'];
+        } elseif (!empty($module_info)) {
+            $data['pagination'] = $module_info['pagination'];
+        } else {
+            $data['pagination'] = 0;
         }
 
         if (isset($this->request->post['single_product_collection'])) {
@@ -251,49 +335,31 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['single_product_special_type'] = '';
         }
 
-        if (isset($this->request->post['single_slider_width'])) {
-            $data['single_slider_width'] = $this->request->post['single_slider_width'];
+        if (isset($this->request->post['single_image_width'])) {
+            $data['single_image_width'] = $this->request->post['single_image_width'];
         } elseif (!empty($module_info)) {
-            $data['single_slider_width'] = $module_info['single_slider_width'];
+            $data['single_image_width'] = $module_info['single_image_width'];
         } else {
-            $data['single_slider_width'] = 200;
+            $data['single_image_width'] = 100;
         }
 
-        if (isset($this->error['single_slider_width_error'])) {
-            $data['error_single_slider_width'] = $this->error['single_slider_width_error'];
-        } else {
-            $data['error_single_slider_width'] = '';
-        }
-
-        if (isset($this->request->post['single_slider_height'])) {
-            $data['single_slider_height'] = $this->request->post['single_slider_height'];
+        if (isset($this->request->post['single_image_height'])) {
+            $data['single_image_height'] = $this->request->post['single_image_height'];
         } elseif (!empty($module_info)) {
-            $data['single_slider_height'] = $module_info['single_slider_height'];
+            $data['single_image_height'] = $module_info['single_image_height'];
         } else {
-            $data['single_slider_height'] = 200;
+            $data['single_image_height'] = 100;
         }
 
-        if (isset($this->error['single_slider_height_error'])) {
-            $data['error_single_slider_height'] = $this->error['single_slider_height_error'];
+        if (isset($this->request->post['single_image']) && is_file(DIR_IMAGE . $this->request->post['single_image'])) {
+            $data['single_image_thumb'] = $this->model_tool_image->resize($this->request->post['single_image'], $data['single_image_width'], $data['single_image_height']);
+        } elseif (!empty($module_info) && is_file(DIR_IMAGE . $module_info['single_image'])) {
+            $data['single_image_thumb'] = $this->model_tool_image->resize($module_info['single_image'], $data['single_image_width'], $data['single_image_height']);
         } else {
-            $data['error_single_slider_height'] = '';
+            $data['single_image_thumb'] = $this->model_tool_image->resize('no_image.png', $data['single_image_width'], $data['single_image_height']);
         }
 
-        if (isset($this->request->post['single_slider_auto'])) {
-            $data['single_slider_auto'] = $this->request->post['single_slider_auto'];
-        } elseif (!empty($module_info)) {
-            $data['single_slider_auto'] = $module_info['single_slider_auto'];
-        } else {
-            $data['single_slider_auto'] = 1;
-        }
-
-        if (isset($this->request->post['single_slider_item'])) {
-            $data['single_slider_item'] = $this->request->post['single_slider_item'];
-        } elseif (!empty($module_info)) {
-            $data['single_slider_item'] = $module_info['single_slider_item'];
-        } else {
-            $data['single_slider_item'] = array();
-        }
+        $data['single_image_placeholder'] = $this->model_tool_image->resize('no_image.png', $data['single_image_width'], $data['single_image_height']);
 
         $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
         $this->document->addScript('view/javascript/plaza/switch-toggle/js/bootstrap-toggle.min.js');
@@ -357,12 +423,12 @@ class ControllerExtensionModulePtproducts extends Controller {
             $this->error['name'] = $this->language->get('error_name');
         }
 
-        if (!$this->request->post['single_slider_width']) {
-            $this->error['single_slider_width_error'] = $this->language->get('error_width');
+        if (!$this->request->post['slider_width']) {
+            $this->error['slider_width_error'] = $this->language->get('error_width');
         }
 
-        if (!$this->request->post['single_slider_height']) {
-            $this->error['single_slider_height_error'] = $this->language->get('error_height');
+        if (!$this->request->post['slider_height']) {
+            $this->error['slider_height_error'] = $this->language->get('error_height');
         }
 
         return !$this->error;

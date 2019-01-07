@@ -264,3 +264,72 @@
 .radio-layout-type .lb-layout-type.active img {
     border-color: #eb5202;
 }
+.form-control-inline {
+    display: block;
+    float: left;
+    height: 36px;
+    padding: 8px 0px;
+    width: 25%;
+}
+.form-control-inline input[type='text'] {
+    padding: 3px;
+    width: 65%;
+    margin-left: 3px;
+    font-size: 13px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.multi-product-tabs-content {
+    margin-bottom: 15px;
+}
+.product-tab-content {
+    margin-bottom: 10px;
+}
+.tab-settings-content .panel { border: none; margin: 0; }
+.tab-settings-content .panel-heading {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 0
+}
+.tab-settings-content .panel-heading .panel-title {
+    font-size: 13px;
+}
+.btn-full {
+    width: 100%;
+}
+.btn-tab {
+    background: #eb5202;
+    border: none;
+    padding: 18px;
+    font-size: 16px;
+    color: #fff;
+}
+.btn-tab span.left {
+    float: left;
+}
+.btn-tab span.right {
+    float: right;
+}
+.btn-add-tab, .btn-add-tab:active,
+.btn-add-tab:focus, .btn-add-tab:visited {
+    background: #fff;
+    border: 1px dashed #9999a2;
+    padding: 8px;
+    font-size: 29px;
+    font-weight: bold;
+    color: #f09464;
+    border-radius: 0;
+}
+.btn-add-tab:hover {
+    color: #eb5202;
+    border-color: #19222e;
+}

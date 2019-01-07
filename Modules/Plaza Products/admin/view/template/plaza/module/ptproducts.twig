@@ -105,6 +105,112 @@
                     <div class="theme-option-container">
                         <div class="panel panel-default">
                             <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-film"></i> {{ text_slider_settings }}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group required">
+                                        <label class="col-sm-3 control-label" for="input-slider-width">{{ entry_width }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="slider_width" value="{{ slider_width }}" placeholder="{{ entry_width }}" id="input-slider-width" class="form-control" />
+                                            {% if error_slider_width %}
+                                                <div class="text-danger">{{ error_slider_width }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group required">
+                                        <label class="col-sm-3 control-label" for="input-slider-height">{{ entry_height }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="slider_height" value="{{ slider_height }}" placeholder="{{ entry_height }}" id="input-slider-height" class="form-control" />
+                                            {% if error_slider_height %}
+                                                <div class="text-danger">{{ error_slider_height }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-auto">{{ entry_auto }}</label>
+                                        <div class="col-sm-6">
+                                            <input type="hidden" name="auto" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="auto" id="input-auto"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if auto %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-item">{{ entry_item }}</label>
+                                        <div class="col-sm-9">
+                                            <div class="form-control-inline">
+                                                <i class="fa fa-desktop"></i>
+                                                <input type="text" name="item[desktop]" value="{{ item.desktop }}" placeholder="{{ text_desktop }}" />
+                                            </div>
+
+                                            <div class="form-control-inline">
+                                                <i class="fa fa-laptop"></i>
+                                                <input type="text" name="item[laptop]" value="{{ item.laptop }}" placeholder="{{ text_laptop }}" />
+                                            </div>
+
+                                            <div class="form-control-inline">
+                                                <i class="fa fa-tablet"></i>
+                                                <input type="text" name="item[tablet]" value="{{ item.tablet }}" placeholder="{{ text_tablet }}" />
+                                            </div>
+
+                                            <div class="form-control-inline">
+                                                <i class="fa fa-mobile"></i>
+                                                <input type="text" name="item[mobile]" value="{{ item.mobile }}" placeholder="{{ text_mobile }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-limit">{{ entry_limit }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="limit" value="{{ limit }}" placeholder="{{ entry_limit }}" id="input-limit" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-speed">{{ entry_speed }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="speed" value="{{ speed }}" placeholder="{{ entry_speed }}" id="input-speed" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-row">{{ entry_rows }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="input-row" class="form-control" name="row" value="{{ row }}" placeholder="{{ entry_rows }}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-navigation">{{ entry_navigation }}</label>
+                                        <div class="col-sm-6">
+                                            <input type="hidden" name="navigation" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="navigation" id="input-navigation"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if navigation %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-pagination">{{ entry_pagination }}</label>
+                                        <div class="col-sm-6">
+                                            <input type="hidden" name="pagination" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="pagination" id="input-pagination"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if pagination %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="theme-option-container">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-television"></i> {{ text_layout_settings }}</h3>
                             </div>
                             <div class="panel-body">
@@ -256,45 +362,29 @@
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-film"></i> {{ text_slider_settings }}</h3>
+                                <h3 class="panel-title"><i class="fa fa-image"></i> {{ text_image_settings }}</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-horizontal">
-                                    <div class="form-group required">
-                                        <label class="col-sm-3 control-label" for="input-single-slider-width">{{ entry_width }}</label>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-single-image-width">{{ entry_width }}</label>
                                         <div class="col-sm-4">
-                                            <input type="text" name="single_slider_width" value="{{ single_slider_width }}" placeholder="{{ entry_width }}" id="input-single-slider-width" class="form-control" />
-                                            {% if error_single_slider_width %}
-                                                <div class="text-danger">{{ error_single_slider_width }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group required">
-                                        <label class="col-sm-3 control-label" for="input-single-slider-height">{{ entry_height }}</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" name="single_slider_height" value="{{ single_slider_height }}" placeholder="{{ entry_height }}" id="input-single-slider-height" class="form-control" />
-                                            {% if error_single_slider_height %}
-                                                <div class="text-danger">{{ error_single_slider_height }}</div>
-                                            {% endif %}
+                                            <input type="text" name="single_image_width" value="{{ single_image_width }}" placeholder="{{ entry_width }}" id="input-single-image-width" class="form-control" />
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-single-slider-auto">{{ entry_auto }}</label>
-                                        <div class="col-sm-6">
-                                            <input type="hidden" name="single_slider_auto" value="0" />
-                                            <input type="checkbox" class="ckb-switch" name="single_slider_auto" id="input-single-slider-auto"
-                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
-                                                    {% if single_slider_auto %} value="1" checked {% else %} value="0" {% endif %}>
+                                        <label class="col-sm-3 control-label" for="input-single-image-height">{{ entry_height }}</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" name="single_image_height" value="{{ single_image_height }}" placeholder="{{ entry_height }}" id="input-single-image-height" class="form-control" />
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-single-slider-item">{{ entry_item }}</label>
-                                        <div class="col-sm-6">
-                                            <i class="fa fa-desktop"></i>
-                                            <input class="form-control-inline" type="text" name="single_slider_item['desktop']" value="{{ single_slider_item.desktop }}" />
+                                        <label class="col-sm-3 control-label" for="input-single-image">{{ entry_image }}</label>
+                                        <div class="col-sm-9">
+                                            <a href="javascript:void(0);" id="input-singe-module-image" data-toggle="image" class="img-thumbnail"><img src="{{ single_image_thumb }}" alt="" title="" data-placeholder="{{ single_image_placeholder }}" /></a>
+                                            <input type="hidden" name="single_image" value="{{ single_image }}" id="input-single-image" />
                                         </div>
                                     </div>
                                 </div>
@@ -302,25 +392,319 @@
                         </div>
                     </div>
 
-                    <div class="theme-option-container data-settings-container multi-type-module">
-                        b
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>
-                            </div>
-                            <div class="panel-body">
+                    <div class="data-settings-container multi-type-module">
+                        <div class="multi-product-tabs-content">
+                            <div class="product-tab-0 product-tab-content" data-tab="0">
+                                <button type="button" class="btn-full btn-tab">
+                                    <span class="left">Tab</span>
+                                    <span class="right"><i class="fa fa-chevron-down"></i></span>
+                                </button>
+                                <div class="tab-settings-content">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-collection">{{ entry_collection }}</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="switch switch-multi3">
+                                                            <input type="radio" name="tabs[0][product_collection]" class="switch-input" id="multi-type-specified-0" value="specified" {% if tabs[0].product_collection == 'specified' %} checked="checked"{% endif %}/>
+                                                            <label for="multi-type-specified-0" class="switch-label switch-label-1">{{ text_specified_product }}</label>
 
+                                                            <input type="radio" name="tabs[0][product_collection]" class="switch-input" id="multi-type-category-0" value="category" {% if tabs[0].product_collection == 'category' %} checked="checked"{% endif %}/>
+                                                            <label for="multi-type-category-0" class="switch-label switch-label-2">{{ text_category_product }}</label>
+
+                                                            <input type="radio" name="tabs[0][product_collection]" class="switch-input" id="multi-type-special-0" value="special" {% if tabs[0].product_collection == 'special' %} checked="checked"{% endif %}/>
+                                                            <label for="multi-type-special-0" class="switch-label switch-label-3">{{ text_special_product }}</label>
+
+                                                            <span class="switch-selection"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="module-multi-type-specified-0" class="module-multi-type-content-0">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-specified-products-0">{{ entry_products }}</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control multi-specified-products-0" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-0" />
+                                                            <div id="multi-specified-product-0" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                                {% for product in tabs[0].specified_products %}
+                                                                    <div id="multi-specified-product-0-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+                                                                        <input type="hidden" name="tabs[0][specified_products][]" value="{{ product.product_id }}" />
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="module-multi-type-category-0" class="module-multi-type-content-0">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-category-0">{{ entry_category }}</label>
+                                                        <div class="col-sm-9">
+                                                            <select id="input-multi-category-0" class="form-control selectpicker" data-live-search="true" title="{{ entry_category }}">
+                                                                {% for category in categories %}
+                                                                    <option value="{{ category.category_id }}" {% if tabs[0].category == category.category_id %}selected="selected"{% endif %}>{{ category.name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                            <input type="hidden" name="tabs[0][category]" value="{{ tabs[0].category }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-category-product-0">{{ entry_products }}</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="switch switch-multi3">
+                                                                <input type="radio" name="tabs[0][category_product_type]" class="switch-input" id="multi-category-product-all-0" value="all" {% if tabs[0].category_product_type == 'all' %} checked="checked"{% endif %}/>
+                                                                <label for="multi-category-product-all-0" class="switch-label switch-label-1">{{ text_all_products }}</label>
+
+                                                                <input type="radio" name="tabs[0][category_product_type]" class="switch-input" id="multi-category-product-specified-0" value="specified" {% if tabs[0].category_product_type == 'specified' %} checked="checked"{% endif %}/>
+                                                                <label for="multi-category-product-specified-0" class="switch-label switch-label-2">{{ text_specified_product }}</label>
+
+                                                                <input type="radio" name="tabs[0][category_product_type]" class="switch-input" id="multi-category-product-special-0" value="special" {% if tabs[0].category_product_type == 'special' %} checked="checked"{% endif %}/>
+                                                                <label for="multi-category-product-special-0" class="switch-label switch-label-3">{{ text_special_product }}</label>
+
+                                                                <span class="switch-selection"></span>
+                                                            </div>
+
+                                                            <div class="multi-category-product-specified-0 multi-category-type-chosen-0">
+                                                                <input type="text" class="form-control multi-category-product-0" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-0" />
+                                                                <div id="multi-category-product-0" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                                    {% for product in tabs[0].category_products %}
+                                                                        <div id="multi-category-product-0-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+                                                                            <input type="hidden" name="tabs[0][category_products][]" value="{{ product.product_id }}" />
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="multi-category-product-special-0 multi-category-type-chosen-0">
+                                                                <select id="input-multi-category-product-special-type-0" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                                    <option value="mostviewed" {% if tabs[0].category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
+                                                                    <option value="bestseller" {% if tabs[0].category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
+                                                                    <option value="special"    {% if tabs[0].category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
+                                                                    <option value="latest"     {% if tabs[0].category_product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
+                                                                    <option value="random"     {% if tabs[0].category_product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
+                                                                </select>
+                                                                <input type="hidden" name="tabs[0][category_product_special_type]" value="{{ tabs[0].category_product_special_type }}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="module-multi-type-special-0" class="module-multi-type-content-0">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-product-special-type-0">{{ entry_products_type }}</label>
+                                                        <div class="col-sm-9">
+                                                            <select id="input-multi-product-special-type-0" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                                <option value="mostviewed" {% if tabs[0].product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
+                                                                <option value="bestseller" {% if tabs[0].product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
+                                                                <option value="special"    {% if tabs[0].product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
+                                                                <option value="latest"     {% if tabs[0].product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
+                                                                <option value="random"     {% if tabs[0].product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
+                                                            </select>
+                                                            <input type="hidden" name="tabs[0][product_special_type]" value="{{ tabs[0].product_special_type }}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><i class="fa fa-image"></i> {{ text_image_settings }}</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-image-width-0">{{ entry_width }}</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="tabs[0][image_width]" value="{{ tabs[0].image_width }}" placeholder="{{ entry_width }}" id="input-multi-image-width-0" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-image-height-0">{{ entry_height }}</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="tabs[0][image_height]" value="{{ tabs[0].image_height }}" placeholder="{{ entry_height }}" id="input-multi-image-height-0" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-image-0">{{ entry_image }}</label>
+                                                    <div class="col-sm-9">
+                                                        <a href="javascript:void(0);" id="input-multi-module-image-0" data-toggle="image" class="img-thumbnail"><img src="{{ tabs[0].image_thumb }}" alt="" title="" data-placeholder="{{ tabs[0].image_placeholder }}" /></a>
+                                                        <input type="hidden" name="tabs[0][image]" value="{{ tabs[0].image }}" id="input-multi-image-0" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="product-tab-1 product-tab-content" data-tab="1">
+                                <button type="button" class="btn-full btn-tab">
+                                    <span class="left">Tab</span>
+                                    <span class="right"><i class="fa fa-chevron-down"></i></span>
+                                </button>
+                                <div class="tab-settings-content">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-collection">{{ entry_collection }}</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="switch switch-multi3">
+                                                            <input type="radio" name="tabs[1][product_collection]" class="switch-input" id="multi-type-specified-1" value="specified" {% if tabs[1].product_collection == 'specified' %} checked="checked"{% endif %}/>
+                                                            <label for="multi-type-specified-1" class="switch-label switch-label-1">{{ text_specified_product }}</label>
+
+                                                            <input type="radio" name="tabs[1][product_collection]" class="switch-input" id="multi-type-category-1" value="category" {% if tabs[1].product_collection == 'category' %} checked="checked"{% endif %}/>
+                                                            <label for="multi-type-category-1" class="switch-label switch-label-2">{{ text_category_product }}</label>
+
+                                                            <input type="radio" name="tabs[1][product_collection]" class="switch-input" id="multi-type-special-1" value="special" {% if tabs[1].product_collection == 'special' %} checked="checked"{% endif %}/>
+                                                            <label for="multi-type-special-1" class="switch-label switch-label-3">{{ text_special_product }}</label>
+
+                                                            <span class="switch-selection"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="module-multi-type-specified-1" class="module-multi-type-content-1">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-specified-products-1">{{ entry_products }}</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control multi-specified-products-1" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-1" />
+                                                            <div id="multi-specified-product-1" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                                {% for product in tabs[1].specified_products %}
+                                                                    <div id="multi-specified-product-1-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+                                                                        <input type="hidden" name="tabs[1][specified_products][]" value="{{ product.product_id }}" />
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="module-multi-type-category-1" class="module-multi-type-content-1">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-category-1">{{ entry_category }}</label>
+                                                        <div class="col-sm-9">
+                                                            <select id="input-multi-category-1" class="form-control selectpicker" data-live-search="true" title="{{ entry_category }}">
+                                                                {% for category in categories %}
+                                                                    <option value="{{ category.category_id }}" {% if tabs[1].category == category.category_id %}selected="selected"{% endif %}>{{ category.name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                            <input type="hidden" name="tabs[1][category]" value="{{ tabs[1].category }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-category-product-1">{{ entry_products }}</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="switch switch-multi3">
+                                                                <input type="radio" name="tabs[1][category_product_type]" class="switch-input" id="multi-category-product-all-1" value="all" {% if tabs[1].category_product_type == 'all' %} checked="checked"{% endif %}/>
+                                                                <label for="multi-category-product-all-1" class="switch-label switch-label-1">{{ text_all_products }}</label>
+
+                                                                <input type="radio" name="tabs[1][category_product_type]" class="switch-input" id="multi-category-product-specified-1" value="specified" {% if tabs[1].category_product_type == 'specified' %} checked="checked"{% endif %}/>
+                                                                <label for="multi-category-product-specified-1" class="switch-label switch-label-2">{{ text_specified_product }}</label>
+
+                                                                <input type="radio" name="tabs[1][category_product_type]" class="switch-input" id="multi-category-product-special-1" value="special" {% if tabs[1].category_product_type == 'special' %} checked="checked"{% endif %}/>
+                                                                <label for="multi-category-product-special-1" class="switch-label switch-label-3">{{ text_special_product }}</label>
+
+                                                                <span class="switch-selection"></span>
+                                                            </div>
+
+                                                            <div class="multi-category-product-specified-1 multi-category-type-chosen-1">
+                                                                <input type="text" class="form-control multi-category-product-1" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-1" />
+                                                                <div id="multi-category-product-1" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                                    {% for product in tabs[1].category_products %}
+                                                                        <div id="multi-category-product-1-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
+                                                                            <input type="hidden" name="tabs[1][category_products][]" value="{{ product.product_id }}" />
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="multi-category-product-special-1 multi-category-type-chosen-0">
+                                                                <select id="input-multi-category-product-special-type-1" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                                    <option value="mostviewed" {% if tabs[1].category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
+                                                                    <option value="bestseller" {% if tabs[1].category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
+                                                                    <option value="special"    {% if tabs[1].category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
+                                                                    <option value="latest"     {% if tabs[1].category_product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
+                                                                    <option value="random"     {% if tabs[1].category_product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
+                                                                </select>
+                                                                <input type="hidden" name="tabs[1][category_product_special_type]" value="{{ tabs[1].category_product_special_type }}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="module-multi-type-special-1" class="module-multi-type-content-1">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-product-special-type-1">{{ entry_products_type }}</label>
+                                                        <div class="col-sm-9">
+                                                            <select id="input-multi-product-special-type-1" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                                <option value="mostviewed" {% if tabs[1].product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
+                                                                <option value="bestseller" {% if tabs[1].product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
+                                                                <option value="special"    {% if tabs[1].product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
+                                                                <option value="latest"     {% if tabs[1].product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
+                                                                <option value="random"     {% if tabs[1].product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
+                                                            </select>
+                                                            <input type="hidden" name="tabs[1][product_special_type]" value="{{ tabs[1].product_special_type }}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><i class="fa fa-image"></i> {{ text_image_settings }}</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-image-width-1">{{ entry_width }}</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="tabs[1][image_width]" value="{{ tabs[1].image_width }}" placeholder="{{ entry_width }}" id="input-multi-image-width-1" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-image-height-1">{{ entry_height }}</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" name="tabs[1][image_height]" value="{{ tabs[1].image_height }}" placeholder="{{ entry_height }}" id="input-multi-image-height-1" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input-multi-image-1">{{ entry_image }}</label>
+                                                    <div class="col-sm-9">
+                                                        <a href="javascript:void(0);" id="input-multi-module-image-1" data-toggle="image" class="img-thumbnail"><img src="{{ tabs[1].image_thumb }}" alt="" title="" data-placeholder="{{ tabs[1].image_placeholder }}" /></a>
+                                                        <input type="hidden" name="tabs[1][image]" value="{{ tabs[1].image }}" id="input-multi-image-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <button type="button" class="btn-full btn-add-tab"><i class="fa fa-plus-square"></i></button>
 
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-film"></i> {{ text_slider_settings }}</h3>
-                            </div>
-                            <div class="panel-body">
-
-                            </div>
-                        </div>
+                        <script>
+                            $('.tab-settings-content').hide();
+                            $('.btn-tab').on('click', function () {
+                                $('.tab-settings-content').hide();
+                                $(this).closest('.product-tab-content').find('.tab-settings-content').show();
+                            });
+                        </script>
                     </div>
                 </div>
             </div>

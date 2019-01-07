@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']    		 = '<b style="color: #eb5202;"><i><i class="a fa fa-shopping-bag"></i> Plaza Products </i></b>';
+$_['heading_title']    		 = '<b style="color: #eb5202;"><i><i class="c fa fa-shopping-bag"></i> Plaza Products </i></b>';
 $_['page_title']             = 'Plaza Products';
 
 // Entry
@@ -20,6 +20,12 @@ $_['entry_width']            = 'Width';
 $_['entry_height']           = 'Height';
 $_['entry_auto']             = 'Auto';
 $_['entry_item']             = 'Items';
+$_['entry_rows']             = 'Rows';
+$_['entry_limit']            = 'Limit';
+$_['entry_speed']            = 'Speed';
+$_['entry_navigation']       = 'Navigation';
+$_['entry_pagination']       = 'Pagination';
+$_['entry_image']            = 'Image';
 
 // Text
 $_['text_module']      		 = 'Modules';
@@ -30,6 +36,7 @@ $_['text_type_multiple']     = 'Multiple Tabs';
 $_['text_module_settings']   = 'Module Settings';
 $_['text_product_settings']  = 'Products Settings';
 $_['text_slider_settings']   = 'Slider Settings';
+$_['text_image_settings']    = 'Image Settings';
 $_['text_layout_settings']   = 'Layout Settings';
 $_['text_tab_settings']      = 'Tabs Settings';
 $_['text_specified_product'] = 'Specified';
@@ -45,6 +52,10 @@ $_['text_slider']            = 'Slider';
 $_['text_gallery']           = 'Gallery';
 $_['text_large_item']        = 'Large Item(s) + Slider';
 $_['text_image_slider']      = 'Image + Slider';
+$_['text_desktop']           = 'Desktop';
+$_['text_laptop']            = 'Laptop';
+$_['text_tablet']            = 'Tablet';
+$_['text_mobile']            = 'Mobile';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify Plaza Products module!';
