@@ -293,6 +293,7 @@
 .product-tab-content {
     margin-bottom: 10px;
 }
+.tab-settings-content { display: none; }
 .tab-settings-content .panel { border: none; margin: 0; }
 .tab-settings-content .panel-heading {
     background: #000;
@@ -303,21 +304,21 @@
 .tab-settings-content .panel-heading .panel-title {
     font-size: 13px;
 }
-.btn-full {
+.tab-title {
     width: 100%;
-}
-.btn-tab {
     background: #eb5202;
     border: none;
-    padding: 18px;
-    font-size: 16px;
+    padding: 14px;
+    font-size: 14px;
     color: #fff;
 }
-.btn-tab span.left {
-    float: left;
-}
-.btn-tab span.right {
+.tab-title .right {
     float: right;
+    color: #fff;
+    margin-left: 15px;
+}
+.btn-full {
+    width: 100%;
 }
 .btn-add-tab, .btn-add-tab:active,
 .btn-add-tab:focus, .btn-add-tab:visited {

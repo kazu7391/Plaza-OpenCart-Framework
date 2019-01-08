@@ -56,6 +56,7 @@ $_['text_desktop']           = 'Desktop';
 $_['text_laptop']            = 'Laptop';
 $_['text_tablet']            = 'Tablet';
 $_['text_mobile']            = 'Mobile';
+$_['text_tab']               = 'Tab';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify Plaza Products module!';

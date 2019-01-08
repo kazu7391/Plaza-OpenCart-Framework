@@ -394,11 +394,13 @@
 
                     <div class="data-settings-container multi-type-module">
                         <div class="multi-product-tabs-content">
+                            {% set tab_count = 0 %}
                             <div class="product-tab-0 product-tab-content" data-tab="0">
-                                <button type="button" class="btn-full btn-tab">
-                                    <span class="left">Tab</span>
-                                    <span class="right"><i class="fa fa-chevron-down"></i></span>
-                                </button>
+                                <div class="tab-title">
+                                    <span>Tab</span>
+                                    <a class="right" href="javascript:void(0);"><i class="fa fa-times-circle"></i></a>
+                                    <a class="right" href="javascript:void(0);" onclick="showTab($(this))"><i class="fa fa-chevron-down"></i></a>
+                                </div>
                                 <div class="tab-settings-content">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -544,166 +546,80 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="product-tab-1 product-tab-content" data-tab="1">
-                                <button type="button" class="btn-full btn-tab">
-                                    <span class="left">Tab</span>
-                                    <span class="right"><i class="fa fa-chevron-down"></i></span>
-                                </button>
-                                <div class="tab-settings-content">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label" for="input-multi-collection">{{ entry_collection }}</label>
-                                                    <div class="col-sm-9">
-                                                        <div class="switch switch-multi3">
-                                                            <input type="radio" name="tabs[1][product_collection]" class="switch-input" id="multi-type-specified-1" value="specified" {% if tabs[1].product_collection == 'specified' %} checked="checked"{% endif %}/>
-                                                            <label for="multi-type-specified-1" class="switch-label switch-label-1">{{ text_specified_product }}</label>
-
-                                                            <input type="radio" name="tabs[1][product_collection]" class="switch-input" id="multi-type-category-1" value="category" {% if tabs[1].product_collection == 'category' %} checked="checked"{% endif %}/>
-                                                            <label for="multi-type-category-1" class="switch-label switch-label-2">{{ text_category_product }}</label>
-
-                                                            <input type="radio" name="tabs[1][product_collection]" class="switch-input" id="multi-type-special-1" value="special" {% if tabs[1].product_collection == 'special' %} checked="checked"{% endif %}/>
-                                                            <label for="multi-type-special-1" class="switch-label switch-label-3">{{ text_special_product }}</label>
-
-                                                            <span class="switch-selection"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="module-multi-type-specified-1" class="module-multi-type-content-1">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label" for="input-multi-specified-products-1">{{ entry_products }}</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control multi-specified-products-1" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-1" />
-                                                            <div id="multi-specified-product-1" class="well well-sm" style="height: 100px; overflow: auto;">
-                                                                {% for product in tabs[1].specified_products %}
-                                                                    <div id="multi-specified-product-1-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
-                                                                        <input type="hidden" name="tabs[1][specified_products][]" value="{{ product.product_id }}" />
-                                                                    </div>
-                                                                {% endfor %}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="module-multi-type-category-1" class="module-multi-type-content-1">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label" for="input-multi-category-1">{{ entry_category }}</label>
-                                                        <div class="col-sm-9">
-                                                            <select id="input-multi-category-1" class="form-control selectpicker" data-live-search="true" title="{{ entry_category }}">
-                                                                {% for category in categories %}
-                                                                    <option value="{{ category.category_id }}" {% if tabs[1].category == category.category_id %}selected="selected"{% endif %}>{{ category.name }}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                            <input type="hidden" name="tabs[1][category]" value="{{ tabs[1].category }}" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label" for="input-multi-category-product-1">{{ entry_products }}</label>
-                                                        <div class="col-sm-9">
-                                                            <div class="switch switch-multi3">
-                                                                <input type="radio" name="tabs[1][category_product_type]" class="switch-input" id="multi-category-product-all-1" value="all" {% if tabs[1].category_product_type == 'all' %} checked="checked"{% endif %}/>
-                                                                <label for="multi-category-product-all-1" class="switch-label switch-label-1">{{ text_all_products }}</label>
-
-                                                                <input type="radio" name="tabs[1][category_product_type]" class="switch-input" id="multi-category-product-specified-1" value="specified" {% if tabs[1].category_product_type == 'specified' %} checked="checked"{% endif %}/>
-                                                                <label for="multi-category-product-specified-1" class="switch-label switch-label-2">{{ text_specified_product }}</label>
-
-                                                                <input type="radio" name="tabs[1][category_product_type]" class="switch-input" id="multi-category-product-special-1" value="special" {% if tabs[1].category_product_type == 'special' %} checked="checked"{% endif %}/>
-                                                                <label for="multi-category-product-special-1" class="switch-label switch-label-3">{{ text_special_product }}</label>
-
-                                                                <span class="switch-selection"></span>
-                                                            </div>
-
-                                                            <div class="multi-category-product-specified-1 multi-category-type-chosen-1">
-                                                                <input type="text" class="form-control multi-category-product-1" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-1" />
-                                                                <div id="multi-category-product-1" class="well well-sm" style="height: 100px; overflow: auto;">
-                                                                    {% for product in tabs[1].category_products %}
-                                                                        <div id="multi-category-product-1-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
-                                                                            <input type="hidden" name="tabs[1][category_products][]" value="{{ product.product_id }}" />
-                                                                        </div>
-                                                                    {% endfor %}
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="multi-category-product-special-1 multi-category-type-chosen-0">
-                                                                <select id="input-multi-category-product-special-type-1" class="form-control selectpicker" title="{{ entry_products_type }}">
-                                                                    <option value="mostviewed" {% if tabs[1].category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
-                                                                    <option value="bestseller" {% if tabs[1].category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
-                                                                    <option value="special"    {% if tabs[1].category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
-                                                                    <option value="latest"     {% if tabs[1].category_product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
-                                                                    <option value="random"     {% if tabs[1].category_product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
-                                                                </select>
-                                                                <input type="hidden" name="tabs[1][category_product_special_type]" value="{{ tabs[1].category_product_special_type }}" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="module-multi-type-special-1" class="module-multi-type-content-1">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label" for="input-multi-product-special-type-1">{{ entry_products_type }}</label>
-                                                        <div class="col-sm-9">
-                                                            <select id="input-multi-product-special-type-1" class="form-control selectpicker" title="{{ entry_products_type }}">
-                                                                <option value="mostviewed" {% if tabs[1].product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
-                                                                <option value="bestseller" {% if tabs[1].product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
-                                                                <option value="special"    {% if tabs[1].product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
-                                                                <option value="latest"     {% if tabs[1].product_special_type == 'latest' %}selected="selected"{% endif %}>{{ text_latest }}</option>
-                                                                <option value="random"     {% if tabs[1].product_special_type == 'random' %}selected="selected"{% endif %}>{{ text_random }}</option>
-                                                            </select>
-                                                            <input type="hidden" name="tabs[1][product_special_type]" value="{{ tabs[1].product_special_type }}" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title"><i class="fa fa-image"></i> {{ text_image_settings }}</h3>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label" for="input-multi-image-width-1">{{ entry_width }}</label>
-                                                    <div class="col-sm-4">
-                                                        <input type="text" name="tabs[1][image_width]" value="{{ tabs[1].image_width }}" placeholder="{{ entry_width }}" id="input-multi-image-width-1" class="form-control" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label" for="input-multi-image-height-1">{{ entry_height }}</label>
-                                                    <div class="col-sm-4">
-                                                        <input type="text" name="tabs[1][image_height]" value="{{ tabs[1].image_height }}" placeholder="{{ entry_height }}" id="input-multi-image-height-1" class="form-control" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label" for="input-multi-image-1">{{ entry_image }}</label>
-                                                    <div class="col-sm-9">
-                                                        <a href="javascript:void(0);" id="input-multi-module-image-1" data-toggle="image" class="img-thumbnail"><img src="{{ tabs[1].image_thumb }}" alt="" title="" data-placeholder="{{ tabs[1].image_placeholder }}" /></a>
-                                                        <input type="hidden" name="tabs[1][image]" value="{{ tabs[1].image }}" id="input-multi-image-1" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        <button type="button" class="btn-full btn-add-tab"><i class="fa fa-plus-square"></i></button>
-
+                        <button type="button" onclick="addTab()" class="btn-full btn-add-tab"><i class="fa fa-plus-square"></i></button>
                         <script>
-                            $('.tab-settings-content').hide();
-                            $('.btn-tab').on('click', function () {
-                                $('.tab-settings-content').hide();
-                                $(this).closest('.product-tab-content').find('.tab-settings-content').show();
-                            });
+                            function addTab() {
+                                var count = $('.product-tab-content').length;
+                                var html =  '<div class="product-tab-' + count + ' product-tab-content" data-tab="' + count + '">';
+                                html += '   <div class="tab-title">';
+                                html += '       <span>{{ text_tab }} - ' + count + '</span>';
+                                html += '       <a class="right" href="javascript:void(0);"><i class="fa fa-times-circle"></i></a>';
+                                html += '       <a class="right" href="javascript:void(0);" onclick="showTab($(this))"><i class="fa fa-chevron-down"></i></a>';
+                                html += '   </div>';
+                                html += '   <div class="tab-settings-content">';
+                                html += '       <div class="panel panel-default">';
+                                html += '           <div class="panel-heading">';
+                                html += '               <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>';
+                                html += '           </div>';
+                                html += '           <div class="panel-body">';
+                                html += '               <div class="form-horizontal">';
+                                html += '                   <div class="form-group">';
+                                html += '                       <label class="col-sm-3 control-label" for="input-multi-collection">{{ entry_collection }}</label>';
+                                html += '                       <div class="col-sm-9">';
+                                html += '                           <div class="switch switch-multi3">';
+                                html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" class="switch-input" id="multi-type-specified-' + count + '" value="specified" checked="checked" />';
+                                html += '                               <label for="multi-type-specified-' + count + '" class="switch-label switch-label-1">{{ text_specified_product }}</label>';
+                                html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" class="switch-input" id="multi-type-category-' + count + '" value="category" />';
+                                html += '                               <label for="multi-type-category-' + count + '" class="switch-label switch-label-2">{{ text_category_product }}</label>';
+                                html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" class="switch-input" id="multi-type-special-' + count + '" value="special" />';
+                                html += '                               <label for="multi-type-special-' + count + '" class="switch-label switch-label-3">{{ text_special_product }}</label>';
+                                html += '                               <span class="switch-selection"></span>';
+                                html += '                           </div>';
+                                html += '                       </div>';
+                                html += '                   </div>';
+                                html += '                   <div id="module-multi-type-specified-' + count + '" class="module-multi-type-content-' + count + '">';
+                                html += '                       <div class="form-group">';
+                                html += '                           <label class="col-sm-3 control-label" for="input-multi-specified-products-' + count + '">{{ entry_products }}</label>';
+                                html += '                           <div class="col-sm-9">';
+                                html += '                               <input type="text" class="form-control multi-specified-product-text multi-specified-products-' + count + '" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-' + count + '" />';
+                                html += '                               <div id="multi-specified-product-' + count + '" class="well well-sm" style="height: 100px; overflow: auto;"></div>';
+                                html += '                           </div>';
+                                html += '                       </div>';
+                                html += '                   </div>';
+                                html += '                   <div id="module-multi-type-category-' + count + '" class="module-multi-type-content-' + count + '">';
+                                html += '                       <div class="form-group">';
+                                html += '                           <label class="col-sm-3 control-label" for="input-multi-category-' + count + '">{{ entry_category }}</label>';
+                                html += '                           <div class="col-sm-9">';
+                                html += '                               <select id="input-multi-category-' + count + '" class="form-control selectpicker" data-live-search="true" title="{{ entry_category }}">';
+                                                                        {% for category in categories %}
+                                html += '                                   <option value="{{ category.category_id }}">{{ category.name }}</option>';
+                                                                        {% endfor %}
+                                html += '                               </select>';
+                                html += '                               <input type="hidden" name="tabs[' + count + '][category]" value="" />';
+                                html += '                           </div>';
+                                html += '                       </div>';
+                                html += '                       <div class="form-group">';
+                                html += '                           <label class="col-sm-3 control-label" for="input-multi-category-product-' + count + '">{{ entry_products }}</label>';
+                                html += '                           <div class="col-sm-9">';
+                                html += '                           </div>';
+                                html += '                       </div>';
+                                html += '                   </div>';
+                                html += '               </div>';
+                                html += '           </div>';
+                                html += '       </div>';
+                                html += '       <div class="panel panel-default">';
+                                html += '           <div class="panel-heading">';
+                                html += '               <h3 class="panel-title"><i class="fa fa-image"></i> {{ text_image_settings }}</h3>';
+                                html += '           </div>';
+                                html += '           <div class="panel-body">';
+                                html += '           </div>';
+                                html += '       </div>';
+                                html += '   </div>';
+                                html += '</div>';
+
+                                $('.multi-product-tabs-content').append(html);
+                            }
                         </script>
                     </div>
                 </div>
@@ -828,6 +744,8 @@
 
         var layout_type_chosen = $('input[name=\'layout_type\']:checked').attr('id');
         $('#' + layout_type_chosen).closest('radio-layout-type').find('lb-layout-type').addClass('active');
+
+
     });
 
     $('input[name=\'single_product_collection\']').on('change', function () {
@@ -854,5 +772,16 @@
         if(module_type == "single_tab") $('.single-type-module').show();
         if(module_type == "multi_tabs") $('.multi-type-module').show();
     });
+
+    function showTab(element) {
+        var tab_content = $(element).closest('.product-tab-content').find('.tab-settings-content')
+        if(tab_content.hasClass('open')) {
+            $('.tab-settings-content').slideUp(600).removeClass('open');
+        } else {
+            $('.tab-settings-content').slideUp(600).removeClass('open');
+            tab_content.slideDown(600).addClass('open');
+        }
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    }
 </script>
 {{ footer }}
