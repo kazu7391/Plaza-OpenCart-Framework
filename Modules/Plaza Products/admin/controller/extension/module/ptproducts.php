@@ -361,6 +361,16 @@ class ControllerExtensionModulePtproducts extends Controller {
 
         $data['single_image_placeholder'] = $this->model_tool_image->resize('no_image.png', $data['single_image_width'], $data['single_image_height']);
 
+        if (isset($this->request->post['tabs'])) {
+            $data['tabs'] = $this->request->post['tabs'];
+        } elseif (!empty($module_info)) {
+            $data['tabs'] = $module_info['tabs'];
+        } else {
+            $data['tabs'] = array();
+        }
+
+        $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+
         $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
         $this->document->addScript('view/javascript/plaza/switch-toggle/js/bootstrap-toggle.min.js');
         $this->document->addScript('view/javascript/plaza/selection/js/bootstrap-select.min.js');

@@ -288,7 +288,6 @@
     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 .multi-product-tabs-content {
-    margin-bottom: 15px;
 }
 .product-tab-content {
     margin-bottom: 10px;
@@ -329,6 +328,7 @@
     font-weight: bold;
     color: #f09464;
     border-radius: 0;
+    margin-top:  15px;
 }
 .btn-add-tab:hover {
     color: #eb5202;
