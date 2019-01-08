@@ -396,10 +396,10 @@
                         <div class="multi-product-tabs-content">
                             {% set tab_count = 0 %}
                             {% for tab in tabs %}
-                                <div class="product-tab-0 product-tab-content" data-tab="{{ tab_count }}">
+                                <div class="product-tab-{{ tab_count }} product-tab-content" data-tab="{{ tab_count }}">
                                     <div class="tab-title">
                                         <span>{{ text_tab }} - {{ tab_count }}</span>
-                                        <a class="right" href="javascript:void(0);"><i class="fa fa-times-circle"></i></a>
+                                        <a class="right" href="javascript:void(0);" onclick="removeTab($(this))"><i class="fa fa-times-circle"></i></a>
                                         <a class="right" href="javascript:void(0);" onclick="showTab($(this))"><i class="fa fa-chevron-down"></i></a>
                                     </div>
                                     <div class="tab-settings-content">
@@ -531,7 +531,7 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-3 control-label" for="input-multi-image-height-{{ tab_count }}">{{ entry_height }}</label>
                                                         <div class="col-sm-4">
-                                                            <input type="text" name="tabs[{{ tab_count }}][image_height]" value="{{ tab.image_height }}" placeholder="{{ entry_height }}" id="input-multi-image-height-{{ tab_count }} class="form-control" />
+                                                            <input type="text" name="tabs[{{ tab_count }}][image_height]" value="{{ tab.image_height }}" placeholder="{{ entry_height }}" id="input-multi-image-height-{{ tab_count }}" class="form-control" />
                                                         </div>
                                                     </div>
 
@@ -561,7 +561,7 @@
                                 var html =  '<div class="product-tab-' + count + ' product-tab-content" data-tab="' + count + '">';
                                 html += '   <div class="tab-title">';
                                 html += '       <span>{{ text_tab }} - ' + count + '</span>';
-                                html += '       <a class="right" href="javascript:void(0);"><i class="fa fa-times-circle"></i></a>';
+                                html += '       <a class="right" href="javascript:void(0);" onclick="removeTab($(this))"><i class="fa fa-times-circle"></i></a>';
                                 html += '       <a class="right" href="javascript:void(0);" onclick="showTab($(this))"><i class="fa fa-chevron-down"></i></a>';
                                 html += '   </div>';
                                 html += '   <div class="tab-settings-content">';
@@ -843,7 +843,7 @@
     });
 
     function showTab(element) {
-        var tab_content = $(element).closest('.product-tab-content').find('.tab-settings-content')
+        var tab_content = $(element).closest('.product-tab-content').find('.tab-settings-content');
         if(tab_content.hasClass('open')) {
             $('.tab-settings-content').slideUp(600).removeClass('open');
         } else {
@@ -851,6 +851,10 @@
             tab_content.slideDown(600).addClass('open');
         }
         $("html, body").animate({ scrollTop: 0 }, "slow");
+    }
+
+    function removeTab(element) {
+        $(element).closest('.product-tab-content').remove();
     }
 </script>
 {{ footer }}

@@ -10,9 +10,11 @@ class ControllerExtensionModulePtcontrolpanel extends Controller
         $this->document->setTitle($this->language->get('page_title'));
 
         $this->load->model('setting/setting');
+        $this->load->model('plaza/sass');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->model_setting_setting->editSetting('module_ptcontrolpanel', $this->request->post);
+            $this->model_plaza_sass->compileData($this->request->post);
 
             $this->session->data['success'] = $this->language->get('text_success');
 
