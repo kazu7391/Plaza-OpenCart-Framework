@@ -413,13 +413,13 @@
                                                         <label class="col-sm-3 control-label" for="input-multi-collection">{{ entry_collection }}</label>
                                                         <div class="col-sm-9">
                                                             <div class="switch switch-multi3">
-                                                                <input type="radio" name="tabs[{{ tab_count }}][product_collection]" class="switch-input" id="multi-type-specified-{{ tab_count }}" value="specified" {% if tab.product_collection == 'specified' %} checked="checked"{% endif %}/>
+                                                                <input type="radio" name="tabs[{{ tab_count }}][product_collection]" onchange="toggleInputOfMultiTab({{ tab_count }})" class="switch-input" id="multi-type-specified-{{ tab_count }}" value="specified" {% if tab.product_collection == 'specified' %} checked="checked"{% endif %}/>
                                                                 <label for="multi-type-specified-{{ tab_count }}" class="switch-label switch-label-1">{{ text_specified_product }}</label>
 
-                                                                <input type="radio" name="tabs[{{ tab_count }}][product_collection]" class="switch-input" id="multi-type-category-{{ tab_count }}" value="category" {% if tab.product_collection == 'category' %} checked="checked"{% endif %}/>
+                                                                <input type="radio" name="tabs[{{ tab_count }}][product_collection]" onchange="toggleInputOfMultiTab({{ tab_count }})" class="switch-input" id="multi-type-category-{{ tab_count }}" value="category" {% if tab.product_collection == 'category' %} checked="checked"{% endif %}/>
                                                                 <label for="multi-type-category-{{ tab_count }}" class="switch-label switch-label-2">{{ text_category_product }}</label>
 
-                                                                <input type="radio" name="tabs[{{ tab_count }}][product_collection]" class="switch-input" id="multi-type-special-{{ tab_count }}" value="special" {% if tab.product_collection == 'special' %} checked="checked"{% endif %}/>
+                                                                <input type="radio" name="tabs[{{ tab_count }}][product_collection]" onchange="toggleInputOfMultiTab({{ tab_count }})" class="switch-input" id="multi-type-special-{{ tab_count }}" value="special" {% if tab.product_collection == 'special' %} checked="checked"{% endif %}/>
                                                                 <label for="multi-type-special-{{ tab_count }}" class="switch-label switch-label-3">{{ text_special_product }}</label>
 
                                                                 <span class="switch-selection"></span>
@@ -431,8 +431,8 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label" for="input-multi-specified-products-{{ tab_count }}">{{ entry_products }}</label>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control multi-specified-products-{{ tab_count }}" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-{{ tab_count }}" />
-                                                                <div id="multi-specified-product-{{ tab_count }}" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                                <input type="text" onfocus="autoGetProducts($(this), {{ tab_count }}, 'specified_products')" class="form-control multi-specified-products-{{ tab_count }} input-multi-specified-products" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-{{ tab_count }}" />
+                                                                <div id="multi-specified-product-{{ tab_count }}" class="well well-sm multi-chosen-values" style="height: 100px; overflow: auto;">
                                                                     {% for product in tab.specified_products %}
                                                                         <div id="multi-specified-product-{{ tab_count }}-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
                                                                             <input type="hidden" name="tabs[{{ tab_count }}][specified_products][]" value="{{ product.product_id }}" />
@@ -447,7 +447,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label" for="input-multi-category-{{ tab_count }}">{{ entry_category }}</label>
                                                             <div class="col-sm-9">
-                                                                <select id="input-multi-category-{{ tab_count }}" class="form-control selectpicker" data-live-search="true" title="{{ entry_category }}">
+                                                                <select id="input-multi-category-{{ tab_count }}" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">
                                                                     {% for category in categories %}
                                                                         <option value="{{ category.category_id }}" {% if tab.category == category.category_id %}selected="selected"{% endif %}>{{ category.name }}</option>
                                                                     {% endfor %}
@@ -460,21 +460,21 @@
                                                             <label class="col-sm-3 control-label" for="input-multi-category-product-{{ tab_count }}">{{ entry_products }}</label>
                                                             <div class="col-sm-9">
                                                                 <div class="switch switch-multi3">
-                                                                    <input type="radio" name="tabs[{{ tab_count }}][category_product_type]" class="switch-input" id="multi-category-product-all-{{ tab_count }}" value="all" {% if tab.category_product_type == 'all' %} checked="checked"{% endif %}/>
+                                                                    <input type="radio" name="tabs[{{ tab_count }}][category_product_type]" onchange="toggleInputOfMultiTab({{ tab_count }})" class="switch-input switch-category-product-type" id="multi-category-product-all-{{ tab_count }}" value="all" {% if tab.category_product_type == 'all' %} checked="checked"{% endif %}/>
                                                                     <label for="multi-category-product-all-{{ tab_count }}" class="switch-label switch-label-1">{{ text_all_products }}</label>
 
-                                                                    <input type="radio" name="tabs[{{ tab_count }}][category_product_type]" class="switch-input" id="multi-category-product-specified-{{ tab_count }}" value="specified" {% if tab.category_product_type == 'specified' %} checked="checked"{% endif %}/>
+                                                                    <input type="radio" name="tabs[{{ tab_count }}][category_product_type]" onchange="toggleInputOfMultiTab({{ tab_count }})" class="switch-input switch-category-product-type" id="multi-category-product-specified-{{ tab_count }}" value="specified" {% if tab.category_product_type == 'specified' %} checked="checked"{% endif %}/>
                                                                     <label for="multi-category-product-specified-{{ tab_count }}" class="switch-label switch-label-2">{{ text_specified_product }}</label>
 
-                                                                    <input type="radio" name="tabs[{{ tab_count }}][category_product_type]" class="switch-input" id="multi-category-product-special-{{ tab_count }}" value="special" {% if tab.category_product_type == 'special' %} checked="checked"{% endif %}/>
+                                                                    <input type="radio" name="tabs[{{ tab_count }}][category_product_type]" onchange="toggleInputOfMultiTab({{ tab_count }})" class="switch-input switch-category-product-type" id="multi-category-product-special-{{ tab_count }}" value="special" {% if tab.category_product_type == 'special' %} checked="checked"{% endif %}/>
                                                                     <label for="multi-category-product-special-{{ tab_count }}" class="switch-label switch-label-3">{{ text_special_product }}</label>
 
                                                                     <span class="switch-selection"></span>
                                                                 </div>
 
                                                                 <div class="multi-category-product-specified-{{ tab_count }} multi-category-type-chosen-{{ tab_count }}">
-                                                                    <input type="text" class="form-control multi-category-product-{{ tab_count }}" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-{{ tab_count }}" />
-                                                                    <div id="multi-category-product-{{ tab_count }}" class="well well-sm" style="height: 100px; overflow: auto;">
+                                                                    <input type="text" class="form-control multi-category-product-{{ tab_count }} input-multi-category-products" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-{{ tab_count }}" />
+                                                                    <div id="multi-category-product-{{ tab_count }}" class="well well-sm multi-chosen-values" style="height: 100px; overflow: auto;">
                                                                         {% for product in tab.category_products %}
                                                                             <div id="multi-category-product-{{ tab_count }}-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
                                                                                 <input type="hidden" name="tabs[{{ tab_count }}][category_products][]" value="{{ product.product_id }}" />
@@ -484,7 +484,7 @@
                                                                 </div>
 
                                                                 <div class="multi-category-product-special-{{ tab_count }} multi-category-type-chosen-{{ tab_count }}">
-                                                                    <select id="input-multi-category-product-special-type-{{ tab_count }}" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                                    <select id="input-multi-category-product-special-type-{{ tab_count }}" class="form-control selectpicker input-multi-category-product-special-type" title="{{ entry_products_type }}">
                                                                         <option value="mostviewed" {% if tab.category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
                                                                         <option value="bestseller" {% if tab.category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
                                                                         <option value="special"    {% if tab.category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
@@ -501,7 +501,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label" for="input-multi-product-special-type-{{ tab_count }}">{{ entry_products_type }}</label>
                                                             <div class="col-sm-9">
-                                                                <select id="input-multi-product-special-type-{{ tab_count }}" class="form-control selectpicker" title="{{ entry_products_type }}">
+                                                                <select id="input-multi-product-special-type-{{ tab_count }}" class="form-control selectpicker input-multi-product-special-type" title="{{ entry_products_type }}">
                                                                     <option value="mostviewed" {% if tab.product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
                                                                     <option value="bestseller" {% if tab.product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
                                                                     <option value="special"    {% if tab.product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
@@ -552,144 +552,6 @@
 
                         </div>
                         <button type="button" onclick="addTab()" class="btn-full btn-add-tab"><i class="fa fa-plus-square"></i></button>
-                        <script>
-                            function addTab() {
-                                var count = 0;
-                                if($('.product-tab-content').length) {
-                                    count = parseInt($('.product-tab-content:last').data('tab')) + 1;
-                                }
-                                var html =  '<div class="product-tab-' + count + ' product-tab-content" data-tab="' + count + '">';
-                                html += '   <div class="tab-title">';
-                                html += '       <span>{{ text_tab }} - ' + count + '</span>';
-                                html += '       <a class="right" href="javascript:void(0);" onclick="removeTab($(this))"><i class="fa fa-times-circle"></i></a>';
-                                html += '       <a class="right" href="javascript:void(0);" onclick="showTab($(this))"><i class="fa fa-chevron-down"></i></a>';
-                                html += '   </div>';
-                                html += '   <div class="tab-settings-content">';
-                                html += '       <div class="panel panel-default">';
-                                html += '           <div class="panel-heading">';
-                                html += '               <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>';
-                                html += '           </div>';
-                                html += '           <div class="panel-body">';
-                                html += '               <div class="form-horizontal">';
-                                html += '                   <div class="form-group">';
-                                html += '                       <label class="col-sm-3 control-label" for="input-multi-collection">{{ entry_collection }}</label>';
-                                html += '                       <div class="col-sm-9">';
-                                html += '                           <div class="switch switch-multi3">';
-                                html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" class="switch-input" id="multi-type-specified-' + count + '" value="specified" checked="checked" />';
-                                html += '                               <label for="multi-type-specified-' + count + '" class="switch-label switch-label-1">{{ text_specified_product }}</label>';
-                                html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" class="switch-input" id="multi-type-category-' + count + '" value="category" />';
-                                html += '                               <label for="multi-type-category-' + count + '" class="switch-label switch-label-2">{{ text_category_product }}</label>';
-                                html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" class="switch-input" id="multi-type-special-' + count + '" value="special" />';
-                                html += '                               <label for="multi-type-special-' + count + '" class="switch-label switch-label-3">{{ text_special_product }}</label>';
-                                html += '                               <span class="switch-selection"></span>';
-                                html += '                           </div>';
-                                html += '                       </div>';
-                                html += '                   </div>';
-                                html += '                   <div id="module-multi-type-specified-' + count + '" class="module-multi-type-content-' + count + '">';
-                                html += '                       <div class="form-group">';
-                                html += '                           <label class="col-sm-3 control-label" for="input-multi-specified-products-' + count + '">{{ entry_products }}</label>';
-                                html += '                           <div class="col-sm-9">';
-                                html += '                               <input type="text" class="form-control multi-specified-product-text multi-specified-products-' + count + '" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-' + count + '" />';
-                                html += '                               <div id="multi-specified-product-' + count + '" class="well well-sm" style="height: 100px; overflow: auto;"></div>';
-                                html += '                           </div>';
-                                html += '                       </div>';
-                                html += '                   </div>';
-                                html += '                   <div id="module-multi-type-category-' + count + '" class="module-multi-type-content-' + count + '">';
-                                html += '                       <div class="form-group">';
-                                html += '                           <label class="col-sm-3 control-label" for="input-multi-category-' + count + '">{{ entry_category }}</label>';
-                                html += '                           <div class="col-sm-9">';
-                                html += '                               <select id="input-multi-category-' + count + '" class="form-control selectpicker" data-live-search="true" title="{{ entry_category }}">';
-                                                                        {% for category in categories %}
-                                html += '                                   <option value="{{ category.category_id }}">{{ category.name }}</option>';
-                                                                        {% endfor %}
-                                html += '                               </select>';
-                                html += '                               <input type="hidden" name="tabs[' + count + '][category]" value="" />';
-                                html += '                           </div>';
-                                html += '                       </div>';
-                                html += '                       <div class="form-group">';
-                                html += '                           <label class="col-sm-3 control-label" for="input-multi-category-product-' + count + '">{{ entry_products }}</label>';
-                                html += '                           <div class="col-sm-9">';
-                                html += '                               <div class="switch switch-multi3">';
-                                html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" class="switch-input" id="multi-category-product-all-' + count + '" value="all" />';
-                                html += '                                   <label for="multi-category-product-all-' + count + '" class="switch-label switch-label-1">{{ text_all_products }}</label>';
-                                html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" class="switch-input" id="multi-category-product-specified-' + count + '" value="specified" />';
-                                html += '                                   <label for="multi-category-product-specified-' + count + '" class="switch-label switch-label-2">{{ text_specified_product }}</label>';
-                                html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" class="switch-input" id="multi-category-product-special-' + count + '" value="special" />';
-                                html += '                                   <label for="multi-category-product-special-' + count + '" class="switch-label switch-label-3">{{ text_special_product }}</label>';
-                                html += '                                   <span class="switch-selection"></span>';
-                                html += '                               </div>';
-                                html += '                               <div class="multi-category-product-specified-' + count + ' multi-category-type-chosen-' + count + '">';
-                                html += '                                   <input type="text" class="form-control multi-category-product-' + count + '" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-' + count + '" />';
-                                html += '                                   <div id="multi-category-product-' + count + '" class="well well-sm" style="height: 100px; overflow: auto;"></div>';
-                                html += '                               </div>';
-                                html += '                               <div class="multi-category-product-special-' + count + ' multi-category-type-chosen-' + count + '">';
-                                html += '                                   <select id="input-multi-category-product-special-type-' + count + '" class="form-control selectpicker" title="{{ entry_products_type }}">';
-                                html += '                                       <option value="mostviewed">{{ text_most_viewed }}</option>';
-                                html += '                                       <option value="bestseller">{{ text_bestseller }}</option>';
-                                html += '                                       <option value="special">{{ text_special }}</option>';
-                                html += '                                       <option value="latest">{{ text_latest }}</option>';
-                                html += '                                       <option value="random">{{ text_random }}</option>';
-                                html += '                                   </select>';
-                                html += '                                   <input type="hidden" name="tabs[' + count + '][category_product_special_type]" value="" />';
-                                html += '                               </div>';
-                                html += '                           </div>';
-                                html += '                       </div>';
-                                html += '                   </div>';
-
-                                html += '                   <div id="module-multi-type-special-' + count + '" class="module-multi-type-content-' + count + '">';
-                                html += '                       <div class="form-group">';
-                                html += '                           <label class="col-sm-3 control-label" for="input-multi-product-special-type-' + count + '">{{ entry_products_type }}</label>';
-                                html += '                           <div class="col-sm-9">';
-                                html += '                               <select id="input-multi-product-special-type-' + count + '" class="form-control selectpicker" title="{{ entry_products_type }}">';
-                                html += '                                   <option value="mostviewed">{{ text_most_viewed }}</option>';
-                                html += '                                   <option value="bestseller">{{ text_bestseller }}</option>';
-                                html += '                                   <option value="special">{{ text_special }}</option>';
-                                html += '                                   <option value="latest">{{ text_latest }}</option>';
-                                html += '                                   <option value="random">{{ text_random }}</option>';
-                                html += '                               </select>';
-                                html += '                               <input type="hidden" name="tabs[' + count + '][product_special_type]" value="" />';
-                                html += '                           </div>';
-                                html += '                       </div>';
-                                html += '                   </div>';
-                                html += '               </div>';
-                                html += '           </div>';
-                                html += '       </div>';
-                                html += '       <div class="panel panel-default">';
-                                html += '           <div class="panel-heading">';
-                                html += '               <h3 class="panel-title"><i class="fa fa-image"></i> {{ text_image_settings }}</h3>';
-                                html += '           </div>';
-                                html += '           <div class="panel-body">';
-                                html += '               <div class="form-horizontal">';
-                                html += '                   <div class="form-group">';
-                                html += '                       <label class="col-sm-3 control-label" for="input-multi-image-width-' + count + '">{{ entry_width }}</label>';
-                                html += '                       <div class="col-sm-4">';
-                                html += '                           <input type="text" name="tabs[' + count + '][image_width]" value="100" placeholder="{{ entry_width }}" id="input-multi-image-width-' + count + '" class="form-control" />';
-                                html += '                       </div>';
-                                html += '                   </div>';
-                                html += '                   <div class="form-group">';
-                                html += '                       <label class="col-sm-3 control-label" for="input-multi-image-height-' + count + '">{{ entry_height }}</label>';
-                                html += '                       <div class="col-sm-4">';
-                                html += '                           <input type="text" name="tabs[' + count + '][image_height]" value="100" placeholder="{{ entry_height }}" id="input-multi-image-height-' + count + '" class="form-control" />';
-                                html += '                       </div>';
-                                html += '                   </div>';
-                                html += '                   <div class="form-group">';
-                                html += '                       <label class="col-sm-3 control-label" for="input-multi-image-' + count + '">{{ entry_image }}</label>';
-                                html += '                       <div class="col-sm-9">';
-                                html += '                           <a href="javascript:void(0);" id="input-multi-module-image-' + count + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>';
-                                html += '                           <input type="hidden" name="tabs[' + count + '][image]" value="" id="input-multi-image-' + count + '" />';
-                                html += '                       </div>';
-                                html += '                   </div>';
-                                html += '               </div>';
-                                html += '           </div>';
-                                html += '       </div>';
-                                html += '   </div>';
-                                html += '</div>';
-
-
-                                $('.multi-product-tabs-content').append(html);
-                                $('.selectpicker').selectpicker()
-                            }
-                        </script>
                     </div>
                 </div>
             </div>
@@ -803,6 +665,7 @@
         if(module_type == "single_tab") $('.single-type-module').show();
         if(module_type == "multi_tabs") $('.multi-type-module').show();
 
+        // Single
         $('.module-single-type-content').hide();
         var single_product_collection = $('input[name=\'single_product_collection\']:checked').val();
         $('#module-single-type-' + single_product_collection).show();
@@ -811,12 +674,17 @@
         var single_category_product_chosen = $('input[name=\'single_category_product_type\']:checked').val();
         $('.single-category-product-' + single_category_product_chosen).show();
 
+        // Multi
+        $('.product-tab-content').each(function() {
+            var tab_count = $(this).data('tab');
+            toggleInputOfMultiTab(tab_count);
+        });
+
         var layout_type_chosen = $('input[name=\'layout_type\']:checked').attr('id');
         $('#' + layout_type_chosen).closest('radio-layout-type').find('lb-layout-type').addClass('active');
-
-
     });
 
+    // Single
     $('input[name=\'single_product_collection\']').on('change', function () {
         var single_product_collection = $(this).val();
         $('.module-single-type-content').hide();
@@ -828,6 +696,7 @@
         $('.single-category-type-chosen').hide();
         $('.single-category-product-' + single_category_product_chosen).show();
     });
+
 
     $('input[name=\'layout_type\']').on('change', function () {
         var layout_type_chosen = $(this).attr('id');
@@ -842,6 +711,47 @@
         if(module_type == "multi_tabs") $('.multi-type-module').show();
     });
 
+    function toggleInputOfMultiTab(tab_count) {
+        $('.module-multi-type-content-' + tab_count).hide();
+        var multi_product_collection = $('input[name=\'tabs['+ tab_count +'][product_collection]\']:checked').val();
+        $('#module-multi-type-' + multi_product_collection + '-' + tab_count).show();
+
+        $('.multi-category-type-chosen-' + tab_count).hide();
+        var multi_category_product_type = $('input[name=\'tabs['+ tab_count +'][category_product_type]\']:checked').val();
+        $('.multi-category-product-' + multi_category_product_type + '-' + tab_count).show();
+    }
+
+    function autoGetProducts(element, tab_count, post_name) {
+        var data_list_id = element.closest('div').find('.multi-chosen-values').attr('id');
+        element.autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+                    dataType: 'json',
+                    success: function(json) {
+                        response($.map(json, function(item) {
+                            return {
+                                label: item['name'],
+                                value: item['product_id']
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function(item) {
+                element.val('');
+
+                $('#' + data_list_id + '-' + item['value']).remove();
+
+                $('#' + data_list_id).append('<div id="#' + data_list_id + '-' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="tabs[' + tab_count + ']['+ post_name +'][]" value="' + item['value'] + '" /></div>');
+            }
+        });
+
+        $('#' + data_list_id).delegate('.fa-minus-circle', 'click', function() {
+            $(this).parent().remove();
+        });
+    }
+
     function showTab(element) {
         var tab_content = $(element).closest('.product-tab-content').find('.tab-settings-content');
         if(tab_content.hasClass('open')) {
@@ -855,6 +765,144 @@
 
     function removeTab(element) {
         $(element).closest('.product-tab-content').remove();
+    }
+</script>
+<script>
+    function addTab() {
+        var count = 0;
+        if($('.product-tab-content').length) {
+            count = parseInt($('.product-tab-content:last').data('tab')) + 1;
+        }
+        var html =  '<div class="product-tab-' + count + ' product-tab-content" data-tab="' + count + '">';
+        html += '   <div class="tab-title">';
+        html += '       <span>{{ text_tab }} - ' + count + '</span>';
+        html += '       <a class="right" href="javascript:void(0);" onclick="removeTab($(this))"><i class="fa fa-times-circle"></i></a>';
+        html += '       <a class="right" href="javascript:void(0);" onclick="showTab($(this))"><i class="fa fa-chevron-down"></i></a>';
+        html += '   </div>';
+        html += '   <div class="tab-settings-content">';
+        html += '       <div class="panel panel-default">';
+        html += '           <div class="panel-heading">';
+        html += '               <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>';
+        html += '           </div>';
+        html += '           <div class="panel-body">';
+        html += '               <div class="form-horizontal">';
+        html += '                   <div class="form-group">';
+        html += '                       <label class="col-sm-3 control-label" for="input-multi-collection">{{ entry_collection }}</label>';
+        html += '                       <div class="col-sm-9">';
+        html += '                           <div class="switch switch-multi3">';
+        html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input" id="multi-type-specified-' + count + '" value="specified" checked="checked" />';
+        html += '                               <label for="multi-type-specified-' + count + '" class="switch-label switch-label-1">{{ text_specified_product }}</label>';
+        html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input" id="multi-type-category-' + count + '" value="category" />';
+        html += '                               <label for="multi-type-category-' + count + '" class="switch-label switch-label-2">{{ text_category_product }}</label>';
+        html += '                               <input type="radio" name="tabs[' + count + '][product_collection]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input" id="multi-type-special-' + count + '" value="special" />';
+        html += '                               <label for="multi-type-special-' + count + '" class="switch-label switch-label-3">{{ text_special_product }}</label>';
+        html += '                               <span class="switch-selection"></span>';
+        html += '                           </div>';
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '                   <div id="module-multi-type-specified-' + count + '" class="module-multi-type-content-' + count + '">';
+        html += '                       <div class="form-group">';
+        html += '                           <label class="col-sm-3 control-label" for="input-multi-specified-products-' + count + '">{{ entry_products }}</label>';
+        html += '                           <div class="col-sm-9">';
+        html += '                               <input type="text" onfocus="autoGetProducts($(this), '+ count +', \'specified_products\')" class="form-control multi-specified-products-' + count + '" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-' + count + '" />';
+        html += '                               <div id="multi-specified-product-' + count + '" class="well well-sm multi-chosen-values" style="height: 100px; overflow: auto;"></div>';
+        html += '                           </div>';
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '                   <div id="module-multi-type-category-' + count + '" class="module-multi-type-content-' + count + '">';
+        html += '                       <div class="form-group">';
+        html += '                           <label class="col-sm-3 control-label" for="input-multi-category-' + count + '">{{ entry_category }}</label>';
+        html += '                           <div class="col-sm-9">';
+        html += '                               <select id="input-multi-category-' + count + '" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">';
+        {% for category in categories %}
+        html += '                                   <option value="{{ category.category_id }}">{{ category.name }}</option>';
+        {% endfor %}
+        html += '                               </select>';
+        html += '                               <input type="hidden" name="tabs[' + count + '][category]" value="" />';
+        html += '                           </div>';
+        html += '                       </div>';
+        html += '                       <div class="form-group">';
+        html += '                           <label class="col-sm-3 control-label" for="input-multi-category-product-' + count + '">{{ entry_products }}</label>';
+        html += '                           <div class="col-sm-9">';
+        html += '                               <div class="switch switch-multi3">';
+        html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input switch-category-product-type" id="multi-category-product-all-' + count + '" value="all" />';
+        html += '                                   <label for="multi-category-product-all-' + count + '" class="switch-label switch-label-1">{{ text_all_products }}</label>';
+        html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input switch-category-product-type" id="multi-category-product-specified-' + count + '" value="specified" />';
+        html += '                                   <label for="multi-category-product-specified-' + count + '" class="switch-label switch-label-2">{{ text_specified_product }}</label>';
+        html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input switch-category-product-type" id="multi-category-product-special-' + count + '" value="special" />';
+        html += '                                   <label for="multi-category-product-special-' + count + '" class="switch-label switch-label-3">{{ text_special_product }}</label>';
+        html += '                                   <span class="switch-selection"></span>';
+        html += '                               </div>';
+        html += '                               <div class="multi-category-product-specified-' + count + ' multi-category-type-chosen-' + count + '">';
+        html += '                                   <input type="text" class="form-control input-multi-category-products multi-category-product-' + count + '" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-' + count + '" />';
+        html += '                                   <div id="multi-category-product-' + count + '" class="well well-sm" style="height: 100px; overflow: auto;"></div>';
+        html += '                               </div>';
+        html += '                               <div class="multi-category-product-special-' + count + ' multi-category-type-chosen-' + count + '">';
+        html += '                                   <select id="input-multi-category-product-special-type-' + count + '" class="form-control selectpicker input-multi-category-product-special-type" title="{{ entry_products_type }}">';
+        html += '                                       <option value="mostviewed">{{ text_most_viewed }}</option>';
+        html += '                                       <option value="bestseller">{{ text_bestseller }}</option>';
+        html += '                                       <option value="special">{{ text_special }}</option>';
+        html += '                                       <option value="latest">{{ text_latest }}</option>';
+        html += '                                       <option value="random">{{ text_random }}</option>';
+        html += '                                   </select>';
+        html += '                                   <input type="hidden" name="tabs[' + count + '][category_product_special_type]" value="" />';
+        html += '                               </div>';
+        html += '                           </div>';
+        html += '                       </div>';
+        html += '                   </div>';
+
+        html += '                   <div id="module-multi-type-special-' + count + '" class="module-multi-type-content-' + count + '">';
+        html += '                       <div class="form-group">';
+        html += '                           <label class="col-sm-3 control-label" for="input-multi-product-special-type-' + count + '">{{ entry_products_type }}</label>';
+        html += '                           <div class="col-sm-9">';
+        html += '                               <select id="input-multi-product-special-type-' + count + '" class="form-control selectpicker input-multi-product-special-type" title="{{ entry_products_type }}">';
+        html += '                                   <option value="mostviewed">{{ text_most_viewed }}</option>';
+        html += '                                   <option value="bestseller">{{ text_bestseller }}</option>';
+        html += '                                   <option value="special">{{ text_special }}</option>';
+        html += '                                   <option value="latest">{{ text_latest }}</option>';
+        html += '                                   <option value="random">{{ text_random }}</option>';
+        html += '                               </select>';
+        html += '                               <input type="hidden" name="tabs[' + count + '][product_special_type]" value="" />';
+        html += '                           </div>';
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '               </div>';
+        html += '           </div>';
+        html += '       </div>';
+        html += '       <div class="panel panel-default">';
+        html += '           <div class="panel-heading">';
+        html += '               <h3 class="panel-title"><i class="fa fa-image"></i> {{ text_image_settings }}</h3>';
+        html += '           </div>';
+        html += '           <div class="panel-body">';
+        html += '               <div class="form-horizontal">';
+        html += '                   <div class="form-group">';
+        html += '                       <label class="col-sm-3 control-label" for="input-multi-image-width-' + count + '">{{ entry_width }}</label>';
+        html += '                       <div class="col-sm-4">';
+        html += '                           <input type="text" name="tabs[' + count + '][image_width]" value="100" placeholder="{{ entry_width }}" id="input-multi-image-width-' + count + '" class="form-control" />';
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '                   <div class="form-group">';
+        html += '                       <label class="col-sm-3 control-label" for="input-multi-image-height-' + count + '">{{ entry_height }}</label>';
+        html += '                       <div class="col-sm-4">';
+        html += '                           <input type="text" name="tabs[' + count + '][image_height]" value="100" placeholder="{{ entry_height }}" id="input-multi-image-height-' + count + '" class="form-control" />';
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '                   <div class="form-group">';
+        html += '                       <label class="col-sm-3 control-label" for="input-multi-image-' + count + '">{{ entry_image }}</label>';
+        html += '                       <div class="col-sm-9">';
+        html += '                           <a href="javascript:void(0);" id="input-multi-module-image-' + count + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>';
+        html += '                           <input type="hidden" name="tabs[' + count + '][image]" value="" id="input-multi-image-' + count + '" />';
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '               </div>';
+        html += '           </div>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '</div>';
+
+        $('.multi-product-tabs-content').append(html);
+        $('.selectpicker').selectpicker();
+        toggleInputOfMultiTab(count);
     }
 </script>
 {{ footer }}
