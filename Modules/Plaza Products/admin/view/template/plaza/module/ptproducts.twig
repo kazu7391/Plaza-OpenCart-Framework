@@ -433,7 +433,7 @@
                                                             <div class="col-sm-9">
                                                                 <input type="text" onfocus="autoGetProducts($(this), {{ tab_count }}, 'specified_products')" class="form-control multi-specified-products-{{ tab_count }} input-multi-specified-products" value="" placeholder="{{ entry_products }}" id="input-multi-specified-products-{{ tab_count }}" />
                                                                 <div id="multi-specified-product-{{ tab_count }}" class="well well-sm multi-chosen-values" style="height: 100px; overflow: auto;">
-                                                                    {% for product in tab.specified_products %}
+                                                                    {% for product in tab.specified_products_list %}
                                                                         <div id="multi-specified-product-{{ tab_count }}-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
                                                                             <input type="hidden" name="tabs[{{ tab_count }}][specified_products][]" value="{{ product.product_id }}" />
                                                                         </div>
@@ -447,7 +447,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label" for="input-multi-category-{{ tab_count }}">{{ entry_category }}</label>
                                                             <div class="col-sm-9">
-                                                                <select id="input-multi-category-{{ tab_count }}" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">
+                                                                <select onchange="changeSelectValue($(this), {{ tab_count }}, 'category_product_special_type')" id="input-multi-category-{{ tab_count }}" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">
                                                                     {% for category in categories %}
                                                                         <option value="{{ category.category_id }}" {% if tab.category == category.category_id %}selected="selected"{% endif %}>{{ category.name }}</option>
                                                                     {% endfor %}
@@ -473,9 +473,9 @@
                                                                 </div>
 
                                                                 <div class="multi-category-product-specified-{{ tab_count }} multi-category-type-chosen-{{ tab_count }}">
-                                                                    <input type="text" class="form-control multi-category-product-{{ tab_count }} input-multi-category-products" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-{{ tab_count }}" />
+                                                                    <input type="text" onfocus="autoGetProducts($(this), {{ tab_count }}, 'category_products')" class="form-control multi-category-product-{{ tab_count }} input-multi-category-products" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-{{ tab_count }}" />
                                                                     <div id="multi-category-product-{{ tab_count }}" class="well well-sm multi-chosen-values" style="height: 100px; overflow: auto;">
-                                                                        {% for product in tab.category_products %}
+                                                                        {% for product in tab.category_products_list %}
                                                                             <div id="multi-category-product-{{ tab_count }}-{{ product.product_id }}"><i class="fa fa-minus-circle"></i> {{ product.name }}
                                                                                 <input type="hidden" name="tabs[{{ tab_count }}][category_products][]" value="{{ product.product_id }}" />
                                                                             </div>
@@ -484,7 +484,7 @@
                                                                 </div>
 
                                                                 <div class="multi-category-product-special-{{ tab_count }} multi-category-type-chosen-{{ tab_count }}">
-                                                                    <select id="input-multi-category-product-special-type-{{ tab_count }}" class="form-control selectpicker input-multi-category-product-special-type" title="{{ entry_products_type }}">
+                                                                    <select onchange="changeSelectValue($(this), {{ tab_count }}, 'category_product_special_type')" id="input-multi-category-product-special-type-{{ tab_count }}" class="form-control selectpicker input-multi-category-product-special-type" title="{{ entry_products_type }}">
                                                                         <option value="mostviewed" {% if tab.category_product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
                                                                         <option value="bestseller" {% if tab.category_product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
                                                                         <option value="special"    {% if tab.category_product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
@@ -501,7 +501,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label" for="input-multi-product-special-type-{{ tab_count }}">{{ entry_products_type }}</label>
                                                             <div class="col-sm-9">
-                                                                <select id="input-multi-product-special-type-{{ tab_count }}" class="form-control selectpicker input-multi-product-special-type" title="{{ entry_products_type }}">
+                                                                <select onchange="changeSelectValue($(this), {{ tab_count }}, 'product_special_type')" id="input-multi-product-special-type-{{ tab_count }}" class="form-control selectpicker input-multi-product-special-type" title="{{ entry_products_type }}">
                                                                     <option value="mostviewed" {% if tab.product_special_type == 'mostviewed' %}selected="selected"{% endif %}>{{ text_most_viewed }}</option>
                                                                     <option value="bestseller" {% if tab.product_special_type == 'bestseller' %}selected="selected"{% endif %}>{{ text_bestseller }}</option>
                                                                     <option value="special"    {% if tab.product_special_type == 'special' %}selected="selected"{% endif %}>{{ text_special }}</option>
@@ -722,34 +722,65 @@
     }
 
     function autoGetProducts(element, tab_count, post_name) {
-        var data_list_id = element.closest('div').find('.multi-chosen-values').attr('id');
-        element.autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
-                    dataType: 'json',
-                    success: function(json) {
-                        response($.map(json, function(item) {
-                            return {
-                                label: item['name'],
-                                value: item['product_id']
-                            }
-                        }));
-                    }
-                });
-            },
-            select: function(item) {
-                element.val('');
+        if(post_name == "category_products") {
+            var data_list_id = element.closest('div').find('.multi-chosen-values').attr('id');
+            element.autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: 'index.php?route=extension/module/ptproducts/autoGetProductsByCategory&user_token={{ user_token }}&category_id='+ $('input[name=\'tabs['+ tab_count +'][category]\']').val() +'&filter_name=' +  encodeURIComponent(request),
+                        dataType: 'json',
+                        success: function(json) {
+                            response($.map(json, function(item) {
+                                return {
+                                    label: item['name'],
+                                    value: item['product_id']
+                                }
+                            }));
+                        }
+                    });
+                },
+                select: function(item) {
+                    element.val('');
 
-                $('#' + data_list_id + '-' + item['value']).remove();
+                    $('#' + data_list_id + '-' + item['value']).remove();
 
-                $('#' + data_list_id).append('<div id="#' + data_list_id + '-' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="tabs[' + tab_count + ']['+ post_name +'][]" value="' + item['value'] + '" /></div>');
-            }
-        });
+                    $('#' + data_list_id).append('<div id="#' + data_list_id + '-' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="tabs[' + tab_count + ']['+ post_name +'][]" value="' + item['value'] + '" /></div>');
+                }
+            });
 
-        $('#' + data_list_id).delegate('.fa-minus-circle', 'click', function() {
-            $(this).parent().remove();
-        });
+            $('#' + data_list_id).delegate('.fa-minus-circle', 'click', function() {
+                $(this).parent().remove();
+            });
+        } else {
+            var data_list_id = element.closest('div').find('.multi-chosen-values').attr('id');
+            element.autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+                        dataType: 'json',
+                        success: function(json) {
+                            response($.map(json, function(item) {
+                                return {
+                                    label: item['name'],
+                                    value: item['product_id']
+                                }
+                            }));
+                        }
+                    });
+                },
+                select: function(item) {
+                    element.val('');
+
+                    $('#' + data_list_id + '-' + item['value']).remove();
+
+                    $('#' + data_list_id).append('<div id="#' + data_list_id + '-' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="tabs[' + tab_count + ']['+ post_name +'][]" value="' + item['value'] + '" /></div>');
+                }
+            });
+
+            $('#' + data_list_id).delegate('.fa-minus-circle', 'click', function() {
+                $(this).parent().remove();
+            });
+        }
     }
 
     function showTab(element) {
@@ -765,6 +796,12 @@
 
     function removeTab(element) {
         $(element).closest('.product-tab-content').remove();
+    }
+
+    function changeSelectValue(element, tab_count, post_name) {
+        element.on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+            $('input[name=\'tabs['+ tab_count +']['+ post_name +']\']').val($(this).val());
+        });
     }
 </script>
 <script>
@@ -813,7 +850,7 @@
         html += '                       <div class="form-group">';
         html += '                           <label class="col-sm-3 control-label" for="input-multi-category-' + count + '">{{ entry_category }}</label>';
         html += '                           <div class="col-sm-9">';
-        html += '                               <select id="input-multi-category-' + count + '" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">';
+        html += '                               <select onchange="changeSelectValue($(this), '+ count +', \'category\')" id="input-multi-category-' + count + '" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">';
         {% for category in categories %}
         html += '                                   <option value="{{ category.category_id }}">{{ category.name }}</option>';
         {% endfor %}
@@ -834,11 +871,11 @@
         html += '                                   <span class="switch-selection"></span>';
         html += '                               </div>';
         html += '                               <div class="multi-category-product-specified-' + count + ' multi-category-type-chosen-' + count + '">';
-        html += '                                   <input type="text" class="form-control input-multi-category-products multi-category-product-' + count + '" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-' + count + '" />';
-        html += '                                   <div id="multi-category-product-' + count + '" class="well well-sm" style="height: 100px; overflow: auto;"></div>';
+        html += '                                   <input type="text" onfocus="autoGetProducts($(this), '+ count +', \'category_products\')" class="form-control input-multi-category-products multi-category-product-' + count + '" value="" placeholder="{{ entry_products }}" id="input-multi-category-products-' + count + '" />';
+        html += '                                   <div id="multi-category-product-' + count + '" class="well well-sm multi-chosen-values" style="height: 100px; overflow: auto;"></div>';
         html += '                               </div>';
         html += '                               <div class="multi-category-product-special-' + count + ' multi-category-type-chosen-' + count + '">';
-        html += '                                   <select id="input-multi-category-product-special-type-' + count + '" class="form-control selectpicker input-multi-category-product-special-type" title="{{ entry_products_type }}">';
+        html += '                                   <select onchange="changeSelectValue($(this), '+ count +', \'category_product_special_type\')" id="input-multi-category-product-special-type-' + count + '" class="form-control selectpicker input-multi-category-product-special-type" title="{{ entry_products_type }}">';
         html += '                                       <option value="mostviewed">{{ text_most_viewed }}</option>';
         html += '                                       <option value="bestseller">{{ text_bestseller }}</option>';
         html += '                                       <option value="special">{{ text_special }}</option>';
@@ -855,7 +892,7 @@
         html += '                       <div class="form-group">';
         html += '                           <label class="col-sm-3 control-label" for="input-multi-product-special-type-' + count + '">{{ entry_products_type }}</label>';
         html += '                           <div class="col-sm-9">';
-        html += '                               <select id="input-multi-product-special-type-' + count + '" class="form-control selectpicker input-multi-product-special-type" title="{{ entry_products_type }}">';
+        html += '                               <select onchange="changeSelectValue($(this), '+ count +', \'product_special_type\')" id="input-multi-product-special-type-' + count + '" class="form-control selectpicker input-multi-product-special-type" title="{{ entry_products_type }}">';
         html += '                                   <option value="mostviewed">{{ text_most_viewed }}</option>';
         html += '                                   <option value="bestseller">{{ text_bestseller }}</option>';
         html += '                                   <option value="special">{{ text_special }}</option>';

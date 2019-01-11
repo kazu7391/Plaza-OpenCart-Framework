@@ -362,11 +362,56 @@ class ControllerExtensionModulePtproducts extends Controller {
         $data['single_image_placeholder'] = $this->model_tool_image->resize('no_image.png', $data['single_image_width'], $data['single_image_height']);
 
         if (isset($this->request->post['tabs'])) {
-            $data['tabs'] = $this->request->post['tabs'];
+            $tabs = $this->request->post['tabs'];
         } elseif (!empty($module_info)) {
-            $data['tabs'] = $module_info['tabs'];
+            $tabs = $module_info['tabs'];
         } else {
-            $data['tabs'] = array();
+            $tabs = array();
+        }
+
+        $data['tabs'] = array();
+
+        foreach($tabs as $tab) {
+            // Specified Products
+            $spedified_products = array();
+            if(isset($tab['specified_products'])) {
+                foreach ($tab['specified_products'] as $pid) {
+                    $product_info = $this->model_catalog_product->getProduct($pid);
+
+                    if ($product_info) {
+                        $spedified_products[] = array(
+                            'product_id' => $product_info['product_id'],
+                            'name'       => $product_info['name']
+                        );
+                    }
+                }
+            }
+            $tab['specified_products_list'] = $spedified_products;
+
+            // Category Products
+            $category_products = array();
+            if(isset($tab['category_products'])) {
+                foreach ($tab['category_products'] as $pid) {
+                    $product_info = $this->model_catalog_product->getProduct($pid);
+
+                    if ($product_info) {
+                        $category_products[] = array(
+                            'product_id' => $product_info['product_id'],
+                            'name'       => $product_info['name']
+                        );
+                    }
+                }
+            }
+            $tab['category_products_list'] = $category_products;
+
+            // Image
+            if(isset($tab['image'])) {
+                $tab['image_thumb'] = $this->model_tool_image->resize($tab['image'], $tab['image_width'], $tab['image_height']);
+            } else {
+                $tab['image_thumb'] = $this->model_tool_image->resize('no_image.png', $tab['image_width'], $tab['image_height']);
+            }
+
+            $data['tabs'][] = $tab;
         }
 
         $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
