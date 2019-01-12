@@ -6,7 +6,8 @@ $_['page_title']             = 'Plaza Products';
 // Entry
 $_['entry_name']       		 = 'Module Name';
 $_['entry_status']           = 'Status';
-$_['entry_title']            = 'Module Title';
+$_['entry_module_title']     = 'Module Title';
+$_['entry_tab_title']        = 'Tab Title';
 $_['entry_show_module_des']  = 'Show Module Description';
 $_['entry_module_des']       = 'Module Description';
 $_['entry_module_type']      = 'Module Type';

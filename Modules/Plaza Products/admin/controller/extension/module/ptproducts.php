@@ -120,7 +120,7 @@ class ControllerExtensionModulePtproducts extends Controller {
         } elseif (!empty($module_info)) {
             $data['show_module_description'] = $module_info['show_module_description'];
         } else {
-            $data['show_module_description'] = '';
+            $data['show_module_description'] = 0;
         }
 
         if (isset($this->request->post['module_description'])) {

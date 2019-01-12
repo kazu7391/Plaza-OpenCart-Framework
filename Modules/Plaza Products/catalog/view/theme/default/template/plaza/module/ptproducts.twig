@@ -1,0 +1,39 @@
+<div class="products-container">
+    <div class="block-title">
+        <strong>{{ title ? title : module_product_title }}</strong>
+        {% if module_des %}
+            <p>{{ module_des }}</p>
+        {% endif %}
+    </div>
+    <div class="pt-content">
+        {# Single Tab #}
+        {% if module_type == 'single_tab' %}
+            {% if layout_type == 'slider' %}
+                {% for product in single_products %}
+                    {{ product.name }}
+                {% endfor %}
+            {% endif %}
+            {% if layout_type == 'gallery' %}
+            {% endif %}
+            {% if layout_type == 'large_item' %}
+            {% endif %}
+            {% if layout_type == 'image' %}
+            {% endif %}
+        {% endif %}
+
+        {# Multi Tabs #}
+        {% if module_type == 'multi_tabs' %}
+            {% if layout_type == 'slider' %}
+            {% endif %}
+            {% if layout_type == 'gallery' %}
+            {% endif %}
+            {% if layout_type == 'large_item' %}
+            {% endif %}
+            {% if layout_type == 'image' %}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+<script>
+
+</script>

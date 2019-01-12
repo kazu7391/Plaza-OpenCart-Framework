@@ -50,12 +50,12 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-title">{{ entry_title }}</label>
+                                        <label class="col-sm-3 control-label" for="input-title">{{ entry_module_title }}</label>
                                         <div class="col-sm-9">
                                             {% for language in languages %}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
-                                                    <input type="text" name="module_title[{{ language.language_id }}]" value="{{ module_title[language.language_id] ? module_title[language.language_id] }}" placeholder="" id="input-title{{ language.language_id }}" class="form-control" />
+                                                    <input type="text" name="module_title[{{ language.code }}]" value="{{ module_title[language.code] ? module_title[language.code] }}" placeholder="" id="input-title{{ language.language_id }}" class="form-control" />
                                                 </div>
                                             {% endfor %}
                                         </div>
@@ -92,7 +92,7 @@
                                             <div class="tab-content">
                                                 {% for language in languages %}
                                                 <div class="tab-pane" id="module-des-language{{ language.language_id }}">
-                                                    <textarea name="module_description[{{ language.language_id }}]" placeholder="{{ entry_module_des }}" id="input-module-des{{ language.language_id }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ module_description[language.language_id] ? module_description[language.language_id] }}</textarea>
+                                                    <textarea name="module_description[{{ language.code }}]" placeholder="{{ entry_module_des }}" id="input-module-des{{ language.language_id }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ module_description[language.code] ? module_description[language.code] }}</textarea>
                                                 </div>
                                                 {% endfor %}
                                             </div>
@@ -404,6 +404,21 @@
                                     </div>
                                     <div class="tab-settings-content">
                                         <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-title-{{ tab_count }}">{{ entry_tab_title }}</label>
+                                                        <div class="col-sm-9">
+                                                            {% for language in languages %}
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                                                                    <input type="text" name="tabs[{{ tab_count }}][title][{{ language.code }}]" value="{{ tab.title[language.code] ? tab.title[language.code] }}" placeholder="" id="input-title{{ language.language_id }}-{{ tab_count }}" class="form-control" />
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="panel-heading">
                                                 <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>
                                             </div>
@@ -818,6 +833,21 @@
         html += '   </div>';
         html += '   <div class="tab-settings-content">';
         html += '       <div class="panel panel-default">';
+        html += '           <div class="panel-body">';
+        html += '               <div class="form-horizontal">';
+        html += '                   <div class="form-group">';
+        html += '                       <label class="col-sm-3 control-label" for="input-title-{{ tab_count }}">{{ entry_tab_title }}</label>';
+        html += '                       <div class="col-sm-9">';
+        {% for language in languages %}
+        html += '                           <div class="input-group">';
+        html += '                               <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>';
+        html += '                               <input type="text" name="tabs[' + count + '][title][{{ language.code }}]" value="" placeholder="" id="input-title{{ language.language_id }}-' + count + '" class="form-control" />';
+        html += '                           </div>';
+        {% endfor %}
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '               </div>';
+        html += '           </div>';
         html += '           <div class="panel-heading">';
         html += '               <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_product_settings }}</h3>';
         html += '           </div>';
