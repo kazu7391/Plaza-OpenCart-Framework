@@ -654,6 +654,11 @@
         $('input[name=\'single_category_product_special_type\']').val($(this).val());
     });
 
+    // Single Product Special Type
+    $('#input-single-product-special-type').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        $('input[name=\'single_product_special_type\']').val($(this).val());
+    });
+
     $(document).ready(function() {
         $('.toggle.btn').on('click', function () {
             var ckb_status = parseInt($(this).find('.ckb-switch').val());

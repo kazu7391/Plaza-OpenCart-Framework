@@ -10,7 +10,7 @@ class ModelPlazaCatalog extends Model
             $this->load->model('catalog/product');
 
             foreach ($query->rows as $result) {
-                $product_data[$result['product_id']] = $this->model_catalog_product->getProduct($result['product_id']);
+                $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
             }
 
             $this->cache->set('product.mostviewed.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit, $product_data);
@@ -20,26 +20,98 @@ class ModelPlazaCatalog extends Model
     }
 
     public function getRandom($limit) {
-        $product_data = $this->cache->get('product.random.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit);
+        $product_data = array();
 
-        if (!$product_data) {
-            $sql = "SELECT *, p.product_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+        $sql = "SELECT *, p.product_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 
-            $sql .= " GROUP BY p.product_id";
+        $sql .= " GROUP BY p.product_id";
 
-            $sql .= " ORDER BY Rand()";
+        $sql .= " ORDER BY Rand()";
 
-            $sql .= " LIMIT " . (int) $limit;
+        $sql .= " LIMIT " . (int) $limit;
 
-            $query = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-            $this->load->model('catalog/product');
+        $this->load->model('catalog/product');
 
-            foreach ($query->rows as $result) {
-                $product_data[$result['product_id']] = $this->model_catalog_product->getProduct($result['product_id']);
-            }
+        foreach ($query->rows as $result) {
+            $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+        }
 
-            $this->cache->set('product.random.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit, $product_data);
+        return $product_data;
+    }
+
+    public function getMostViewedByCategory($limit, $category_id) {
+        $product_data = array();
+
+        $query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category pc ON (p.product_id = pc.product_id) WHERE p.status = '1' AND pc.category_id = '". (int) $category_id ."' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.viewed DESC LIMIT " . (int)$limit);
+
+        $this->load->model('catalog/product');
+
+        foreach ($query->rows as $result) {
+            $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+        }
+
+        return $product_data;
+    }
+
+    public function getRandomByCategory($limit, $category_id) {
+        $product_data = array();
+
+        $sql = "SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category pc ON (p.product_id = pc.product_id) WHERE p.status = '1' AND pc.category_id = '". (int) $category_id ."' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+
+        $sql .= " GROUP BY p.product_id";
+
+        $sql .= " ORDER BY Rand()";
+
+        $sql .= " LIMIT " . (int) $limit;
+
+        $query = $this->db->query($sql);
+
+        $this->load->model('catalog/product');
+
+        foreach ($query->rows as $result) {
+            $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+        }
+
+        return $product_data;
+    }
+
+    public function getLatestProductsByCategory($limit, $category_id) {
+        $product_data = array();
+
+        $query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category pc ON (p.product_id = pc.product_id) WHERE p.status = '1' AND pc.category_id = '". (int) $category_id ."' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.date_added DESC LIMIT " . (int)$limit);
+
+        foreach ($query->rows as $result) {
+            $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+        }
+
+        return $product_data;
+    }
+
+    public function getBestSellerProductsByCategory($limit, $category_id) {
+        $product_data = array();
+
+        $query = $this->db->query("SELECT op.product_id, SUM(op.quantity) AS total FROM " . DB_PREFIX . "order_product op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id) LEFT JOIN `" . DB_PREFIX . "product` p ON (op.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category pc ON (p.product_id = pc.product_id) WHERE o.order_status_id > '0' AND p.status = '1' AND p.date_available <= NOW() AND pc.category_id = '". (int) $category_id ."' AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' GROUP BY op.product_id ORDER BY total DESC LIMIT " . (int)$limit);
+
+        foreach ($query->rows as $result) {
+            $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
+        }
+
+        return $product_data;
+    }
+
+    public function getProductSpecialsByCategory($limit, $category_id) {
+        $sql = "SELECT DISTINCT ps.product_id, (SELECT AVG(rating) FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = ps.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_to_category pc ON (p.product_id = pc.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND pc.category_id = '". (int) $category_id ."' AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) GROUP BY ps.product_id";
+
+        $sql .= " LIMIT " . (int) $limit;
+
+        $product_data = array();
+
+        $query = $this->db->query($sql);
+
+        foreach ($query->rows as $result) {
+            $product_data[$result['product_id']] = $this->getProduct($result['product_id']);
         }
 
         return $product_data;

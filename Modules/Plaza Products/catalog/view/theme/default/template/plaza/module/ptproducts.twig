@@ -9,9 +9,25 @@
         {# Single Tab #}
         {% if module_type == 'single_tab' %}
             {% if layout_type == 'slider' %}
-                {% for product in single_products %}
-                    {{ product.name }}
-                {% endfor %}
+            <div class="swiper-viewport">
+                <div class="swiper-container single-slides-{{ module_id }}">
+                    <div class="swiper-wrapper">
+                        {% for product in single_products %}
+                            {{ product.html }}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if slide.pagination %}
+                    <div class="swiper-pagination single-slides-pagination-{{ module_id }}"></div>
+                {% endif %}
+
+                {% if slide.navigation %}
+                    <div class="swiper-pager">
+                        <div class="swiper-button-next-{{ module_id }}"></div>
+                        <div class="swiper-button-prev-{{ module_id }}"></div>
+                    </div>
+                {% endif %}
+            </div>
             {% endif %}
             {% if layout_type == 'gallery' %}
             {% endif %}
@@ -19,6 +35,25 @@
             {% endif %}
             {% if layout_type == 'image' %}
             {% endif %}
+
+            <script>
+                $(".single-slides-{{ module_id }}").swiper({
+                    spaceBetween: 20,
+                    {% if slide.pagination %}
+                    pagination: '.single-slides-pagination-{{ module_id }}',
+                    paginationClickable: true,
+                    {% endif %}
+                    {% if slide.navigation %}
+                    nextButton: '.swiper-button-next-{{ module_id }}',
+                    prevButton: '.swiper-button-prev-{{ module_id }}',
+                    {% endif %}
+                    speed: {% if slide.speed %} {{ slide.speed }} {% else %} 300 {% endif %},
+                    slidesPerView: {{ slide.desktop }},
+                    slidesPerColumn: {{ slide.row }},
+                    autoplay: {% if slide.auto %} 3000 {% else %} false {% endif %},
+                    loop: false
+                });
+            </script>
         {% endif %}
 
         {# Multi Tabs #}

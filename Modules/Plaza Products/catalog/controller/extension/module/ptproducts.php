@@ -12,6 +12,7 @@ class ControllerExtensionModulePtproducts extends Controller
         $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css');
         $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/opencart.css');
         $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js');
+        $this->document->addScript('catalog/view/javascript/plaza/countdown/countdown.js');
         if (file_exists('catalog/view/theme/' . $this->config->get('theme_' . $this->config->get('config_theme') . '_directory') . '/stylesheet/plaza/module.css')) {
             $this->document->addStyle('catalog/view/theme/' . $this->config->get('theme_' . $this->config->get('config_theme') . '_directory') . '/stylesheet/plaza/module.css');
         } else {
@@ -19,6 +20,8 @@ class ControllerExtensionModulePtproducts extends Controller
         }
 
         $data = array();
+
+        $data['module_id'] = $setting['module_id'];
 
         /* Catalog Settings */
         $store_id = $this->config->get('config_store_id');
@@ -160,7 +163,10 @@ class ControllerExtensionModulePtproducts extends Controller
             'width' => $slider_width,
             'height' => $slider_height,
             'auto'  => $auto,
-            'item' => $item,
+            'desktop' => $item['desktop'],
+            'laptop' => $item['laptop'],
+            'tablet' => $item['tablet'],
+            'mobile' => $item['mobile'],
             'speed' => $speed,
             'row'  => $row,
             'navigation' => $navigation,
@@ -246,20 +252,99 @@ class ControllerExtensionModulePtproducts extends Controller
             }
 
             if($single_category_product_collection == 'special') {
-                
+                if(isset($setting['single_category_product_special_type']) && $setting['single_category_product_special_type'] != '') {
+                    $single_category_product_special_type = $setting['single_category_product_special_type'];
+                } else {
+                    $single_category_product_special_type = false;
+                }
+
+                if($single_category_product_special_type) {
+                    $results = array();
+
+                    if($single_category_product_special_type == 'mostviewed') {
+                        $results = $this->model_plaza_catalog->getMostViewedByCategory($limit, $single_category_id);
+                    }
+
+                    if($single_category_product_special_type == 'bestseller') {
+                        $results = $this->model_plaza_catalog->getBestSellerProductsByCategory($limit, $single_category_id);
+                    }
+
+                    if($single_category_product_special_type == 'special') {
+                        $results = $this->model_plaza_catalog->getProductSpecialsByCategory($limit, $single_category_id);
+                    }
+
+                    if($single_category_product_special_type == 'latest') {
+                        $results = $this->model_plaza_catalog->getLatestProductsByCategory($limit, $single_category_id);
+                    }
+
+                    if($single_category_product_special_type == 'random') {
+                        $results = $this->model_plaza_catalog->getRandomByCategory($limit, $single_category_id);
+                    }
+
+                    if($results) {
+                        foreach ($results as $result) {
+                            $product = $this->getProductData($result['product_id'], $use_hover_image, $new_results, $slider_width, $slider_height);
+
+                            if($product) {
+                                $data['single_products'][] = $product;
+                            }
+                        }
+                    }
+                }
             }
         }
 
         if($single_collection_type == 'special') {
+            if(isset($setting['single_product_special_type']) && $setting['single_product_special_type'] != '') {
+                $single_product_special_type = $setting['single_product_special_type'];
+            } else {
+                $single_product_special_type = false;
+            }
 
+            if($single_product_special_type) {
+                $results = array();
+
+                if($single_product_special_type == 'mostviewed') {
+                    $results = $this->model_plaza_catalog->getMostViewed($limit);
+                }
+
+                if($single_product_special_type == 'bestseller') {
+                    $results = $this->model_catalog_product->getBestSellerProducts($limit);
+                }
+
+                if($single_product_special_type == 'special') {
+                    $results = $this->model_catalog_product->getProductSpecials(array('start' => 0, 'limit' => $limit));
+                }
+
+                if($single_product_special_type == 'latest') {
+                    $results = $this->model_catalog_product->getLatestProducts($limit);
+                }
+
+                if($single_product_special_type == 'random') {
+                    $results = $this->model_plaza_catalog->getRandom($limit);
+                }
+
+                if($results) {
+                    foreach ($results as $result) {
+                        $product = $this->getProductData($result['product_id'], $use_hover_image, $new_results, $slider_width, $slider_height);
+
+                        if($product) {
+                            $data['single_products'][] = $product;
+                        }
+                    }
+                }
+            }
         }
 
         // Multi Tabs
+
         
         return $this->load->view('plaza/module/ptproducts', $data);
     }
 
     public function getProductData($product_id, $use_hover, $new_products, $width, $height) {
+        $store_id = $this->config->get('config_store_id');
+        
         $result = $this->model_plaza_catalog->getProduct($product_id);
 
         if($result) {
@@ -293,6 +378,18 @@ class ControllerExtensionModulePtproducts extends Controller
                 $description = false;
             }
 
+            if (isset($result['date_start']) && $result['date_start']) {
+                $date_start = $result['date_start'];
+            } else {
+                $date_start = false;
+            }
+
+            if(isset($result['date_end']) &&  $result['date_end']) {
+                $date_end = $result['date_end'];
+            } else {
+                $date_end = false;
+            }
+
             $is_new = false;
             if ($new_products) {
                 foreach($new_products as $new_r) {
@@ -314,7 +411,50 @@ class ControllerExtensionModulePtproducts extends Controller
                 $rotate_image = false;
             }
 
-            return array(
+            /* Catalog Settings */
+            if(isset($this->config->get('module_ptcontrolpanel_module_price')[$store_id])) {
+                $show_module_price = (int) $this->config->get('module_ptcontrolpanel_module_price')[$store_id];
+            } else {
+                $show_module_price = 0;
+            }
+
+            if(isset($this->config->get('module_ptcontrolpanel_module_cart')[$store_id])) {
+                $show_module_cart = (int) $this->config->get('module_ptcontrolpanel_module_cart')[$store_id];
+            } else {
+                $show_module_cart = 0;
+            }
+
+            if(isset($this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id])) {
+                $show_module_wishlist = (int) $this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id];
+            } else {
+                $show_module_wishlist = 0;
+            }
+
+            if(isset($this->config->get('module_ptcontrolpanel_module_compare')[$store_id])) {
+                $show_module_compare = (int) $this->config->get('module_ptcontrolpanel_module_compare')[$store_id];
+            } else {
+                $show_module_compare = 0;
+            }
+
+            if(isset($this->config->get('module_ptcontrolpanel_module_hover')[$store_id])) {
+                $show_module_hover = (int) $this->config->get('module_ptcontrolpanel_module_hover')[$store_id];
+            } else {
+                $show_module_hover = 0;
+            }
+
+            if(isset($this->config->get('module_ptcontrolpanel_module_quickview')[$store_id])) {
+                $show_module_quickview = (int) $this->config->get('module_ptcontrolpanel_module_quickview')[$store_id];
+            } else {
+                $show_module_quickview = 0;
+            }
+
+            if(isset($this->config->get('module_ptcontrolpanel_module_label')[$store_id])) {
+                $show_module_label = (int) $this->config->get('module_ptcontrolpanel_module_label')[$store_id];
+            } else {
+                $show_module_label = 0;
+            }
+
+            $data = array(
                 'product_id'    => $result['product_id'],
                 'thumb'   	    => $image,
                 'rotate_image'  => $rotate_image,
@@ -322,10 +462,27 @@ class ControllerExtensionModulePtproducts extends Controller
                 'price'   	    => $price,
                 'special' 	    => $special,
                 'is_new'        => $is_new,
+                'date_start'  	=> $date_start,
+                'date_end'    	=> $date_end,
                 'rating'        => $rating,
                 'description'   => $description,
+                'show_module_price' => $show_module_price,
+                'show_module_cart'  => $show_module_cart,
+                'show_module_wishlist'  => $show_module_wishlist,
+                'show_module_compare'  => $show_module_compare,
+                'show_module_hover'  => $show_module_hover,
+                'show_module_quickview'  => $show_module_quickview,
+                'show_module_label'  => $show_module_label,
                 'href'    	    => $this->url->link('product/product', 'product_id=' . $result['product_id']),
             );
+
+            $html_content = $this->load->view('plaza/module/ptproducts/content', $data);
+
+            $data['html'] = $html_content;
+
+
+
+            return $data;
         } else {
             return false;
         }
