@@ -462,7 +462,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label" for="input-multi-category-{{ tab_count }}">{{ entry_category }}</label>
                                                             <div class="col-sm-9">
-                                                                <select onchange="changeSelectValue($(this), {{ tab_count }}, 'category_product_special_type')" id="input-multi-category-{{ tab_count }}" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">
+                                                                <select onchange="changeSelectValue($(this), {{ tab_count }}, 'category')" id="input-multi-category-{{ tab_count }}" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">
                                                                     {% for category in categories %}
                                                                         <option value="{{ category.category_id }}" {% if tab.category == category.category_id %}selected="selected"{% endif %}>{{ category.name }}</option>
                                                                     {% endfor %}
@@ -897,7 +897,7 @@
         html += '                           <label class="col-sm-3 control-label" for="input-multi-category-product-' + count + '">{{ entry_products }}</label>';
         html += '                           <div class="col-sm-9">';
         html += '                               <div class="switch switch-multi3">';
-        html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input switch-category-product-type" id="multi-category-product-all-' + count + '" value="all" />';
+        html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input switch-category-product-type" id="multi-category-product-all-' + count + '" value="all" checked="checked" />';
         html += '                                   <label for="multi-category-product-all-' + count + '" class="switch-label switch-label-1">{{ text_all_products }}</label>';
         html += '                                   <input type="radio" name="tabs[' + count + '][category_product_type]" onchange="toggleInputOfMultiTab(' + count + ')" class="switch-input switch-category-product-type" id="multi-category-product-specified-' + count + '" value="specified" />';
         html += '                                   <label for="multi-category-product-specified-' + count + '" class="switch-label switch-label-2">{{ text_specified_product }}</label>';

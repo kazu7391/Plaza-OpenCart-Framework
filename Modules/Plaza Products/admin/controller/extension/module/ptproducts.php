@@ -14,10 +14,18 @@ class ControllerExtensionModulePtproducts extends Controller {
         $this->load->model('tool/image');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+            $post_data = $this->request->post;
+
             if (!isset($this->request->get['module_id'])) {
-                $this->model_setting_module->addModule('ptproducts', $this->request->post);
+                $this->model_setting_module->addModule('ptproducts', $post_data);
+
+                $module_id = $this->db->getLastId();
+                $post_data['module_id'] = $module_id;
+
+                $this->model_setting_module->editModule($module_id, $post_data);
             } else {
-                $this->model_setting_module->editModule($this->request->get['module_id'], $this->request->post);
+                $post_data['module_id'] = $this->request->get['module_id'];
+                $this->model_setting_module->editModule($this->request->get['module_id'], $post_data);
             }
 
             $this->session->data['success'] = $this->language->get('text_success');
@@ -136,7 +144,7 @@ class ControllerExtensionModulePtproducts extends Controller {
         } elseif (!empty($module_info)) {
             $data['module_type'] = $module_info['module_type'];
         } else {
-            $data['module_type'] = 'multi_tabs';
+            $data['module_type'] = 'single_tab';
         }
 
         if (isset($this->request->post['layout_type'])) {
@@ -363,7 +371,7 @@ class ControllerExtensionModulePtproducts extends Controller {
 
         if (isset($this->request->post['tabs'])) {
             $tabs = $this->request->post['tabs'];
-        } elseif (!empty($module_info)) {
+        } elseif (!empty($module_info) && !empty($module_info['tabs'])) {
             $tabs = $module_info['tabs'];
         } else {
             $tabs = array();
@@ -405,7 +413,7 @@ class ControllerExtensionModulePtproducts extends Controller {
             $tab['category_products_list'] = $category_products;
 
             // Image
-            if(isset($tab['image'])) {
+            if(isset($tab['image']) && is_file(DIR_IMAGE . $tab['image'])) {
                 $tab['image_thumb'] = $this->model_tool_image->resize($tab['image'], $tab['image_width'], $tab['image_height']);
             } else {
                 $tab['image_thumb'] = $this->model_tool_image->resize('no_image.png', $tab['image_width'], $tab['image_height']);

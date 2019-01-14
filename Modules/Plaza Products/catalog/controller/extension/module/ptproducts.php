@@ -337,13 +337,116 @@ class ControllerExtensionModulePtproducts extends Controller
         }
 
         // Multi Tabs
+        $product_tabs = array();
+        if(!empty($setting['tabs'])) {
+            $tabs = $setting['tabs'];
+//            echo "<pre>"; var_dump($tabs);die;
+            foreach ($tabs as $tab) {
+                if(!empty($tab['title'])) {
+                    if(!empty($tab['title'][$lang_code])) {
+                        $title = $tab['title'][$lang_code];
+                    } else {
+                        $title = false;
+                    }
+                } else {
+                    $title = false;
+                }
 
-        
+                $tab_products = array();
+
+                $tab_collection_type = $tab['product_collection'];
+
+                if($tab_collection_type == "specified") {
+                    if(!empty($tabs['specified_products'])) {
+                        $tab_specified_products = $tabs['specified_products'];
+                    } else {
+                        $tab_specified_products = false;
+                    }
+
+                    if($tab_specified_products) {
+                        $products = array_slice($tab_specified_products, 0, $limit);
+
+                        foreach ($products as $pid) {
+                            $product = $this->getProductData($pid, $use_hover_image, $new_results, $slider_width, $slider_height);
+
+                            if($product) {
+                                $tab_products[] = $product;
+                            }
+                        }
+                    }
+                }
+
+                if($tab_collection_type == "category") {
+                    $tab_category_id = $tab['category'];
+                    $tab_category_product_type = $tab['category_product_type'];
+
+                    if($tab_category_product_type == "all") {
+
+                    }
+                    if($tab_category_product_type == "specified") {
+
+                    }
+                    if($tab_category_product_type == "special") {
+
+                    }
+                }
+
+                if($tab_collection_type == "special") {
+
+                }
+            }
+        }
+
+        $data['tabs'] = $product_tabs;
+
         return $this->load->view('plaza/module/ptproducts', $data);
     }
 
     public function getProductData($product_id, $use_hover, $new_products, $width, $height) {
         $store_id = $this->config->get('config_store_id');
+
+        /* Catalog Settings */
+        if(isset($this->config->get('module_ptcontrolpanel_module_price')[$store_id])) {
+            $show_module_price = (int) $this->config->get('module_ptcontrolpanel_module_price')[$store_id];
+        } else {
+            $show_module_price = 0;
+        }
+
+        if(isset($this->config->get('module_ptcontrolpanel_module_cart')[$store_id])) {
+            $show_module_cart = (int) $this->config->get('module_ptcontrolpanel_module_cart')[$store_id];
+        } else {
+            $show_module_cart = 0;
+        }
+
+        if(isset($this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id])) {
+            $show_module_wishlist = (int) $this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id];
+        } else {
+            $show_module_wishlist = 0;
+        }
+
+        if(isset($this->config->get('module_ptcontrolpanel_module_compare')[$store_id])) {
+            $show_module_compare = (int) $this->config->get('module_ptcontrolpanel_module_compare')[$store_id];
+        } else {
+            $show_module_compare = 0;
+        }
+
+        if(isset($this->config->get('module_ptcontrolpanel_module_hover')[$store_id])) {
+            $show_module_hover = (int) $this->config->get('module_ptcontrolpanel_module_hover')[$store_id];
+        } else {
+            $show_module_hover = 0;
+        }
+
+        if(isset($this->config->get('module_ptcontrolpanel_module_quickview')[$store_id])) {
+            $show_module_quickview = (int) $this->config->get('module_ptcontrolpanel_module_quickview')[$store_id];
+        } else {
+            $show_module_quickview = 0;
+        }
+
+        if(isset($this->config->get('module_ptcontrolpanel_module_label')[$store_id])) {
+            $show_module_label = (int) $this->config->get('module_ptcontrolpanel_module_label')[$store_id];
+        } else {
+            $show_module_label = 0;
+        }
         
         $result = $this->model_plaza_catalog->getProduct($product_id);
 
@@ -411,49 +514,6 @@ class ControllerExtensionModulePtproducts extends Controller
                 $rotate_image = false;
             }
 
-            /* Catalog Settings */
-            if(isset($this->config->get('module_ptcontrolpanel_module_price')[$store_id])) {
-                $show_module_price = (int) $this->config->get('module_ptcontrolpanel_module_price')[$store_id];
-            } else {
-                $show_module_price = 0;
-            }
-
-            if(isset($this->config->get('module_ptcontrolpanel_module_cart')[$store_id])) {
-                $show_module_cart = (int) $this->config->get('module_ptcontrolpanel_module_cart')[$store_id];
-            } else {
-                $show_module_cart = 0;
-            }
-
-            if(isset($this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id])) {
-                $show_module_wishlist = (int) $this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id];
-            } else {
-                $show_module_wishlist = 0;
-            }
-
-            if(isset($this->config->get('module_ptcontrolpanel_module_compare')[$store_id])) {
-                $show_module_compare = (int) $this->config->get('module_ptcontrolpanel_module_compare')[$store_id];
-            } else {
-                $show_module_compare = 0;
-            }
-
-            if(isset($this->config->get('module_ptcontrolpanel_module_hover')[$store_id])) {
-                $show_module_hover = (int) $this->config->get('module_ptcontrolpanel_module_hover')[$store_id];
-            } else {
-                $show_module_hover = 0;
-            }
-
-            if(isset($this->config->get('module_ptcontrolpanel_module_quickview')[$store_id])) {
-                $show_module_quickview = (int) $this->config->get('module_ptcontrolpanel_module_quickview')[$store_id];
-            } else {
-                $show_module_quickview = 0;
-            }
-
-            if(isset($this->config->get('module_ptcontrolpanel_module_label')[$store_id])) {
-                $show_module_label = (int) $this->config->get('module_ptcontrolpanel_module_label')[$store_id];
-            } else {
-                $show_module_label = 0;
-            }
-
             $data = array(
                 'product_id'    => $result['product_id'],
                 'thumb'   	    => $image,
@@ -473,14 +533,12 @@ class ControllerExtensionModulePtproducts extends Controller
                 'show_module_hover'  => $show_module_hover,
                 'show_module_quickview'  => $show_module_quickview,
                 'show_module_label'  => $show_module_label,
-                'href'    	    => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+                'href'    	    => $this->url->link('product/product', 'product_id=' . $result['product_id'], true),
             );
 
             $html_content = $this->load->view('plaza/module/ptproducts/content', $data);
 
             $data['html'] = $html_content;
-
-
 
             return $data;
         } else {

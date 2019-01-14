@@ -23,8 +23,8 @@
 
                 {% if slide.navigation %}
                     <div class="swiper-pager">
-                        <div class="swiper-button-next-{{ module_id }}"></div>
-                        <div class="swiper-button-prev-{{ module_id }}"></div>
+                        <div class="swiper-button-next swiper-button-next-{{ module_id }}"></div>
+                        <div class="swiper-button-prev swiper-button-prev-{{ module_id }}"></div>
                     </div>
                 {% endif %}
             </div>
@@ -47,10 +47,28 @@
                     nextButton: '.swiper-button-next-{{ module_id }}',
                     prevButton: '.swiper-button-prev-{{ module_id }}',
                     {% endif %}
-                    speed: {% if slide.speed %} {{ slide.speed }} {% else %} 300 {% endif %},
+                    speed: {% if slide.speed %} {{ slide.speed }} {% else %} 500 {% endif %},
                     slidesPerView: {{ slide.desktop }},
+                    breakpoints: {
+                        1199: {
+                            slidesPerView: {{ slide.desktop }},
+                            spaceBetween: 20,
+                        },
+                        991: {
+                            slidesPerView: {{ slide.laptop }},
+                            spaceBetween: 10,
+                        },
+                        767: {
+                            slidesPerView: {{ slide.tablet }},
+                            spaceBetween: 10,
+                        },
+                        479: {
+                            slidesPerView: {{ slide.mobile }},
+                            spaceBetween: 5,
+                        }
+                    },
                     slidesPerColumn: {{ slide.row }},
-                    autoplay: {% if slide.auto %} 3000 {% else %} false {% endif %},
+                    autoplay: {% if slide.auto %} 500 {% else %} false {% endif %},
                     loop: false
                 });
             </script>
