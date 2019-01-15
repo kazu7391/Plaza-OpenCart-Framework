@@ -27,6 +27,9 @@ $_['entry_speed']            = 'Speed';
 $_['entry_navigation']       = 'Navigation';
 $_['entry_pagination']       = 'Pagination';
 $_['entry_image']            = 'Image';
+$_['entry_custom_class']     = 'Custom Class';
+$_['entry_countdown']        = 'Countdown';
+$_['entry_description']      = 'Description';
 
 // Text
 $_['text_module']      		 = 'Modules';

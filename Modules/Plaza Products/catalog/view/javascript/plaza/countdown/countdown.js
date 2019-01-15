@@ -9,27 +9,36 @@ $(document).ready(function () {
 function countdown(date, element) {
     var countDownDate = new Date(date).getTime();
 
-    var x = setInterval(function() {
+    // Get fixed todays date and time
+    var now = new Date().getTime();
 
-        // Get todays date and time
-        var now = new Date().getTime();
+    // Find the fixed distance between now an the count down date
+    var distance = countDownDate - now;
 
-        // Find the distance between now an the count down date
-        var distance = countDownDate - now;
+    if(distance && distance > 0) {
+        var x = setInterval(function() {
+            // Get todays date and time
+            var nowRealTime = new Date().getTime();
 
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Find the distance between now an the count down date
+            var distanceRealTime = countDownDate - nowRealTime;
 
-        $(element + ' .day').html(days);
-        $(element + ' .hour').html(hours);
-        $(element + ' .min').html(minutes);
-        $(element + ' .sec').html(seconds);
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distanceRealTime / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distanceRealTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distanceRealTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distanceRealTime % (1000 * 60)) / 1000);
 
-        if (distance < 0) {
-            $(element).html();
-        }
-    }, 1000);
+            $(element + ' .day').html(days);
+            $(element + ' .hour').html(hours);
+            $(element + ' .min').html(minutes);
+            $(element + ' .sec').html(seconds);
+
+            if (distance < 0) {
+                $(element).html();
+            }
+        }, 1000);
+    } else {
+        $(element).html('');
+    }
 }

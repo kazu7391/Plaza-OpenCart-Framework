@@ -155,6 +155,14 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['layout_type'] = 'slider';
         }
 
+        if (isset($this->request->post['layout_classname'])) {
+            $data['layout_classname'] = $this->request->post['layout_classname'];
+        } elseif (!empty($module_info)) {
+            $data['layout_classname'] = $module_info['layout_classname'];
+        } else {
+            $data['layout_classname'] = '';
+        }
+
         if (isset($this->request->post['slider_width'])) {
             $data['slider_width'] = $this->request->post['slider_width'];
         } elseif (!empty($module_info)) {
@@ -204,7 +212,7 @@ class ControllerExtensionModulePtproducts extends Controller {
         } elseif (!empty($module_info)) {
             $data['row'] = $module_info['row'];
         } else {
-            $data['row'] = 1;
+            $data['row'] = array();
         }
 
         if (isset($this->request->post['limit'])) {
@@ -343,6 +351,22 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['single_product_special_type'] = '';
         }
 
+        if (isset($this->request->post['single_product_countdown'])) {
+            $data['single_product_countdown'] = $this->request->post['single_product_countdown'];
+        } elseif (!empty($module_info)) {
+            $data['single_product_countdown'] = $module_info['single_product_countdown'];
+        } else {
+            $data['single_product_countdown'] = 0;
+        }
+
+        if (isset($this->request->post['single_product_description'])) {
+            $data['single_product_description'] = $this->request->post['single_product_description'];
+        } elseif (!empty($module_info)) {
+            $data['single_product_description'] = $module_info['single_product_description'];
+        } else {
+            $data['single_product_description'] = 0;
+        }
+
         if (isset($this->request->post['single_image_width'])) {
             $data['single_image_width'] = $this->request->post['single_image_width'];
         } elseif (!empty($module_info)) {
@@ -361,8 +385,10 @@ class ControllerExtensionModulePtproducts extends Controller {
 
         if (isset($this->request->post['single_image']) && is_file(DIR_IMAGE . $this->request->post['single_image'])) {
             $data['single_image_thumb'] = $this->model_tool_image->resize($this->request->post['single_image'], $data['single_image_width'], $data['single_image_height']);
+            $data['single_image'] = $this->request->post['single_image'];
         } elseif (!empty($module_info) && is_file(DIR_IMAGE . $module_info['single_image'])) {
             $data['single_image_thumb'] = $this->model_tool_image->resize($module_info['single_image'], $data['single_image_width'], $data['single_image_height']);
+            $data['single_image'] = $module_info['single_image'];
         } else {
             $data['single_image_thumb'] = $this->model_tool_image->resize('no_image.png', $data['single_image_width'], $data['single_image_height']);
         }

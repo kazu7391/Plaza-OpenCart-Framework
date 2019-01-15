@@ -21,7 +21,7 @@
     </div>
     <div class="caption">
         <h4><a href="{{ href }}">{{ name }}</a></h4>
-        {% if show_description and product.description %}
+        {% if show_description and description %}
             <p>{{ description }}</p>
         {% endif %}
 
@@ -48,6 +48,15 @@
                     <span class="price-tax">{{ text_tax }} {{ tax }}</span>
                 {% endif %}
             </p>
+        {% endif %}
+
+        {% if show_countdown and date_end %}
+            <div class="countdown-box countdown-product-{{ product_id }}" data-id="{{ product_id }}" data-date="{{ date_end }}">
+                <span class="day"></span> {{ text_day }}
+                <span class="hour"></span> {{ text_hour }}
+                <span class="min"></span> {{ text_min }}
+                <span class="sec"></span> {{ text_sec }}
+            </div>
         {% endif %}
     </div>
     <div class="button-group">

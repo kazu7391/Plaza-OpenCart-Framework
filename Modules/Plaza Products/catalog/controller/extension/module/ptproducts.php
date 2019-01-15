@@ -113,6 +113,12 @@ class ControllerExtensionModulePtproducts extends Controller
             $data['layout_type'] = '';
         }
 
+        if(isset($setting['layout_classname'])) {
+            $data['layout_classname'] = $setting['layout_classname'];
+        } else {
+            $data['layout_classname'] = '';
+        }
+
         // Slider Settings
         $slider_width = $setting['slider_width'];
 
@@ -125,7 +131,36 @@ class ControllerExtensionModulePtproducts extends Controller
         }
 
         if (isset($setting['item'])) {
-            $item = $setting['item'];
+            if($setting['item']['desktop']) {
+                $desktop_item = (int) $setting['item']['desktop'];
+            } else {
+                $desktop_item = 4;
+            }
+
+            if($setting['item']['laptop']) {
+                $laptop_item = (int) $setting['item']['laptop'];
+            } else {
+                $laptop_item = 4;
+            }
+
+            if($setting['item']['tablet']) {
+                $tablet_item = (int) $setting['item']['tablet'];
+            } else {
+                $tablet_item = 3;
+            }
+
+            if($setting['item']['mobile']) {
+                $mobile_item = (int) $setting['item']['mobile'];
+            } else {
+                $mobile_item = 2;
+            }
+
+            $item = array(
+                'desktop' => $desktop_item,
+                'laptop'  => $laptop_item,
+                'tablet'  => $tablet_item,
+                'mobile'  => $mobile_item
+            );
         } else {
             $item = array(
                 'desktop' => 4,
@@ -136,9 +171,43 @@ class ControllerExtensionModulePtproducts extends Controller
         }
 
         if (isset($setting['row'])) {
-            $row = (int) $setting['row'];
+            if($setting['row']['desktop']) {
+                $desktop_row = (int) $setting['row']['desktop'];
+            } else {
+                $desktop_row = 1;
+            }
+
+            if($setting['row']['laptop']) {
+                $laptop_row = (int) $setting['row']['laptop'];
+            } else {
+                $laptop_row = 1;
+            }
+
+            if($setting['row']['tablet']) {
+                $tablet_row = (int) $setting['row']['tablet'];
+            } else {
+                $tablet_row = 1;
+            }
+
+            if($setting['row']['mobile']) {
+                $mobile_row = (int) $setting['row']['mobile'];
+            } else {
+                $mobile_row = 1;
+            }
+
+            $row = array(
+                'desktop' => $desktop_row,
+                'laptop'  => $laptop_row,
+                'tablet'  => $tablet_row,
+                'mobile'  => $mobile_row
+            );
         } else {
-            $row = 1;
+            $row = array(
+                'desktop' => 1,
+                'laptop'  => 1,
+                'tablet'  => 1,
+                'mobile'  => 1
+            );
         }
 
         if (isset($setting['speed'])) {
@@ -163,12 +232,15 @@ class ControllerExtensionModulePtproducts extends Controller
             'width' => $slider_width,
             'height' => $slider_height,
             'auto'  => $auto,
-            'desktop' => $item['desktop'],
-            'laptop' => $item['laptop'],
-            'tablet' => $item['tablet'],
-            'mobile' => $item['mobile'],
+            'item_desktop' => $item['desktop'],
+            'item_laptop' => $item['laptop'],
+            'item_tablet' => $item['tablet'],
+            'item_mobile' => $item['mobile'],
+            'row_desktop' => $row['desktop'],
+            'row_laptop' => $row['laptop'],
+            'row_tablet' => $row['tablet'],
+            'row_mobile' => $row['mobile'],
             'speed' => $speed,
-            'row'  => $row,
             'navigation' => $navigation,
             'pagination' => $pagination
         );
@@ -186,6 +258,28 @@ class ControllerExtensionModulePtproducts extends Controller
 
         // Single Tab
         $data['single_products'] = array();
+
+        if (isset($setting['single_product_countdown']) && $setting['single_product_countdown']) {
+            $single_product_countdown = true;
+        } else {
+            $single_product_countdown = false;
+        }
+
+        if (isset($setting['single_product_description']) && $setting['single_product_description']) {
+            $single_product_description = true;
+        } else {
+            $single_product_description = false;
+        }
+
+        $product_params = array(
+            'hover_image' => $use_hover_image,
+            'new_results' => $new_results,
+            'slider_width' => $slider_width,
+            'slider_height' => $slider_height,
+            'show_countdown' => $single_product_countdown,
+            'show_description' => $single_product_description
+        );
+
         $single_collection_type = $setting['single_product_collection'];
 
         if($single_collection_type == 'specified') {
@@ -199,7 +293,7 @@ class ControllerExtensionModulePtproducts extends Controller
                 $products = array_slice($single_specified_products, 0, $limit);
 
                 foreach ($products as $pid) {
-                    $product = $this->getProductData($pid, $use_hover_image, $new_results, $slider_width, $slider_height);
+                    $product = $this->getProductData($pid, $product_params);
 
                     if($product) {
                         $data['single_products'][] = $product;
@@ -216,13 +310,13 @@ class ControllerExtensionModulePtproducts extends Controller
                 $filter_data = array(
                     'filter_category_id' => $single_category_id,
                     'start' => 0,
-                    'limit' => 10
+                    'limit' => $limit
                 );
 
                 $results = $this->model_catalog_product->getProducts($filter_data);
                 if($results) {
                     foreach ($results as $result) {
-                        $product = $this->getProductData($result['product_id'], $use_hover_image, $new_results, $slider_width, $slider_height);
+                        $product = $this->getProductData($result['product_id'], $product_params);
 
                         if($product) {
                             $data['single_products'][] = $product;
@@ -242,7 +336,7 @@ class ControllerExtensionModulePtproducts extends Controller
                     $products = array_slice($single_category_products, 0, $limit);
 
                     foreach ($products as $pid) {
-                        $product = $this->getProductData($pid, $use_hover_image, $new_results, $slider_width, $slider_height);
+                        $product = $this->getProductData($pid, $product_params);
 
                         if($product) {
                             $data['single_products'][] = $product;
@@ -283,8 +377,8 @@ class ControllerExtensionModulePtproducts extends Controller
 
                     if($results) {
                         foreach ($results as $result) {
-                            $product = $this->getProductData($result['product_id'], $use_hover_image, $new_results, $slider_width, $slider_height);
-
+                            $product = $this->getProductData($result['product_id'], $product_params);
+                            
                             if($product) {
                                 $data['single_products'][] = $product;
                             }
@@ -326,8 +420,8 @@ class ControllerExtensionModulePtproducts extends Controller
 
                 if($results) {
                     foreach ($results as $result) {
-                        $product = $this->getProductData($result['product_id'], $use_hover_image, $new_results, $slider_width, $slider_height);
-
+                        $product = $this->getProductData($result['product_id'], $product_params);
+                        
                         if($product) {
                             $data['single_products'][] = $product;
                         }
@@ -336,11 +430,31 @@ class ControllerExtensionModulePtproducts extends Controller
             }
         }
 
+        $data['single_first_product'] = $this->getFirstProducts($data['single_products']);
+        $data['single_products_except_first'] = $this->getProductsExceptFirst($data['single_products']);
+        
+        if(!empty($setting['single_image_width'])) {
+            $single_image_width = (int) $setting['single_image_width'];
+        } else {
+            $single_image_width = 100;
+        }
+        
+        if(!empty($setting['single_image_height'])) {
+            $single_image_height = (int) $setting['single_image_height'];
+        } else {
+            $single_image_height = 100;
+        }
+
+        if(!empty($setting['single_image']) && is_file(DIR_IMAGE . $setting['single_image'])) {
+            $data['single_image'] = $this->model_tool_image->resize($setting['single_image'], $single_image_width, $single_image_height);
+        } else {
+            $data['single_image'] = $this->model_tool_image->resize('no_image.png', $single_image_width, $single_image_height);
+        }
+
         // Multi Tabs
         $product_tabs = array();
         if(!empty($setting['tabs'])) {
             $tabs = $setting['tabs'];
-//            echo "<pre>"; var_dump($tabs);die;
             foreach ($tabs as $tab) {
                 if(!empty($tab['title'])) {
                     if(!empty($tab['title'][$lang_code])) {
@@ -356,6 +470,18 @@ class ControllerExtensionModulePtproducts extends Controller
 
                 $tab_collection_type = $tab['product_collection'];
 
+                $multi_show_description = $tab['show_product_description'];
+                $multi_show_countdown = $tab['show_product_countdown'];
+
+                $multi_product_params = array(
+                    'hover_image' => $use_hover_image,
+                    'new_results' => $new_results,
+                    'slider_width' => $slider_width,
+                    'slider_height' => $slider_height,
+                    'show_countdown' => $multi_show_countdown,
+                    'show_description' => $multi_show_description
+                );
+
                 if($tab_collection_type == "specified") {
                     if(!empty($tabs['specified_products'])) {
                         $tab_specified_products = $tabs['specified_products'];
@@ -367,7 +493,7 @@ class ControllerExtensionModulePtproducts extends Controller
                         $products = array_slice($tab_specified_products, 0, $limit);
 
                         foreach ($products as $pid) {
-                            $product = $this->getProductData($pid, $use_hover_image, $new_results, $slider_width, $slider_height);
+                            $product = $this->getProductData($pid, $multi_product_params);
 
                             if($product) {
                                 $tab_products[] = $product;
@@ -378,31 +504,191 @@ class ControllerExtensionModulePtproducts extends Controller
 
                 if($tab_collection_type == "category") {
                     $tab_category_id = $tab['category'];
-                    $tab_category_product_type = $tab['category_product_type'];
+
+                    if(!empty($tab['category_product_type'])) {
+                        $tab_category_product_type = $tab['category_product_type'];
+                    } else {
+                        $tab_category_product_type = '';
+                    }
 
                     if($tab_category_product_type == "all") {
+                        $filter_data = array(
+                            'filter_category_id' => $tab_category_id,
+                            'start' => 0,
+                            'limit' => $limit
+                        );
 
+                        $results = $this->model_catalog_product->getProducts($filter_data);
+                        if($results) {
+                            foreach ($results as $result) {
+                                $product = $this->getProductData($result['product_id'], $multi_product_params);
+
+                                if($product) {
+                                    $tab_products[] = $product;
+                                }
+                            }
+                        }
                     }
+
                     if($tab_category_product_type == "specified") {
+                        if(!empty($tab['category_products'])) {
+                            $tab_category_products = $tab['category_products'];
+                        } else {
+                            $tab_category_products = false;
+                        }
 
+                        if($tab_category_products) {
+                            $products = array_slice($tab_category_products, 0, $limit);
+
+                            foreach ($products as $pid) {
+                                $product = $this->getProductData($pid, $multi_product_params);
+
+                                if($product) {
+                                    $tab_products[] = $product;
+                                }
+                            }
+                        }
                     }
-                    if($tab_category_product_type == "special") {
 
+                    if($tab_category_product_type == "special") {
+                        if(isset($tab['category_product_special_type']) && $tab['category_product_special_type'] != '') {
+                            $tab_category_product_special_type = $tab['category_product_special_type'];
+                        } else {
+                            $tab_category_product_special_type = false;
+                        }
+
+                        if($tab_category_product_special_type) {
+                            $results = array();
+
+                            if($tab_category_product_special_type == 'mostviewed') {
+                                $results = $this->model_plaza_catalog->getMostViewedByCategory($limit, $tab_category_id);
+                            }
+
+                            if($tab_category_product_special_type == 'bestseller') {
+                                $results = $this->model_plaza_catalog->getBestSellerProductsByCategory($limit, $tab_category_id);
+                            }
+
+                            if($tab_category_product_special_type == 'special') {
+                                $results = $this->model_plaza_catalog->getProductSpecialsByCategory($limit, $tab_category_id);
+                            }
+
+                            if($tab_category_product_special_type == 'latest') {
+                                $results = $this->model_plaza_catalog->getLatestProductsByCategory($limit, $tab_category_id);
+                            }
+
+                            if($tab_category_product_special_type == 'random') {
+                                $results = $this->model_plaza_catalog->getRandomByCategory($limit, $tab_category_id);
+                            }
+
+                            if($results) {
+                                foreach ($results as $result) {
+                                    $product = $this->getProductData($result['product_id'], $multi_product_params);
+
+                                    if($product) {
+                                        $tab_products[] = $product;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
                 if($tab_collection_type == "special") {
+                    if(isset($tab['product_special_type']) && $tab['product_special_type'] != '') {
+                        $tab_product_special_type = $tab['product_special_type'];
+                    } else {
+                        $tab_product_special_type = false;
+                    }
 
+                    if($tab_product_special_type) {
+                        $results = array();
+
+                        if($tab_product_special_type == 'mostviewed') {
+                            $results = $this->model_plaza_catalog->getMostViewed($limit);
+                        }
+
+                        if($tab_product_special_type == 'bestseller') {
+                            $results = $this->model_catalog_product->getBestSellerProducts($limit);
+                        }
+
+                        if($tab_product_special_type == 'special') {
+                            $results = $this->model_catalog_product->getProductSpecials(array('start' => 0, 'limit' => $limit));
+                        }
+
+                        if($tab_product_special_type == 'latest') {
+                            $results = $this->model_catalog_product->getLatestProducts($limit);
+                        }
+
+                        if($tab_product_special_type == 'random') {
+                            $results = $this->model_plaza_catalog->getRandom($limit);
+                        }
+
+                        if($results) {
+                            foreach ($results as $result) {
+                                $product = $this->getProductData($result['product_id'], $multi_product_params);
+
+                                if($product) {
+                                    $tab_products[] = $product;
+                                }
+                            }
+                        }
+                    }
                 }
+
+                if(!empty($tab['image_width'])) {
+                    $multi_image_width = (int) $tab['image_width'];
+                } else {
+                    $multi_image_width = 100;
+                }
+
+                if(!empty($tab['image_height'])) {
+                    $multi_image_height = (int) $tab['image_height'];
+                } else {
+                    $multi_image_height = 100;
+                }
+
+                if(!empty($tab['image']) && is_file(DIR_IMAGE . $tab['image'])) {
+                    $tab_image = $this->model_tool_image->resize($tab['image'], $multi_image_width, $multi_image_height);
+                } else {
+                    $tab_image = $this->model_tool_image->resize('no_image.png', $multi_image_width, $multi_image_height);
+                }
+
+                $product_tabs[] = array(
+                    'title' => $title,
+                    'products' => $tab_products,
+                    'first_product' => $this->getFirstProducts($tab_products),
+                    'products_except_first' => $this->getProductsExceptFirst($tab_products),
+                    'image' => $tab_image
+                );
             }
         }
+
+//                    echo "<pre>"; var_dump($product_tabs);die;
+
 
         $data['tabs'] = $product_tabs;
 
         return $this->load->view('plaza/module/ptproducts', $data);
     }
 
-    public function getProductData($product_id, $use_hover, $new_products, $width, $height) {
+    public function getFirstProducts($products) {
+        if($products) {
+            return $products[0];
+        } else {
+            return false;
+        }
+    }
+
+    public function getProductsExceptFirst($products) {
+        if($products) {
+            $total = count($products);
+            return $products = array_slice($products, 1, $total);
+        } else {
+            return false;
+        }
+    }
+
+    public function getProductData($product_id, $params) {
         $store_id = $this->config->get('config_store_id');
 
         /* Catalog Settings */
@@ -447,7 +733,12 @@ class ControllerExtensionModulePtproducts extends Controller
         } else {
             $show_module_label = 0;
         }
-        
+
+        $use_hover = $params['hover_image'];
+        $new_products = $params['new_results'];
+        $width = $params['slider_width'];
+        $height = $params['slider_height'];
+
         $result = $this->model_plaza_catalog->getProduct($product_id);
 
         if($result) {
@@ -533,6 +824,8 @@ class ControllerExtensionModulePtproducts extends Controller
                 'show_module_hover'  => $show_module_hover,
                 'show_module_quickview'  => $show_module_quickview,
                 'show_module_label'  => $show_module_label,
+                'show_countdown' => $params['show_countdown'],
+                'show_description' => $params['show_description'],
                 'href'    	    => $this->url->link('product/product', 'product_id=' . $result['product_id'], true),
             );
 
