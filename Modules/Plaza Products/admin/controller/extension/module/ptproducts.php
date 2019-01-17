@@ -247,6 +247,87 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['pagination'] = 0;
         }
 
+        if (isset($this->request->post['show_price'])) {
+            $data['show_price'] = $this->request->post['show_price'];
+        } elseif (!empty($module_info)) {
+            $data['show_price'] = $module_info['show_price'];
+        } else {
+            $data['show_price'] = 1;
+        }
+
+        if (isset($this->request->post['show_cart'])) {
+            $data['show_cart'] = $this->request->post['show_cart'];
+        } elseif (!empty($module_info)) {
+            $data['show_cart'] = $module_info['show_cart'];
+        } else {
+            $data['show_cart'] = 1;
+        }
+
+        if (isset($this->request->post['show_wishlist'])) {
+            $data['show_wishlist'] = $this->request->post['show_wishlist'];
+        } elseif (!empty($module_info)) {
+            $data['show_wishlist'] = $module_info['show_wishlist'];
+        } else {
+            $data['show_wishlist'] = 1;
+        }
+
+        if (isset($this->request->post['show_compare'])) {
+            $data['show_compare'] = $this->request->post['show_compare'];
+        } elseif (!empty($module_info)) {
+            $data['show_compare'] = $module_info['show_compare'];
+        } else {
+            $data['show_compare'] = 1;
+        }
+
+        if (isset($this->request->post['show_countdown'])) {
+            $data['show_countdown'] = $this->request->post['show_countdown'];
+        } elseif (!empty($module_info)) {
+            $data['show_countdown'] = $module_info['show_countdown'];
+        } else {
+            $data['show_countdown'] = 0;
+        }
+
+        if (isset($this->request->post['show_hover_image'])) {
+            $data['show_hover_image'] = $this->request->post['show_hover_image'];
+        } elseif (!empty($module_info)) {
+            $data['show_hover_image'] = $module_info['show_hover_image'];
+        } else {
+            $data['show_hover_image'] = 0;
+        }
+
+        if (isset($this->request->post['show_swatches_image'])) {
+            $data['show_swatches_image'] = $this->request->post['show_swatches_image'];
+        } elseif (!empty($module_info)) {
+            $data['show_swatches_image'] = $module_info['show_swatches_image'];
+        } else {
+            $data['show_swatches_image'] = 0;
+        }
+
+        if (isset($this->request->post['show_quickview'])) {
+            $data['show_quickview'] = $this->request->post['show_quickview'];
+        } elseif (!empty($module_info)) {
+            $data['show_quickview'] = $module_info['show_quickview'];
+        } else {
+            $data['show_quickview'] = 1;
+        }
+
+        if (isset($this->request->post['show_product_description'])) {
+            $data['show_product_description'] = $this->request->post['show_product_description'];
+        } elseif (!empty($module_info)) {
+            $data['show_product_description'] = $module_info['show_product_description'];
+        } else {
+            $data['show_product_description'] = 0;
+        }
+
+        if (isset($this->request->post['show_label'])) {
+            $data['show_label'] = $this->request->post['show_label'];
+        } elseif (!empty($module_info)) {
+            $data['show_label'] = $module_info['show_label'];
+        } else {
+            $data['show_label'] = 1;
+        }
+
+        // Single Products
         if (isset($this->request->post['single_product_collection'])) {
             $data['single_product_collection'] = $this->request->post['single_product_collection'];
         } elseif (!empty($module_info)) {
@@ -349,22 +430,6 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['single_product_special_type'] = $module_info['single_product_special_type'];
         } else {
             $data['single_product_special_type'] = '';
-        }
-
-        if (isset($this->request->post['single_product_countdown'])) {
-            $data['single_product_countdown'] = $this->request->post['single_product_countdown'];
-        } elseif (!empty($module_info)) {
-            $data['single_product_countdown'] = $module_info['single_product_countdown'];
-        } else {
-            $data['single_product_countdown'] = 0;
-        }
-
-        if (isset($this->request->post['single_product_description'])) {
-            $data['single_product_description'] = $this->request->post['single_product_description'];
-        } elseif (!empty($module_info)) {
-            $data['single_product_description'] = $module_info['single_product_description'];
-        } else {
-            $data['single_product_description'] = 0;
         }
 
         if (isset($this->request->post['single_image_width'])) {

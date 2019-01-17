@@ -265,6 +265,107 @@
                     </div>
                 </div>
                 <div class="col-md-5 col-sm-12">
+                    <div class="theme-option-container">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-shopping-bag"></i> {{ text_catalog_settings }}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-price">{{ entry_show_price }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_price" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_price" id="input-price"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_price %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+
+                                        <label class="col-sm-3 control-label" for="input-cart">{{ entry_show_cart }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_cart" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_cart" id="input-cart"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_cart %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-wishlist">{{ entry_show_wishlist }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_wishlist" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_wishlist" id="input-wishlist"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_wishlist %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+
+                                        <label class="col-sm-3 control-label" for="input-compare">{{ entry_show_compare }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_compare" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_compare" id="input-compare"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_compare %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-countdown">{{ entry_countdown }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_countdown" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_countdown" id="input-countdown"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_countdown %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+
+                                        <label class="col-sm-3 control-label" for="input-quickview">{{ entry_quickview }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_quickview" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_quickview" id="input-quickview"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_quickview %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-hover-image">{{ entry_hover_image }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_hover_image" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_hover_image" id="input-hover-image"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_hover_image %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+
+                                        <label class="col-sm-3 control-label" for="input-swatches-image">{{ entry_swatches_image }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_swatches_image" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_swatches_image" id="input-swatches-image"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_swatches_image %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-product-description">{{ entry_product_des }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_product_description" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_product_description" id="input-product-description"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_product_description %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+
+                                        <label class="col-sm-3 control-label" for="input-product-label">{{ entry_product_label }}</label>
+                                        <div class="col-sm-3">
+                                            <input type="hidden" name="show_label" value="0" />
+                                            <input type="checkbox" class="ckb-switch" name="show_label" id="input-product-label"
+                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
+                                                    {% if show_label %} value="1" checked {% else %} value="0" {% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="theme-option-container data-settings-container single-type-module">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -373,26 +474,6 @@
                                                 </select>
                                                 <input type="hidden" name="single_product_special_type" value="{{ single_product_special_type }}" />
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-description">{{ entry_description }}</label>
-                                        <div class="col-sm-6">
-                                            <input type="hidden" name="single_product_description" value="0" />
-                                            <input type="checkbox" class="ckb-switch" name="single_product_description" id="input-description"
-                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
-                                                    {% if single_product_description %} value="1" checked {% else %} value="0" {% endif %}>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-countdown">{{ entry_countdown }}</label>
-                                        <div class="col-sm-6">
-                                            <input type="hidden" name="single_product_countdown" value="0" />
-                                            <input type="checkbox" class="ckb-switch" name="single_product_countdown" id="input-countdown"
-                                                   data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36"
-                                                    {% if single_product_countdown %} value="1" checked {% else %} value="0" {% endif %}>
                                         </div>
                                     </div>
                                 </div>
@@ -571,36 +652,6 @@
                                                                 </select>
                                                                 <input type="hidden" name="tabs[{{ tab_count }}][product_special_type]" value="{{ tab.product_special_type }}" />
                                                             </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label" for="input-multi-description-{{ tab_count }}">{{ entry_description }}</label>
-                                                        <div class="col-sm-6">
-                                                            <select id="input-multi-description-{{ tab_count }}" class="form-control" name="tabs[{{ tab_count }}][show_product_description]">
-                                                                {% if tab.show_product_description %}
-                                                                    <option value="1" selected="selected">{{ text_enabled }}</option>
-                                                                    <option value="0">{{ text_disabled }}</option>
-                                                                {% else %}
-                                                                    <option value="1">{{ text_enabled }}</option>
-                                                                    <option value="0" selected="selected">{{ text_disabled }}</option>
-                                                                {% endif %}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label" for="input-multi-countdown-{{ tab_count }}">{{ entry_countdown }}</label>
-                                                        <div class="col-sm-6">
-                                                            <select id="input-multi-countdown-{{ tab_count }}" class="form-control" name="tabs[{{ tab_count }}][show_product_countdown]">
-                                                                {% if tab.show_product_countdown %}
-                                                                    <option value="1" selected="selected">{{ text_enabled }}</option>
-                                                                    <option value="0">{{ text_disabled }}</option>
-                                                                {% else %}
-                                                                    <option value="1">{{ text_enabled }}</option>
-                                                                    <option value="0" selected="selected">{{ text_disabled }}</option>
-                                                                {% endif %}
-                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1021,27 +1072,6 @@
         html += '                           </div>';
         html += '                       </div>';
         html += '                   </div>';
-
-        html += '                   <div class="form-group">';
-        html += '                       <label class="col-sm-3 control-label" for="input-multi-description-' + count + '">{{ entry_description }}</label>';
-        html += '                       <div class="col-sm-6">';
-        html += '                           <select id="input-multi-description-' + count + '" class="form-control" name="tabs[' + count + '][show_product_description]">';
-        html += '                               <option value="1" selected="selected">{{ text_enabled }}</option>';
-        html += '                               <option value="0">{{ text_disabled }}</option>';
-        html += '                           </select>';
-        html += '                       </div>';
-        html += '                   </div>';
-
-        html += '                   <div class="form-group">';
-        html += '                       <label class="col-sm-3 control-label" for="input-multi-countdown-' + count + '">{{ entry_countdown }}</label>';
-        html += '                       <div class="col-sm-6">';
-        html += '                           <select id="input-multi-countdown-' + count + '" class="form-control" name="tabs[' + count + '][show_product_countdown]">';
-        html += '                               <option value="1" selected="selected">{{ text_enabled }}</option>';
-        html += '                               <option value="0">{{ text_disabled }}</option>';
-        html += '                           </select>';
-        html += '                       </div>';
-        html += '                   </div>';
-
         html += '               </div>';
         html += '           </div>';
         html += '       </div>';

@@ -31,6 +31,15 @@ $_['entry_custom_class']     = 'Custom Class';
 $_['entry_countdown']        = 'Countdown';
 $_['entry_description']      = 'Description';
 $_['entry_image_link']       = 'Image Link';
+$_['entry_show_price']       = 'Show Price';
+$_['entry_show_cart']        = 'Show Cart';
+$_['entry_show_wishlist']    = 'Show Wish list';
+$_['entry_show_compare']     = 'Show Compare';
+$_['entry_product_des']      = 'Description';
+$_['entry_hover_image']      = 'Hover Image';
+$_['entry_swatches_image']   = 'Swatches Image';
+$_['entry_quickview']        = 'Quick View';
+$_['entry_product_label']    = 'Product Label';
 
 // Text
 $_['text_module']      		 = 'Modules';
@@ -43,6 +52,7 @@ $_['text_product_settings']  = 'Products Settings';
 $_['text_slider_settings']   = 'Slider Settings';
 $_['text_image_settings']    = 'Image Settings';
 $_['text_layout_settings']   = 'Layout Settings';
+$_['text_catalog_settings']  = 'Catalog Settings';
 $_['text_tab_settings']      = 'Tabs Settings';
 $_['text_specified_product'] = 'Specified';
 $_['text_category_product']  = 'By Category';

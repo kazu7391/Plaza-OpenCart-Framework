@@ -1,6 +1,6 @@
 <div class="image {% if rotate_image %}rotate-image-container{% endif %}">
     <a href="{{ href }}">
-        {% if show_module_label %}
+        {% if show_label %}
             {% if special %}
                 <span class="pro-label sale">{{ text_sale }}</span>
             {% else %}
@@ -14,7 +14,7 @@
         {% endif %}
         <img src="{{ thumb }}" alt="{{ name }}" title="{{ name }}" class="img-responsive" />
     </a>
-    {% if show_module_quickview %}
+    {% if show_quickview %}
         <button type="button" title="{{ name }}" onclick="ptquickview.ajaxView('{{ href }}')"><i class="fa fa-search-plus"></i></button>
     {% endif %}
 </div>
@@ -36,7 +36,7 @@
         </div>
     {% endif %}
 
-    {% if show_module_price and price %}
+    {% if show_price and price %}
         <p class="price">
             {% if not special %}
                 {{ price }}
@@ -59,15 +59,15 @@
     {% endif %}
 </div>
 <div class="button-group">
-    {% if show_module_cart %}
+    {% if show_cart %}
         <button type="button" onclick="cart.add('{{ product_id }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
     {% endif %}
 
-    {% if show_module_wishlist %}
+    {% if show_wishlist %}
         <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product_id }}');"><i class="fa fa-heart"></i></button>
     {% endif %}
 
-    {% if show_module_compare %}
+    {% if show_compare %}
         <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product_id }}');"><i class="fa fa-exchange"></i></button>
     {% endif %}
 </div>

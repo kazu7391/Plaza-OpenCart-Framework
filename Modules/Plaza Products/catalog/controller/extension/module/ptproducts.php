@@ -23,51 +23,6 @@ class ControllerExtensionModulePtproducts extends Controller
 
         $data['module_id'] = $setting['module_id'];
 
-        /* Catalog Settings */
-        $store_id = $this->config->get('config_store_id');
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_price')[$store_id])) {
-            $data['show_module_price'] = (int) $this->config->get('module_ptcontrolpanel_module_price')[$store_id];
-        } else {
-            $data['show_module_price'] = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_cart')[$store_id])) {
-            $data['show_module_cart'] = (int) $this->config->get('module_ptcontrolpanel_module_cart')[$store_id];
-        } else {
-            $data['show_module_cart'] = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id])) {
-            $data['show_module_wishlist'] = (int) $this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id];
-        } else {
-            $data['show_module_wishlist'] = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_compare')[$store_id])) {
-            $data['show_module_compare'] = (int) $this->config->get('module_ptcontrolpanel_module_compare')[$store_id];
-        } else {
-            $data['show_module_compare'] = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_hover')[$store_id])) {
-            $data['show_module_hover'] = (int) $this->config->get('module_ptcontrolpanel_module_hover')[$store_id];
-        } else {
-            $data['show_module_hover'] = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_quickview')[$store_id])) {
-            $data['show_module_quickview'] = (int) $this->config->get('module_ptcontrolpanel_module_quickview')[$store_id];
-        } else {
-            $data['show_module_quickview'] = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_label')[$store_id])) {
-            $data['show_module_label'] = (int) $this->config->get('module_ptcontrolpanel_module_label')[$store_id];
-        } else {
-            $data['show_module_label'] = 0;
-        }
-
         /* Module Settings */
         $lang_code = $this->session->data['language'];
         
@@ -245,6 +200,85 @@ class ControllerExtensionModulePtproducts extends Controller
             'pagination' => $pagination
         );
 
+        /* Catalog Settings */
+        if(isset($setting['show_price'])) {
+            $show_price = (int) $setting['show_price'];
+        } else {
+            $show_price = 0;
+        }
+
+        if(isset($setting['show_cart'])) {
+            $show_cart = (int) $setting['show_cart'];
+        } else {
+            $show_cart = 0;
+        }
+
+        if(isset($setting['show_wishlist'])) {
+            $show_wishlist = (int) $setting['show_wishlist'];
+        } else {
+            $show_wishlist = 0;
+        }
+
+        if(isset($setting['show_compare'])) {
+            $show_compare = (int) $setting['show_compare'];
+        } else {
+            $show_compare = 0;
+        }
+
+        if(isset($setting['show_countdown'])) {
+            $show_countdown = (int) $setting['show_countdown'];
+        } else {
+            $show_countdown = 0;
+        }
+
+        if(isset($setting['show_hover_image'])) {
+            $show_hover_image = (int) $setting['show_hover_image'];
+        } else {
+            $show_hover_image = 0;
+        }
+
+        if(isset($setting['show_swatches_image'])) {
+            $show_swatches_image = (int) $setting['show_swatches_image'];
+        } else {
+            $show_swatches_image = 0;
+        }
+
+        if(isset($setting['show_quickview'])) {
+            $show_quickview = (int) $setting['show_quickview'];
+        } else {
+            $show_quickview = 0;
+        }
+
+        if(isset($setting['show_product_description'])) {
+            $show_product_description = (int) $setting['show_price'];
+        } else {
+            $show_product_description = 0;
+        }
+
+        if(isset($setting['show_label'])) {
+            $show_label = (int) $setting['show_label'];
+        } else {
+            $show_label = 0;
+        }
+
+        $new_results = $this->model_catalog_product->getLatestProducts(10);
+
+        $catalog_settings = array(
+            'show_price' => $show_price,
+            'show_cart' => $show_cart,
+            'show_wishlist' => $show_wishlist,
+            'show_compare' => $show_compare,
+            'show_countdown' => $show_countdown,
+            'show_quickview' => $show_quickview,
+            'show_hover_image' => $show_hover_image,
+            'show_swatches_image' => $show_swatches_image,
+            'show_description' => $show_product_description,
+            'show_label' => $show_label,
+            'new_results' => $new_results,
+            'slider_width' => $slider_width,
+            'slider_height' => $slider_height
+        );
+
         // Products Collection
         if(isset($setting['limit'])) {
             $limit = (int) $setting['limit'];
@@ -252,33 +286,8 @@ class ControllerExtensionModulePtproducts extends Controller
             $limit = 10;
         }
 
-        $use_hover_image = $data['show_module_hover'];
-
-        $new_results = $this->model_catalog_product->getLatestProducts(10);
-
         // Single Tab
         $data['single_products'] = array();
-
-        if (isset($setting['single_product_countdown']) && $setting['single_product_countdown']) {
-            $single_product_countdown = true;
-        } else {
-            $single_product_countdown = false;
-        }
-
-        if (isset($setting['single_product_description']) && $setting['single_product_description']) {
-            $single_product_description = true;
-        } else {
-            $single_product_description = false;
-        }
-
-        $product_params = array(
-            'hover_image' => $use_hover_image,
-            'new_results' => $new_results,
-            'slider_width' => $slider_width,
-            'slider_height' => $slider_height,
-            'show_countdown' => $single_product_countdown,
-            'show_description' => $single_product_description
-        );
 
         $single_collection_type = $setting['single_product_collection'];
 
@@ -293,7 +302,7 @@ class ControllerExtensionModulePtproducts extends Controller
                 $products = array_slice($single_specified_products, 0, $limit);
 
                 foreach ($products as $pid) {
-                    $product = $this->getProductData($pid, $product_params);
+                    $product = $this->getProductData($pid, $catalog_settings);
 
                     if($product) {
                         $data['single_products'][] = $product;
@@ -316,7 +325,7 @@ class ControllerExtensionModulePtproducts extends Controller
                 $results = $this->model_catalog_product->getProducts($filter_data);
                 if($results) {
                     foreach ($results as $result) {
-                        $product = $this->getProductData($result['product_id'], $product_params);
+                        $product = $this->getProductData($result['product_id'], $catalog_settings);
 
                         if($product) {
                             $data['single_products'][] = $product;
@@ -336,7 +345,7 @@ class ControllerExtensionModulePtproducts extends Controller
                     $products = array_slice($single_category_products, 0, $limit);
 
                     foreach ($products as $pid) {
-                        $product = $this->getProductData($pid, $product_params);
+                        $product = $this->getProductData($pid, $catalog_settings);
 
                         if($product) {
                             $data['single_products'][] = $product;
@@ -377,7 +386,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                     if($results) {
                         foreach ($results as $result) {
-                            $product = $this->getProductData($result['product_id'], $product_params);
+                            $product = $this->getProductData($result['product_id'], $catalog_settings);
                             
                             if($product) {
                                 $data['single_products'][] = $product;
@@ -420,7 +429,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                 if($results) {
                     foreach ($results as $result) {
-                        $product = $this->getProductData($result['product_id'], $product_params);
+                        $product = $this->getProductData($result['product_id'], $catalog_settings);
                         
                         if($product) {
                             $data['single_products'][] = $product;
@@ -476,18 +485,6 @@ class ControllerExtensionModulePtproducts extends Controller
 
                 $tab_collection_type = $tab['product_collection'];
 
-                $multi_show_description = $tab['show_product_description'];
-                $multi_show_countdown = $tab['show_product_countdown'];
-
-                $multi_product_params = array(
-                    'hover_image' => $use_hover_image,
-                    'new_results' => $new_results,
-                    'slider_width' => $slider_width,
-                    'slider_height' => $slider_height,
-                    'show_countdown' => $multi_show_countdown,
-                    'show_description' => $multi_show_description
-                );
-
                 if($tab_collection_type == "specified") {
                     if(!empty($tabs['specified_products'])) {
                         $tab_specified_products = $tabs['specified_products'];
@@ -499,7 +496,7 @@ class ControllerExtensionModulePtproducts extends Controller
                         $products = array_slice($tab_specified_products, 0, $limit);
 
                         foreach ($products as $pid) {
-                            $product = $this->getProductData($pid, $multi_product_params);
+                            $product = $this->getProductData($pid, $catalog_settings);
 
                             if($product) {
                                 $tab_products[] = $product;
@@ -527,7 +524,7 @@ class ControllerExtensionModulePtproducts extends Controller
                         $results = $this->model_catalog_product->getProducts($filter_data);
                         if($results) {
                             foreach ($results as $result) {
-                                $product = $this->getProductData($result['product_id'], $multi_product_params);
+                                $product = $this->getProductData($result['product_id'], $catalog_settings);
 
                                 if($product) {
                                     $tab_products[] = $product;
@@ -547,7 +544,7 @@ class ControllerExtensionModulePtproducts extends Controller
                             $products = array_slice($tab_category_products, 0, $limit);
 
                             foreach ($products as $pid) {
-                                $product = $this->getProductData($pid, $multi_product_params);
+                                $product = $this->getProductData($pid, $catalog_settings);
 
                                 if($product) {
                                     $tab_products[] = $product;
@@ -588,7 +585,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                             if($results) {
                                 foreach ($results as $result) {
-                                    $product = $this->getProductData($result['product_id'], $multi_product_params);
+                                    $product = $this->getProductData($result['product_id'], $catalog_settings);
 
                                     if($product) {
                                         $tab_products[] = $product;
@@ -631,7 +628,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                         if($results) {
                             foreach ($results as $result) {
-                                $product = $this->getProductData($result['product_id'], $multi_product_params);
+                                $product = $this->getProductData($result['product_id'], $catalog_settings);
 
                                 if($product) {
                                     $tab_products[] = $product;
@@ -701,52 +698,6 @@ class ControllerExtensionModulePtproducts extends Controller
     }
 
     public function getProductData($product_id, $params) {
-        $store_id = $this->config->get('config_store_id');
-
-        /* Catalog Settings */
-        if(isset($this->config->get('module_ptcontrolpanel_module_price')[$store_id])) {
-            $show_module_price = (int) $this->config->get('module_ptcontrolpanel_module_price')[$store_id];
-        } else {
-            $show_module_price = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_cart')[$store_id])) {
-            $show_module_cart = (int) $this->config->get('module_ptcontrolpanel_module_cart')[$store_id];
-        } else {
-            $show_module_cart = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id])) {
-            $show_module_wishlist = (int) $this->config->get('module_ptcontrolpanel_module_wishlist')[$store_id];
-        } else {
-            $show_module_wishlist = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_compare')[$store_id])) {
-            $show_module_compare = (int) $this->config->get('module_ptcontrolpanel_module_compare')[$store_id];
-        } else {
-            $show_module_compare = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_hover')[$store_id])) {
-            $show_module_hover = (int) $this->config->get('module_ptcontrolpanel_module_hover')[$store_id];
-        } else {
-            $show_module_hover = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_quickview')[$store_id])) {
-            $show_module_quickview = (int) $this->config->get('module_ptcontrolpanel_module_quickview')[$store_id];
-        } else {
-            $show_module_quickview = 0;
-        }
-
-        if(isset($this->config->get('module_ptcontrolpanel_module_label')[$store_id])) {
-            $show_module_label = (int) $this->config->get('module_ptcontrolpanel_module_label')[$store_id];
-        } else {
-            $show_module_label = 0;
-        }
-
-        $use_hover = $params['hover_image'];
         $new_products = $params['new_results'];
         $width = $params['slider_width'];
         $height = $params['slider_height'];
@@ -805,7 +756,7 @@ class ControllerExtensionModulePtproducts extends Controller
                 }
             }
 
-            if($use_hover == 1) {
+            if($params['show_hover_image'] == 1) {
                 $rotate_image = $this->model_plaza_rotateimage->getProductRotateImage($product_id);
 
                 if($rotate_image) {
@@ -815,6 +766,10 @@ class ControllerExtensionModulePtproducts extends Controller
                 }
             } else {
                 $rotate_image = false;
+            }
+
+            if($params['show_swatches_image'] == 1) {
+
             }
 
             $data = array(
@@ -829,15 +784,14 @@ class ControllerExtensionModulePtproducts extends Controller
                 'date_end'    	=> $date_end,
                 'rating'        => $rating,
                 'description'   => $description,
-                'show_module_price' => $show_module_price,
-                'show_module_cart'  => $show_module_cart,
-                'show_module_wishlist'  => $show_module_wishlist,
-                'show_module_compare'  => $show_module_compare,
-                'show_module_hover'  => $show_module_hover,
-                'show_module_quickview'  => $show_module_quickview,
-                'show_module_label'  => $show_module_label,
+                'show_price' => $params['show_price'],
+                'show_cart'  => $params['show_cart'],
+                'show_wishlist'  => $params['show_wishlist'],
+                'show_compare'  => $params['show_compare'],
                 'show_countdown' => $params['show_countdown'],
+                'show_quickview'  => $params['show_quickview'],
                 'show_description' => $params['show_description'],
+                'show_label'  => $params['show_label'],
                 'href'    	    => $this->url->link('product/product', 'product_id=' . $result['product_id'], true),
             );
 
