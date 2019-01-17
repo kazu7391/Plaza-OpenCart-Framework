@@ -426,6 +426,13 @@
                                             <input type="hidden" name="single_image" value="{{ single_image }}" id="input-single-image" />
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-single-image-link">{{ entry_image_link }}</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="single_image_link" value="{{ single_image_link }}" placeholder="{{ entry_image_link }}" id="input-single-image-link" class="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -624,6 +631,13 @@
                                                         <div class="col-sm-9">
                                                             <a href="javascript:void(0);" id="input-multi-module-image-{{ tab_count }}" data-toggle="image" class="img-thumbnail"><img src="{{ tab.image_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
                                                             <input type="hidden" name="tabs[{{ tab_count }}][image]" value="{{ tab.image }}" id="input-multi-image-{{ tab_count }}" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label" for="input-multi-image-link-{{ tab_count }}">{{ entry_image_link }}</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="tabs[{{ tab_count }}][image_link]" value="{{ tab.image_link }}" placeholder="{{ entry_image_link }}" id="input-multi-image-link-{{ tab_count }}" class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1054,6 +1068,12 @@
         html += '                       <div class="col-sm-9">';
         html += '                           <a href="javascript:void(0);" id="input-multi-module-image-' + count + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>';
         html += '                           <input type="hidden" name="tabs[' + count + '][image]" value="" id="input-multi-image-' + count + '" />';
+        html += '                       </div>';
+        html += '                   </div>';
+        html += '                   <div class="form-group">';
+        html += '                       <label class="col-sm-3 control-label" for="input-multi-image-link-' + count + '">{{ entry_image_link }}</label>';
+        html += '                       <div class="col-sm-9">';
+        html += '                           <input type="text" name="tabs[' + count + '][image_link]" value="" placeholder="{{ entry_image_link }}" id="input-multi-image-link-' + count + '" class="form-control" />';
         html += '                       </div>';
         html += '                   </div>';
         html += '               </div>';

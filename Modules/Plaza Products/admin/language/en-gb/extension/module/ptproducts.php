@@ -30,6 +30,7 @@ $_['entry_image']            = 'Image';
 $_['entry_custom_class']     = 'Custom Class';
 $_['entry_countdown']        = 'Countdown';
 $_['entry_description']      = 'Description';
+$_['entry_image_link']       = 'Image Link';
 
 // Text
 $_['text_module']      		 = 'Modules';

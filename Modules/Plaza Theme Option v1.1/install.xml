@@ -387,9 +387,9 @@
         <operation>
             <search><![CDATA[if ((float)$product_info['special']) {]]></search>
             <add position="after"><![CDATA[
-                $this->load->model('plaza/product');
+                $this->load->model('plaza/catalog');
 
-				$product_plaza_info = $this->model_plaza_product->getProduct($data['product_id']);
+				$product_plaza_info = $this->model_plaza_catalog->getProduct($data['product_id']);
 
 				if (isset($product_plaza_info['date_start']) && $product_plaza_info['date_start']) {
 					$data['date_start'] = $product_plaza_info['date_start'];

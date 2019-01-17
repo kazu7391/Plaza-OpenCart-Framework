@@ -384,16 +384,24 @@ class ControllerExtensionModulePtproducts extends Controller {
         }
 
         if (isset($this->request->post['single_image']) && is_file(DIR_IMAGE . $this->request->post['single_image'])) {
-            $data['single_image_thumb'] = $this->model_tool_image->resize($this->request->post['single_image'], $data['single_image_width'], $data['single_image_height']);
+            $data['single_image_thumb'] = $this->model_tool_image->resize($this->request->post['single_image'], 100, 100);
             $data['single_image'] = $this->request->post['single_image'];
         } elseif (!empty($module_info) && is_file(DIR_IMAGE . $module_info['single_image'])) {
-            $data['single_image_thumb'] = $this->model_tool_image->resize($module_info['single_image'], $data['single_image_width'], $data['single_image_height']);
+            $data['single_image_thumb'] = $this->model_tool_image->resize($module_info['single_image'], 100, 100);
             $data['single_image'] = $module_info['single_image'];
         } else {
-            $data['single_image_thumb'] = $this->model_tool_image->resize('no_image.png', $data['single_image_width'], $data['single_image_height']);
+            $data['single_image_thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
         }
 
-        $data['single_image_placeholder'] = $this->model_tool_image->resize('no_image.png', $data['single_image_width'], $data['single_image_height']);
+        $data['single_image_placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+
+        if (isset($this->request->post['single_image_link'])) {
+            $data['single_image_link'] = $this->request->post['single_image_link'];
+        } elseif (!empty($module_info)) {
+            $data['single_image_link'] = $module_info['single_image_link'];
+        } else {
+            $data['single_image_link'] = '';
+        }
 
         if (isset($this->request->post['tabs'])) {
             $tabs = $this->request->post['tabs'];
@@ -440,9 +448,9 @@ class ControllerExtensionModulePtproducts extends Controller {
 
             // Image
             if(isset($tab['image']) && is_file(DIR_IMAGE . $tab['image'])) {
-                $tab['image_thumb'] = $this->model_tool_image->resize($tab['image'], $tab['image_width'], $tab['image_height']);
+                $tab['image_thumb'] = $this->model_tool_image->resize($tab['image'], 100, 100);
             } else {
-                $tab['image_thumb'] = $this->model_tool_image->resize('no_image.png', $tab['image_width'], $tab['image_height']);
+                $tab['image_thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
             }
 
             $data['tabs'][] = $tab;

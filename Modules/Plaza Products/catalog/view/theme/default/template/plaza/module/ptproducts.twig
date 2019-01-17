@@ -14,7 +14,9 @@
                         <div class="swiper-container single-slides-{{ module_id }}">
                             <div class="swiper-wrapper">
                                 {% for product in single_products %}
+                                <div class="product-thumb transition swiper-slide">
                                     {{ product.html }}
+                                </div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -35,7 +37,9 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="fproduct-content">
-                                {{ single_first_product.html }}
+                                <div class="product-thumb">
+                                    {{ single_first_product.html }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-12">
@@ -43,7 +47,9 @@
                                 <div class="swiper-container single-slides-{{ module_id }}">
                                     <div class="swiper-wrapper">
                                         {% for product in single_products_except_first %}
-                                            {{ product.html }}
+                                            <div class="product-thumb transition swiper-slide">
+                                                {{ product.html }}
+                                            </div>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -66,7 +72,13 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="image-content">
-                                <img src="{{ single_image }}" alt="" />
+                                {% if single_image_link %}
+                                    <a href="{{ single_image_link }}">
+                                        <img src="{{ single_image }}" alt="" />
+                                    </a>
+                                {% else %}
+                                    <img src="{{ single_image }}" alt="" />
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-12">
@@ -74,7 +86,9 @@
                                 <div class="swiper-container single-slides-{{ module_id }}">
                                     <div class="swiper-wrapper">
                                         {% for product in single_products %}
-                                            {{ product.html }}
+                                            <div class="product-thumb transition swiper-slide">
+                                                {{ product.html }}
+                                            </div>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -162,7 +176,9 @@
                                     <div id="{{ module_id }}-{{ tab_count }}-products-container" class="multi-slides-{{ module_id }}-{{ tab_count }} swiper-container">
                                         <div class="swiper-wrapper">
                                             {% for product in tab.products %}
-                                                {{ product.html }}
+                                                <div class="product-thumb transition swiper-slide">
+                                                    {{ product.html }}
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -183,7 +199,9 @@
                                 <div class="row">
                                     <div class="col-md-4 col-sm-12">
                                         <div class="fproduct-content">
-                                            {{ tab['first_product'].html }}
+                                            <div class="product-thumb">
+                                                {{ tab['first_product'].html }}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-sm-12">
@@ -191,7 +209,9 @@
                                             <div id="{{ module_id }}-{{ tab_count }}-products-container" class="multi-slides-{{ module_id }}-{{ tab_count }} swiper-container">
                                                 <div class="swiper-wrapper">
                                                     {% for product in tab.products_except_first %}
-                                                        {{ product.html }}
+                                                        <div class="product-thumb transition swiper-slide">
+                                                            {{ product.html }}
+                                                        </div>
                                                     {% endfor %}
                                                 </div>
                                             </div>
@@ -214,7 +234,13 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
                                     <div class="image-content">
-                                        <img src="{{ tab.image }}" alt="" />
+                                        {% if tab.image['link'] %}
+                                            <a href="{{ tab.image['link'] }}">
+                                                <img src="{{ tab.image['src'] }}" alt="" />
+                                            </a>
+                                        {% else %}
+                                            <img src="{{ tab.image['src'] }}" alt="" />
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-sm-12">
@@ -222,7 +248,9 @@
                                         <div id="{{ module_id }}-{{ tab_count }}-products-container" class="multi-slides-{{ module_id }}-{{ tab_count }} swiper-container">
                                             <div class="swiper-wrapper">
                                                 {% for product in tab.products %}
-                                                    {{ product.html }}
+                                                    <div class="product-thumb transition swiper-slide">
+                                                        {{ product.html }}
+                                                    </div>
                                                 {% endfor %}
                                             </div>
                                         </div>

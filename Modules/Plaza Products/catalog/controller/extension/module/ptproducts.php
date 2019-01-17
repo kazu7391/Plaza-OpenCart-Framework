@@ -451,6 +451,12 @@ class ControllerExtensionModulePtproducts extends Controller
             $data['single_image'] = $this->model_tool_image->resize('no_image.png', $single_image_width, $single_image_height);
         }
 
+        if(!empty($setting['single_image_link']) && $setting['single_image_link'] !== "") {
+            $data['single_image_link'] = $setting['single_image_link'];
+        } else {
+            $data['single_image_link'] = false;
+        }
+
         // Multi Tabs
         $product_tabs = array();
         if(!empty($setting['tabs'])) {
@@ -653,18 +659,24 @@ class ControllerExtensionModulePtproducts extends Controller
                     $tab_image = $this->model_tool_image->resize('no_image.png', $multi_image_width, $multi_image_height);
                 }
 
+                if(!empty($tab['image_link']) && $tab['image_link'] != '') {
+                    $tab_image_link = $tab['image_link'];
+                } else {
+                    $tab_image_link = false;
+                }
+
                 $product_tabs[] = array(
                     'title' => $title,
                     'products' => $tab_products,
                     'first_product' => $this->getFirstProducts($tab_products),
                     'products_except_first' => $this->getProductsExceptFirst($tab_products),
-                    'image' => $tab_image
+                    'image' => array(
+                        'src' => $tab_image,
+                        'link' => $tab_image_link
+                    )
                 );
             }
         }
-
-//                    echo "<pre>"; var_dump($product_tabs);die;
-
 
         $data['tabs'] = $product_tabs;
 
