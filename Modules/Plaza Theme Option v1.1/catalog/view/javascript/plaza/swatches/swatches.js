@@ -77,5 +77,29 @@ var swatches = {
                 $('.img-cate-' + product_id).attr('src', img_src);
             }
         }
+    },
+    
+    'changeModuleSwatches' :function (element) {
+        var product_option_value_id = element.data('product-option-value-id');
+        var product_id = element.data('product-id');
+        var module_id = element.data('module-id');
+
+        if(element.closest('.swatches-options').hasClass('checked')) {
+            element.closest('.swatches-options').removeClass('checked');
+
+            var img_src = $('.img-default-' + module_id + '-' + product_id).val();
+            $('.img-mod-' + module_id + '-' + product_id).attr('src', img_src);
+        } else {
+            element.closest('.ul-swatches-colors').find('.swatches-options').removeClass('checked');
+            element.closest('.swatches-options').addClass('checked');
+
+            if($('.img-swatch-' + module_id + '-' + product_id + '-' + product_option_value_id).length) {
+                var img_src = $('.img-swatch-' + module_id + '-' + product_id + '-' + product_option_value_id).val();
+                $('.img-mod-' + module_id + '-' + product_id).attr('src', img_src);
+            } else {
+                var img_src = $('.img-default-' + module_id + '-' + product_id).val();
+                $('.img-mod-' + module_id + '-' + product_id).attr('src', img_src);
+            }
+        }
     }
 }

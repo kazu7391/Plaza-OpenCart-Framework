@@ -313,49 +313,6 @@ class ControllerExtensionModulePtcontrolpanel extends Controller
             $data['module_ptcontrolpanel_header_currency'] = $this->config->get('module_ptcontrolpanel_header_currency');
         }
 
-        /* Module */
-        if (isset($this->request->post['module_ptcontrolpanel_module_price'])) {
-            $data['module_ptcontrolpanel_module_price'] = $this->request->post['module_ptcontrolpanel_module_price'];
-        } else {
-            $data['module_ptcontrolpanel_module_price'] = $this->config->get('module_ptcontrolpanel_module_price');
-        }
-
-        if (isset($this->request->post['module_ptcontrolpanel_module_cart'])) {
-            $data['module_ptcontrolpanel_module_cart'] = $this->request->post['module_ptcontrolpanel_module_cart'];
-        } else {
-            $data['module_ptcontrolpanel_module_cart'] = $this->config->get('module_ptcontrolpanel_module_cart');
-        }
-
-        if (isset($this->request->post['module_ptcontrolpanel_module_wishlist'])) {
-            $data['module_ptcontrolpanel_module_wishlist'] = $this->request->post['module_ptcontrolpanel_module_wishlist'];
-        } else {
-            $data['module_ptcontrolpanel_module_wishlist'] = $this->config->get('module_ptcontrolpanel_module_wishlist');
-        }
-
-        if (isset($this->request->post['module_ptcontrolpanel_module_compare'])) {
-            $data['module_ptcontrolpanel_module_compare'] = $this->request->post['module_ptcontrolpanel_module_compare'];
-        } else {
-            $data['module_ptcontrolpanel_module_compare'] = $this->config->get('module_ptcontrolpanel_module_compare');
-        }
-
-        if (isset($this->request->post['module_ptcontrolpanel_module_hover'])) {
-            $data['module_ptcontrolpanel_module_hover'] = $this->request->post['module_ptcontrolpanel_module_hover'];
-        } else {
-            $data['module_ptcontrolpanel_module_hover'] = $this->config->get('module_ptcontrolpanel_module_hover');
-        }
-
-        if (isset($this->request->post['module_ptcontrolpanel_module_quickview'])) {
-            $data['module_ptcontrolpanel_module_quickview'] = $this->request->post['module_ptcontrolpanel_module_quickview'];
-        } else {
-            $data['module_ptcontrolpanel_module_quickview'] = $this->config->get('module_ptcontrolpanel_module_quickview');
-        }
-
-        if (isset($this->request->post['module_ptcontrolpanel_module_label'])) {
-            $data['module_ptcontrolpanel_module_label'] = $this->request->post['module_ptcontrolpanel_module_label'];
-        } else {
-            $data['module_ptcontrolpanel_module_label'] = $this->config->get('module_ptcontrolpanel_module_label');
-        }
-
         /* Product catalog */
         if (isset($this->request->post['module_ptcontrolpanel_product_price'])) {
             $data['module_ptcontrolpanel_product_price'] = $this->request->post['module_ptcontrolpanel_product_price'];

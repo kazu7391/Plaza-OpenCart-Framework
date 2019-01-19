@@ -558,7 +558,6 @@
                                                     <div class="frm-field frm-field-{{ store.store_id }}">
                                                         <ul class="nav nav-tabs hoz-ul-sections">
                                                             <li class="active"><a href="#tab-cheader-{{ store.store_id }}" data-toggle="tab">{{ tab_header }}</a></li>
-                                                            <li><a href="#tab-module-{{ store.store_id }}" data-toggle="tab">{{ tab_module }}</a></li>
                                                             <li><a href="#tab-product-{{ store.store_id }}" data-toggle="tab">{{ tab_product }}</a></li>
                                                             <li><a href="#tab-category-{{ store.store_id }}" data-toggle="tab">{{ tab_product_listing }}</a></li>
                                                         </ul>
@@ -582,78 +581,6 @@
                                                                         <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_header_currency[{{ store.store_id }}]" id="input-header-currency-{{ store.store_id }}"
                                                                                data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
                                                                                 {% if module_ptcontrolpanel_header_currency[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="tab-pane" id="tab-module-{{ store.store_id }}">
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-4 control-label" for="input-module-price-{{ store.store_id }}">{{ entry_show_price }}</label>
-                                                                    <div class="col-sm-6">
-                                                                        <input type="hidden" name="module_ptcontrolpanel_module_price[{{ store.store_id }}]" value="0" />
-                                                                        <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_module_price[{{ store.store_id }}]" id="input-module-price-{{ store.store_id }}"
-                                                                               data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
-                                                                                {% if module_ptcontrolpanel_module_price[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-4 control-label" for="input-module-cart-{{ store.store_id }}">{{ entry_show_cart }}</label>
-                                                                    <div class="col-sm-6">
-                                                                        <input type="hidden" name="module_ptcontrolpanel_module_cart[{{ store.store_id }}]" value="0" />
-                                                                        <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_module_cart[{{ store.store_id }}]" id="input-module-cart-{{ store.store_id }}"
-                                                                               data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
-                                                                                {% if module_ptcontrolpanel_module_cart[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-4 control-label" for="input-module-wishlist-{{ store.store_id }}">{{ entry_show_wishlist }}</label>
-                                                                    <div class="col-sm-6">
-                                                                        <input type="hidden" name="module_ptcontrolpanel_module_wishlist[{{ store.store_id }}]" value="0" />
-                                                                        <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_module_wishlist[{{ store.store_id }}]" id="input-module-wishlist-{{ store.store_id }}"
-                                                                               data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
-                                                                                {% if module_ptcontrolpanel_module_wishlist[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-4 control-label" for="input-module-compare-{{ store.store_id }}">{{ entry_show_compare }}</label>
-                                                                    <div class="col-sm-6">
-                                                                        <input type="hidden" name="module_ptcontrolpanel_module_compare[{{ store.store_id }}]" value="0" />
-                                                                        <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_module_compare[{{ store.store_id }}]" id="input-module-compare-{{ store.store_id }}"
-                                                                               data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
-                                                                                {% if module_ptcontrolpanel_module_compare[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-4 control-label" for="input-module-hover-{{ store.store_id }}">{{ entry_hover }}</label>
-                                                                    <div class="col-sm-6">
-                                                                        <input type="hidden" name="module_ptcontrolpanel_module_hover[{{ store.store_id }}]" value="0" />
-                                                                        <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_module_hover[{{ store.store_id }}]" id="input-module-hover-{{ store.store_id }}"
-                                                                               data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
-                                                                                {% if module_ptcontrolpanel_module_hover[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-4 control-label" for="input-module-quickview-{{ store.store_id }}">{{ entry_quickview }}</label>
-                                                                    <div class="col-sm-6">
-                                                                        <input type="hidden" name="module_ptcontrolpanel_module_quickview[{{ store.store_id }}]" value="0" />
-                                                                        <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_module_quickview[{{ store.store_id }}]" id="input-module-quickview-{{ store.store_id }}"
-                                                                               data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
-                                                                                {% if module_ptcontrolpanel_module_quickview[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-4 control-label" for="input-module-label-{{ store.store_id }}">{{ entry_label }}</label>
-                                                                    <div class="col-sm-6">
-                                                                        <input type="hidden" name="module_ptcontrolpanel_module_label[{{ store.store_id }}]" value="0" />
-                                                                        <input type="checkbox" class="ckb-switch" name="module_ptcontrolpanel_module_label[{{ store.store_id }}]" id="input-module-label-{{ store.store_id }}"
-                                                                               data-toggle="toggle" data-on="{{ text_enabled }}" data-off="{{ text_disabled }}" data-width="100" data-height="36" data-store-id="{{ store.store_id }}"
-                                                                                {% if module_ptcontrolpanel_module_label[store.store_id] %} value="1" checked {% else %} value="0" {% endif %}>
                                                                     </div>
                                                                 </div>
                                                             </div>
