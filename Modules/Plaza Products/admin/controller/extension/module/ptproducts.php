@@ -155,6 +155,14 @@ class ControllerExtensionModulePtproducts extends Controller {
             $data['layout_type'] = 'slider';
         }
 
+        if (isset($this->request->post['product_layout_type'])) {
+            $data['product_layout_type'] = $this->request->post['product_layout_type'];
+        } elseif (!empty($module_info)) {
+            $data['product_layout_type'] = $module_info['product_layout_type'];
+        } else {
+            $data['product_layout_type'] = 'grid';
+        }
+
         if (isset($this->request->post['layout_classname'])) {
             $data['layout_classname'] = $this->request->post['layout_classname'];
         } elseif (!empty($module_info)) {

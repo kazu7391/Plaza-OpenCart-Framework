@@ -17,6 +17,7 @@ $_['entry_category']         = 'Category';
 $_['entry_categories']       = 'Categories';
 $_['entry_products_type']    = 'Products Type';
 $_['entry_layout']           = 'Layout';
+$_['entry_product_layout']   = 'Product Layout';
 $_['entry_width']            = 'Width';
 $_['entry_height']           = 'Height';
 $_['entry_auto']             = 'Auto';
@@ -72,6 +73,9 @@ $_['text_laptop']            = 'Laptop';
 $_['text_tablet']            = 'Tablet';
 $_['text_mobile']            = 'Mobile';
 $_['text_tab']               = 'Tab';
+$_['text_grid']              = 'Grid';
+$_['text_list']              = 'List';
+$_['text_other']             = 'Other';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify Plaza Products module!';

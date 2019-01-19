@@ -234,7 +234,7 @@
                             <div class="panel-body">
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-single-collection-layout">{{ entry_layout }}</label>
+                                        <label class="col-sm-3 control-label" for="input-collection-layout">{{ entry_layout }}</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-4 radio-layout-type">
                                                 <input type="radio" name="layout_type" id="layout-type-slider" value="slider" {% if layout_type == 'slider' %} checked="checked" {% endif %} />
@@ -250,6 +250,23 @@
                                                 <input type="radio" name="layout_type" id="layout-type-image" value="image" {% if layout_type == 'image' %} checked="checked" {% endif %} />
                                                 <label class="lb-layout-type {% if layout_type == 'image' %} active {% endif %}" for="layout-type-image"><img width="70px" src="../image/plaza/image_slider.png" /></label>
                                                 <span>{{ text_image_slider }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="input-product-layout">{{ entry_product_layout }}</label>
+                                        <div class="col-sm-6">
+                                            <div class="switch switch-multi3">
+                                                <input type="radio" name="product_layout_type" class="switch-input" id="product-layout-grid" value="grid" {% if product_layout_type == 'grid' %} checked="checked"{% endif %}/>
+                                                <label for="product-layout-grid" class="switch-label switch-label-1">{{ text_grid }}</label>
+
+                                                <input type="radio" name="product_layout_type" class="switch-input" id="product-layout-list" value="list" {% if product_layout_type == 'list' %} checked="checked"{% endif %}/>
+                                                <label for="product-layout-list" class="switch-label switch-label-2">{{ text_list }}</label>
+
+                                                <input type="radio" name="product_layout_type" class="switch-input" id="product-layout-other" value="other" {% if product_layout_type == 'other' %} checked="checked"{% endif %}/>
+                                                <label for="product-layout-other" class="switch-label switch-label-3">{{ text_other }}</label>
+
+                                                <span class="switch-selection"></span>
                                             </div>
                                         </div>
                                     </div>

@@ -59,6 +59,12 @@ class ControllerExtensionModulePtproducts extends Controller
             $data['layout_type'] = '';
         }
 
+        if(isset($setting['product_layout_type'])) {
+            $product_layout_type = $setting['product_layout_type'];
+        } else {
+            $product_layout_type = 'grid';
+        }
+
         if(isset($setting['layout_classname'])) {
             $data['layout_classname'] = $setting['layout_classname'];
         } else {
@@ -293,7 +299,7 @@ class ControllerExtensionModulePtproducts extends Controller
                 $products = array_slice($single_specified_products, 0, $limit);
 
                 foreach ($products as $pid) {
-                    $product = $this->getProductData($pid, $catalog_settings, $data['module_id']);
+                    $product = $this->getProductData($pid, $catalog_settings, $product_layout_type, $data['module_id']);
 
                     if($product) {
                         $data['single_products'][] = $product;
@@ -316,7 +322,7 @@ class ControllerExtensionModulePtproducts extends Controller
                 $results = $this->model_catalog_product->getProducts($filter_data);
                 if($results) {
                     foreach ($results as $result) {
-                        $product = $this->getProductData($result['product_id'], $catalog_settings, $data['module_id']);
+                        $product = $this->getProductData($result['product_id'], $catalog_settings, $product_layout_type, $data['module_id']);
 
                         if($product) {
                             $data['single_products'][] = $product;
@@ -336,7 +342,7 @@ class ControllerExtensionModulePtproducts extends Controller
                     $products = array_slice($single_category_products, 0, $limit);
 
                     foreach ($products as $pid) {
-                        $product = $this->getProductData($pid, $catalog_settings, $data['module_id']);
+                        $product = $this->getProductData($pid, $catalog_settings, $product_layout_type, $data['module_id']);
 
                         if($product) {
                             $data['single_products'][] = $product;
@@ -377,7 +383,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                     if($results) {
                         foreach ($results as $result) {
-                            $product = $this->getProductData($result['product_id'], $catalog_settings, $data['module_id']);
+                            $product = $this->getProductData($result['product_id'], $catalog_settings, $product_layout_type, $data['module_id']);
                             
                             if($product) {
                                 $data['single_products'][] = $product;
@@ -420,7 +426,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                 if($results) {
                     foreach ($results as $result) {
-                        $product = $this->getProductData($result['product_id'], $catalog_settings, $data['module_id']);
+                        $product = $this->getProductData($result['product_id'], $catalog_settings, $product_layout_type, $data['module_id']);
                         
                         if($product) {
                             $data['single_products'][] = $product;
@@ -490,7 +496,7 @@ class ControllerExtensionModulePtproducts extends Controller
                         $products = array_slice($tab_specified_products, 0, $limit);
 
                         foreach ($products as $pid) {
-                            $product = $this->getProductData($pid, $catalog_settings, $module_tab_id);
+                            $product = $this->getProductData($pid, $catalog_settings, $product_layout_type, $module_tab_id);
 
                             if($product) {
                                 $tab_products[] = $product;
@@ -518,7 +524,7 @@ class ControllerExtensionModulePtproducts extends Controller
                         $results = $this->model_catalog_product->getProducts($filter_data);
                         if($results) {
                             foreach ($results as $result) {
-                                $product = $this->getProductData($result['product_id'], $catalog_settings, $module_tab_id);
+                                $product = $this->getProductData($result['product_id'], $catalog_settings, $product_layout_type, $module_tab_id);
 
                                 if($product) {
                                     $tab_products[] = $product;
@@ -538,7 +544,7 @@ class ControllerExtensionModulePtproducts extends Controller
                             $products = array_slice($tab_category_products, 0, $limit);
 
                             foreach ($products as $pid) {
-                                $product = $this->getProductData($pid, $catalog_settings, $module_tab_id);
+                                $product = $this->getProductData($pid, $catalog_settings, $product_layout_type, $module_tab_id);
 
                                 if($product) {
                                     $tab_products[] = $product;
@@ -579,7 +585,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                             if($results) {
                                 foreach ($results as $result) {
-                                    $product = $this->getProductData($result['product_id'], $catalog_settings, $module_tab_id);
+                                    $product = $this->getProductData($result['product_id'], $catalog_settings, $product_layout_type, $module_tab_id);
 
                                     if($product) {
                                         $tab_products[] = $product;
@@ -622,7 +628,7 @@ class ControllerExtensionModulePtproducts extends Controller
 
                         if($results) {
                             foreach ($results as $result) {
-                                $product = $this->getProductData($result['product_id'], $catalog_settings, $module_tab_id);
+                                $product = $this->getProductData($result['product_id'], $catalog_settings, $product_layout_type, $module_tab_id);
 
                                 if($product) {
                                     $tab_products[] = $product;
@@ -715,7 +721,7 @@ class ControllerExtensionModulePtproducts extends Controller
         }
     }
 
-    public function getProductData($product_id, $params, $section_id) {
+    public function getProductData($product_id, $params, $layout, $section_id) {
         $new_products = $params['new_results'];
         $width = $params['slider_width'];
         $height = $params['slider_height'];
@@ -867,6 +873,7 @@ class ControllerExtensionModulePtproducts extends Controller
                 'show_description'  => $params['show_description'],
                 'show_label'        => $params['show_label'],
                 'section_id'        => $section_id,
+                'layout_type'       => $layout,
                 'href'    	        => $this->url->link('product/product', 'product_id=' . $result['product_id'], true),
             );
 
