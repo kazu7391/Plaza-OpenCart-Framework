@@ -152,12 +152,6 @@ class ControllerExtensionModulePtcontrolpanel extends Controller
             $data['module_ptcontrolpanel_header_layout'] = $this->config->get('module_ptcontrolpanel_header_layout');
         }
 
-        if (isset($this->request->post['module_ptcontrolpanel_footer_layout'])) {
-            $data['module_ptcontrolpanel_footer_layout'] = $this->request->post['module_ptcontrolpanel_footer_layout'];
-        } else {
-            $data['module_ptcontrolpanel_footer_layout'] = $this->config->get('module_ptcontrolpanel_footer_layout');
-        }
-
         if (isset($this->request->post['module_ptcontrolpanel_responsive_type'])) {
             $data['module_ptcontrolpanel_responsive_type'] = $this->request->post['module_ptcontrolpanel_responsive_type'];
         } else {

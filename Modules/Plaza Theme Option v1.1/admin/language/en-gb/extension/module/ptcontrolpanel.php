@@ -47,7 +47,6 @@ $_['tab_data']             = 'Data Storage';
 
 // Entry
 $_['entry_header']         = 'Header';
-$_['entry_footer']         = 'Footer';
 $_['entry_responsive']     = 'Responsive Type';
 $_['entry_lazy_load']      = 'Lazy Load';
 $_['entry_sticky_header']  = 'Sticky Header';

@@ -254,17 +254,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="input-product-layout">{{ entry_product_layout }}</label>
-                                        <div class="col-sm-6">
+                                        <label class="col-sm-3 control-label" for="input-product-content-layout">{{ entry_pr }}</label>
+                                        <div class="col-sm-9">
                                             <div class="switch switch-multi3">
-                                                <input type="radio" name="product_layout_type" class="switch-input" id="product-layout-grid" value="grid" {% if product_layout_type == 'grid' %} checked="checked"{% endif %}/>
-                                                <label for="product-layout-grid" class="switch-label switch-label-1">{{ text_grid }}</label>
+                                                <input type="radio" name="single_product_collection" class="switch-input" id="single-type-specified" value="specified" {% if single_product_collection == 'specified' %} checked="checked"{% endif %}/>
+                                                <label for="single-type-specified" class="switch-label switch-label-1">{{ text_specified_product }}</label>
 
-                                                <input type="radio" name="product_layout_type" class="switch-input" id="product-layout-list" value="list" {% if product_layout_type == 'list' %} checked="checked"{% endif %}/>
-                                                <label for="product-layout-list" class="switch-label switch-label-2">{{ text_list }}</label>
+                                                <input type="radio" name="single_product_collection" class="switch-input" id="single-type-category" value="category" {% if single_product_collection == 'category' %} checked="checked"{% endif %}/>
+                                                <label for="single-type-category" class="switch-label switch-label-2">{{ text_category_product }}</label>
 
-                                                <input type="radio" name="product_layout_type" class="switch-input" id="product-layout-other" value="other" {% if product_layout_type == 'other' %} checked="checked"{% endif %}/>
-                                                <label for="product-layout-other" class="switch-label switch-label-3">{{ text_other }}</label>
+                                                <input type="radio" name="single_product_collection" class="switch-input" id="single-type-special" value="special" {% if single_product_collection == 'special' %} checked="checked"{% endif %}/>
+                                                <label for="single-type-special" class="switch-label switch-label-3">{{ text_special_product }}</label>
 
                                                 <span class="switch-selection"></span>
                                             </div>
@@ -1038,7 +1038,7 @@
         html += '                           <div class="col-sm-9">';
         html += '                               <select onchange="changeSelectValue($(this), '+ count +', \'category\')" id="input-multi-category-' + count + '" class="form-control selectpicker input-multi-category" data-live-search="true" title="{{ entry_category }}">';
         {% for category in categories %}
-        html += '                                   <option value="{{ category.category_id }}">{{ category.name }}</option>';
+        html += "                                   <option value='{{ category.category_id }}'>{{ category.name }}</option>";
         {% endfor %}
         html += '                               </select>';
         html += '                               <input type="hidden" name="tabs[' + count + '][category]" value="" />';

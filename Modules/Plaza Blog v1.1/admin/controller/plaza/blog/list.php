@@ -90,33 +90,6 @@ class ControllerPlazaBlogList extends Controller
         $this->getList();
     }
 
-    public function copy() {
-        $this->load->language('plaza/blog/list');
-        $this->load->language('plaza/adminmenu');
-
-        $this->document->setTitle($this->language->get('page_title'));
-
-        $this->load->model('plaza/blog');
-
-        if (isset($this->request->post['selected']) && $this->validateCopy()) {
-            foreach ($this->request->post['selected'] as $post_list_id) {
-                $this->model_plaza_blog->copyPostList($post_list_id);
-            }
-
-            $this->session->data['success'] = $this->language->get('text_success');
-
-            $url = '';
-
-            if (isset($this->request->get['page'])) {
-                $url .= '&page=' . $this->request->get['page'];
-            }
-
-            $this->response->redirect($this->url->link('plaza/blog/list', 'user_token=' . $this->session->data['user_token'] . $url, true));
-        }
-
-        $this->getList();
-    }
-
     public function getList() {
         $data = array();
 
@@ -336,6 +309,18 @@ class ControllerPlazaBlogList extends Controller
             $data['error_name'] = array();
         }
 
+        if (isset($this->error['meta_title'])) {
+            $data['error_meta_title'] = $this->error['meta_title'];
+        } else {
+            $data['error_meta_title'] = array();
+        }
+
+        if (isset($this->error['keyword'])) {
+            $data['error_keyword'] = $this->error['keyword'];
+        } else {
+            $data['error_keyword'] = '';
+        }
+
         $url = '';
 
         if (isset($this->request->get['page'])) {
@@ -378,6 +363,26 @@ class ControllerPlazaBlogList extends Controller
 
         $data['user_token'] = $this->session->data['user_token'];
 
+        $this->load->model('localisation/language');
+
+        $data['languages'] = $this->model_localisation_language->getLanguages();
+
+        if (isset($this->request->post['post_list_description'])) {
+            $data['post_list_description'] = $this->request->post['post_list_description'];
+        } elseif (isset($this->request->get['post_list_id'])) {
+            $data['post_list_description'] = $this->model_plaza_blog->getPostListDescriptions($this->request->get['post_list_id']);
+        } else {
+            $data['post_list_description'] = array();
+        }
+
+        if (isset($this->request->post['sort_order'])) {
+            $data['sort_order'] = $this->request->post['sort_order'];
+        } elseif (!empty($post_info)) {
+            $data['sort_order'] = $post_info['sort_order'];
+        } else {
+            $data['sort_order'] = 1;
+        }
+
         if (isset($this->request->post['status'])) {
             $data['status'] = $this->request->post['status'];
         } elseif (!empty($post_list_info)) {
@@ -386,12 +391,30 @@ class ControllerPlazaBlogList extends Controller
             $data['status'] = true;
         }
 
-        if (isset($this->request->post['name'])) {
-            $data['name'] = $this->request->post['name'];
-        } elseif (!empty($post_list_info)) {
-            $data['name'] = $post_list_info['name'];
+        $this->load->model('setting/store');
+
+        $data['stores'] = array();
+
+        $data['stores'][] = array(
+            'store_id' => 0,
+            'name'     => $this->language->get('text_default')
+        );
+
+        $stores = $this->model_setting_store->getStores();
+
+        foreach ($stores as $store) {
+            $data['stores'][] = array(
+                'store_id' => $store['store_id'],
+                'name'     => $store['name']
+            );
+        }
+
+        if (isset($this->request->post['post_list_store'])) {
+            $data['post_list_store'] = $this->request->post['post_list_store'];
+        } elseif (isset($this->request->get['post_list_id'])) {
+            $data['post_list_store'] = $this->model_plaza_blog->getPostListStores($this->request->get['post_list_id']);
         } else {
-            $data['name'] = '';
+            $data['post_list_store'] = array(0);
         }
 
         $data['posts'] = array();
@@ -431,6 +454,34 @@ class ControllerPlazaBlogList extends Controller
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
+        foreach ($this->request->post['post_list_description'] as $language_id => $value) {
+            if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 255)) {
+                $this->error['name'][$language_id] = $this->language->get('error_name');
+            }
+
+            if ((utf8_strlen($value['meta_title']) < 3) || (utf8_strlen($value['meta_title']) > 255)) {
+                $this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+            }
+
+            if (utf8_strlen($value['seo_url']) > 0) {
+                $this->load->model('design/seo_url');
+
+                $url_alias_info = $this->model_design_seo_url->getSeoUrlsByKeyword($value['seo_url']);
+
+                foreach ($url_alias_info as $surl) {
+                    if ($url_alias_info && isset($this->request->get['post_list_id']) && $surl['query'] != 'post_list_id=' . $this->request->get['post_list_id']) {
+                        $this->error['keyword'] = sprintf($this->language->get('error_keyword'));
+
+                        break;
+                    }
+                }
+
+                if ($url_alias_info && !isset($this->request->get['post_list_id'])) {
+                    $this->error['keyword'] = sprintf($this->language->get('error_keyword'));
+                }
+            }
+        }
+
         if ($this->error && !isset($this->error['warning'])) {
             $this->error['warning'] = $this->language->get('error_warning');
         }
@@ -439,14 +490,6 @@ class ControllerPlazaBlogList extends Controller
     }
 
     protected function validateDelete() {
-        if (!$this->user->hasPermission('modify', 'plaza/blog/list')) {
-            $this->error['warning'] = $this->language->get('error_permission');
-        }
-
-        return !$this->error;
-    }
-
-    protected function validateCopy() {
         if (!$this->user->hasPermission('modify', 'plaza/blog/list')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }

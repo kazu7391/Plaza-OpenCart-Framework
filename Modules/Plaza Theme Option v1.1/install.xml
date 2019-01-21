@@ -890,15 +890,6 @@
         </operation>
     </file>
 
-    <file path="catalog/controller/common/footer.php">
-        <operation>
-            <search><![CDATA[$data['scripts'] = $this->document->getScripts('footer');]]></search>
-            <add position="after"><![CDATA[
-                $data['footer'] = $this->load->controller('plaza/footer');
-            ]]></add>
-        </operation>
-    </file>
-
     <file path="catalog/controller/common/column_left.php">
         <operation>
             <search><![CDATA[class ControllerCommonColumnLeft extends Controller {]]></search>
