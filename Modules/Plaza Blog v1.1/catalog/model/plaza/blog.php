@@ -226,4 +226,27 @@ class ModelPlazaBlog extends Model
 
         return $query->row['total'];
     }
+    
+    public function getPostList($post_list_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "ptpost_list pl LEFT JOIN " . DB_PREFIX . "ptpost_list_description pld ON (pl.post_list_id = pld.post_list_id) LEFT JOIN " . DB_PREFIX . "ptpost_list_to_store pls ON (pl.post_list_id = pls.post_list_id) WHERE pl.post_list_id = '" . (int) $post_list_id . "' AND pld.language_id = '" . (int) $this->config->get('config_language_id') . "' AND pls.store_id = '". (int) $this->config->get('config_store_id') ."' AND pl.status = '1' ");
+
+        if ($query->num_rows) {
+            return array(
+                'post_list_id'     => $query->row['post_list_id'],
+                'name'             => $query->row['name'],
+                'description'      => $query->row['description'],
+                'meta_title'       => $query->row['meta_title'],
+                'meta_description' => $query->row['meta_description'],
+                'meta_keyword'     => $query->row['meta_keyword'],
+                'sort_order'       => $query->row['sort_order'],
+                'status'           => $query->row['status']
+            );
+        } else {
+            return false;
+        }
+    }
+    
+    public function getPostLists($data = array()) {
+        
+    }
 }

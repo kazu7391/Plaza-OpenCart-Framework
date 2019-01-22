@@ -227,7 +227,7 @@ class ControllerPlazaBlog extends Controller
             $this->document->setTitle($post_info['meta_title']);
             $this->document->setDescription($post_info['meta_description']);
             $this->document->setKeywords($post_info['meta_keyword']);
-            $this->document->addLink($this->url->link('plaza/blog/post', 'post_id=' . $this->request->get['post_id']), 'canonical');
+            $this->document->addLink($this->url->link('plaza/blog/post', 'post_id=' . $this->request->get['post_id']), true);
 
             $data['heading_title'] = $post_info['name'];
             $data['author'] = $post_info['author'];
@@ -318,5 +318,57 @@ class ControllerPlazaBlog extends Controller
 
             $this->response->setOutput($this->load->view('error/not_found', $data));
         }
+    }
+    
+    public function category() {
+        $this->load->language('plaza/blog');
+
+        $this->load->model('plaza/blog');
+        $this->load->model('tool/image');
+
+        if (isset($this->request->get['post_list_id'])) {
+            $post_list_id = (int)$this->request->get['post_list_id'];
+        } else {
+            $post_list_id = 0;
+        }
+
+        $category_info = $this->model_plaza_blog->getPostList($post_list_id);
+
+        if($category_info) {
+
+        } else {
+            $data['breadcrumbs'][] = array(
+                'text' => $this->language->get('text_error'),
+                'href' => $this->url->link('plaza/blog/category', '&post_id=' . $post_list_id)
+            );
+
+            $this->document->setTitle($this->language->get('text_error'));
+
+            $data['heading_title'] = $this->language->get('text_error');
+
+            $data['text_error'] = $this->language->get('text_error');
+
+            $data['button_continue'] = $this->language->get('button_continue');
+
+            $data['continue'] = $this->url->link('common/home');
+
+            $this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
+
+            $data['column_left'] = $this->load->controller('common/column_left');
+            $data['column_right'] = $this->load->controller('common/column_right');
+            $data['content_top'] = $this->load->controller('common/content_top');
+            $data['content_bottom'] = $this->load->controller('common/content_bottom');
+            $data['footer'] = $this->load->controller('common/footer');
+            $data['header'] = $this->load->controller('common/header');
+
+            $this->response->setOutput($this->load->view('error/not_found', $data));
+        }
+    }
+
+    public function categories_list() {
+        $this->load->language('plaza/blog');
+
+        $this->load->model('plaza/blog');
+        $this->load->model('tool/image');
     }
 }
