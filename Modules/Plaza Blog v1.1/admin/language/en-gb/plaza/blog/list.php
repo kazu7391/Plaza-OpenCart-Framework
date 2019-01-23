@@ -17,13 +17,20 @@ $_['column_status']          = 'Status';
 $_['column_action']          = 'Action';
 
 // Entry
-$_['entry_name']             = 'Name';
+$_['entry_name']             = 'Category Name';
 $_['entry_post_list']        = 'Posts';
+$_['entry_keyword']          = 'SEO Url';
 $_['entry_status']           = 'Status';
+$_['entry_sort_order']       = 'Sort Order';
+$_['entry_description']      = 'Description';
+$_['entry_store']            = 'Stores';
+$_['entry_meta_title'] 	     = 'Meta Tag Title';
+$_['entry_meta_keyword'] 	 = 'Meta Tag Keywords';
+$_['entry_meta_description'] = 'Meta Tag Description';
 
 // Error
 $_['error_warning']          = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']       = 'Warning: You do not have permission to modify Blog Categories!';
-$_['error_name']             = 'Article Name must be greater than 3 and less than 255 characters!';
+$_['error_name']             = 'Category Name must be greater than 3 and less than 255 characters!';
 $_['error_meta_title']       = 'Meta Title must be greater than 3 and less than 255 characters!';
 $_['error_keyword']          = 'SEO keyword already in use!';

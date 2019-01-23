@@ -335,7 +335,7 @@ class ControllerPlazaBlog extends Controller
         $category_info = $this->model_plaza_blog->getPostList($post_list_id);
 
         if($category_info) {
-
+            
         } else {
             $data['breadcrumbs'][] = array(
                 'text' => $this->language->get('text_error'),

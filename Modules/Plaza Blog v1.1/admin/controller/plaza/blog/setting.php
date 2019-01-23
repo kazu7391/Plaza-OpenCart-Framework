@@ -51,12 +51,6 @@ class ControllerPlazaBlogSetting extends Controller
             $data['error_warning'] = '';
         }
 
-        if (isset($this->error['post_limit'])) {
-            $data['error_post_limit'] = $this->error['post_limit'];
-        } else {
-            $data['error_post_limit'] = '';
-        }
-
         if (isset($this->error['meta_title'])) {
             $data['error_meta_title'] = $this->error['meta_title'];
         } else {
@@ -75,29 +69,25 @@ class ControllerPlazaBlogSetting extends Controller
             $data['error_meta_keyword'] = '';
         }
 
-        if (isset($this->error['blog_width'])) {
-            $data['error_image_blog'] = $this->error['blog_width'];
+        if (isset($this->error['error_image_blog'])) {
+            $data['error_image_blog'] = $this->error['error_image_blog'];
         } else {
             $data['error_image_blog'] = '';
         }
 
-        if (isset($this->error['blog_height'])) {
-            $data['error_image_blog'] = $this->error['blog_height'];
+        if (isset($this->error['error_image_category'])) {
+            $data['error_image_category'] = $this->error['error_image_category'];
         } else {
-            $data['error_image_blog'] = '';
+            $data['error_image_category'] = '';
         }
 
-        if (isset($this->error['post_width'])) {
-            $data['error_image_post'] = $this->error['post_width'];
+        if (isset($this->error['error_image_post'])) {
+            $data['error_image_post'] = $this->error['error_image_post'];
         } else {
             $data['error_image_post'] = '';
         }
 
-        if (isset($this->error['post_height'])) {
-            $data['error_image_post'] = $this->error['post_height'];
-        } else {
-            $data['error_image_post'] = '';
-        }
+        $data['user_token'] = $this->session->data['user_token'];
 
         $this->load->model('localisation/language');
 
@@ -123,10 +113,74 @@ class ControllerPlazaBlogSetting extends Controller
         $data['action'] = $this->url->link('plaza/blog/setting', 'user_token=' . $this->session->data['user_token'], true);
         $data['cancel'] = $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true);
 
-        if (isset($this->request->post['module_ptblog_post_limit'])) {
-            $data['module_ptblog_post_limit'] = $this->request->post['module_ptblog_post_limit'];
+        // Blog Page
+        if (isset($this->request->post['module_ptblog_blog_width'])) {
+            $data['module_ptblog_blog_width'] = $this->request->post['module_ptblog_blog_width'];
         } else {
-            $data['module_ptblog_post_limit'] = $this->config->get('module_ptblog_post_limit');
+            $data['module_ptblog_blog_width'] = $this->config->get('module_ptblog_blog_width');
+        }
+
+        if (isset($this->request->post['module_ptblog_blog_height'])) {
+            $data['module_ptblog_blog_height'] = $this->request->post['module_ptblog_blog_height'];
+        } else {
+            $data['module_ptblog_blog_height'] = $this->config->get('module_ptblog_blog_height');
+        }
+
+        if (isset($this->request->post['module_ptblog_blog_post_limit'])) {
+            $data['module_ptblog_blog_post_limit'] = $this->request->post['module_ptblog_blog_post_limit'];
+        } else {
+            $data['module_ptblog_blog_post_limit'] = $this->config->get('module_ptblog_blog_post_limit');
+        }
+
+        if (isset($this->request->post['module_ptblog_cates_show'])) {
+            $data['module_ptblog_cates_show'] = $this->request->post['module_ptblog_cates_show'];
+        } else {
+            $data['module_ptblog_cates_show'] = $this->config->get('module_ptblog_cates_show');
+        }
+
+        $data['blog_categories'] = array();
+
+        if (isset($this->request->post['module_ptblog_cates_list'])) {
+            $blog_categories = $this->request->post['module_ptblog_cates_list'];
+        } elseif(!empty($this->config->get('module_ptblog_cates_list'))) {
+            $blog_categories = $this->config->get('module_ptblog_cates_list');
+        } else {
+            $blog_categories = array();
+        }
+
+        foreach ($blog_categories as $cate_id) {
+            $cate_info = $this->model_plaza_blog->getPostList($cate_id);
+
+            if ($cate_info) {
+                $data['blog_categories'][] = array(
+                    'post_list_id' => $cate_info['post_list_id'],
+                    'name'       => $cate_info['name']
+                );
+            }
+        }
+
+        if (isset($this->request->post['module_ptblog_blog_latest_post'])) {
+            $data['module_ptblog_blog_latest_post'] = $this->request->post['module_ptblog_blog_latest_post'];
+        } else {
+            $data['module_ptblog_blog_latest_post'] = $this->config->get('module_ptblog_blog_latest_post');
+        }
+
+        if (isset($this->request->post['module_ptblog_blog_latest_post_limit'])) {
+            $data['module_ptblog_blog_latest_post_limit'] = $this->request->post['module_ptblog_blog_latest_post_limit'];
+        } else {
+            $data['module_ptblog_blog_latest_post_limit'] = $this->config->get('module_ptblog_blog_latest_post_limit');
+        }
+
+        if (isset($this->request->post['module_ptblog_blog_layout'])) {
+            $data['module_ptblog_blog_layout'] = $this->request->post['module_ptblog_blog_layout'];
+        } else {
+            $data['module_ptblog_blog_layout'] = $this->config->get('module_ptblog_blog_layout');
+        }
+
+        if (isset($this->request->post['module_ptblog_blog_post_content'])) {
+            $data['module_ptblog_blog_post_content'] = $this->request->post['module_ptblog_blog_post_content'];
+        } else {
+            $data['module_ptblog_blog_post_content'] = $this->config->get('module_ptblog_blog_post_content');
         }
 
         if (isset($this->request->post['module_ptblog_meta_title'])) {
@@ -147,18 +201,56 @@ class ControllerPlazaBlogSetting extends Controller
             $data['module_ptblog_meta_keyword'] = $this->config->get('module_ptblog_meta_keyword');
         }
 
-        if (isset($this->request->post['module_ptblog_blog_width'])) {
-            $data['module_ptblog_blog_width'] = $this->request->post['module_ptblog_blog_width'];
+        if (isset($this->request->post['module_ptblog_seo_url'])) {
+            $data['module_ptblog_seo_url'] = $this->request->post['module_ptblog_seo_url'];
         } else {
-            $data['module_ptblog_blog_width'] = $this->config->get('module_ptblog_blog_width');
+            $data['module_ptblog_seo_url'] = $this->config->get('module_ptblog_seo_url');
         }
 
-        if (isset($this->request->post['module_ptblog_blog_height'])) {
-            $data['module_ptblog_blog_height'] = $this->request->post['module_ptblog_blog_height'];
+        // Category Page
+        if (isset($this->request->post['module_ptblog_category_width'])) {
+            $data['module_ptblog_category_width'] = $this->request->post['module_ptblog_category_width'];
         } else {
-            $data['module_ptblog_blog_height'] = $this->config->get('module_ptblog_blog_height');
+            $data['module_ptblog_category_width'] = $this->config->get('module_ptblog_category_width');
         }
 
+        if (isset($this->request->post['module_ptblog_category_height'])) {
+            $data['module_ptblog_category_height'] = $this->request->post['module_ptblog_category_height'];
+        } else {
+            $data['module_ptblog_category_height'] = $this->config->get('module_ptblog_category_height');
+        }
+
+        if (isset($this->request->post['module_ptblog_category_post_limit'])) {
+            $data['module_ptblog_category_post_limit'] = $this->request->post['module_ptblog_category_post_limit'];
+        } else {
+            $data['module_ptblog_category_post_limit'] = $this->config->get('module_ptblog_category_post_limit');
+        }
+
+        if (isset($this->request->post['module_ptblog_category_latest_post'])) {
+            $data['module_ptblog_category_latest_post'] = $this->request->post['module_ptblog_category_latest_post'];
+        } else {
+            $data['module_ptblog_category_latest_post'] = $this->config->get('module_ptblog_category_latest_post');
+        }
+
+        if (isset($this->request->post['module_ptblog_category_latest_post_limit'])) {
+            $data['module_ptblog_category_latest_post_limit'] = $this->request->post['module_ptblog_category_latest_post_limit'];
+        } else {
+            $data['module_ptblog_category_latest_post_limit'] = $this->config->get('module_ptblog_category_latest_post_limit');
+        }
+
+        if (isset($this->request->post['module_ptblog_category_layout'])) {
+            $data['module_ptblog_category_layout'] = $this->request->post['module_ptblog_category_layout'];
+        } else {
+            $data['module_ptblog_category_layout'] = $this->config->get('module_ptblog_category_layout');
+        }
+
+        if (isset($this->request->post['module_ptblog_category_post_content'])) {
+            $data['module_ptblog_category_post_content'] = $this->request->post['module_ptblog_category_post_content'];
+        } else {
+            $data['module_ptblog_category_post_content'] = $this->config->get('module_ptblog_category_post_content');
+        }
+
+        // Post Detail Page
         if (isset($this->request->post['module_ptblog_post_width'])) {
             $data['module_ptblog_post_width'] = $this->request->post['module_ptblog_post_width'];
         } else {
@@ -171,10 +263,22 @@ class ControllerPlazaBlogSetting extends Controller
             $data['module_ptblog_post_height'] = $this->config->get('module_ptblog_post_height');
         }
 
-        if (isset($this->request->post['module_ptblog_seo_url'])) {
-            $data['module_ptblog_seo_url'] = $this->request->post['module_ptblog_seo_url'];
+        if (isset($this->request->post['module_ptblog_post_related'])) {
+            $data['module_ptblog_post_related'] = $this->request->post['module_ptblog_post_related'];
         } else {
-            $data['module_ptblog_seo_url'] = $this->config->get('module_ptblog_seo_url');
+            $data['module_ptblog_post_related'] = $this->config->get('module_ptblog_post_related');
+        }
+
+        if (isset($this->request->post['module_ptblog_post_related_limit'])) {
+            $data['module_ptblog_post_related_limit'] = $this->request->post['module_ptblog_post_related_limit'];
+        } else {
+            $data['module_ptblog_post_related_limit'] = $this->config->get('module_ptblog_post_related_limit');
+        }
+
+        if (isset($this->request->post['module_ptblog_post_layout'])) {
+            $data['module_ptblog_post_layout'] = $this->request->post['module_ptblog_post_layout'];
+        } else {
+            $data['module_ptblog_post_layout'] = $this->config->get('module_ptblog_post_layout');
         }
 
         $data['plaza_menus'] = array();
@@ -272,6 +376,8 @@ class ControllerPlazaBlogSetting extends Controller
         }
         
         $this->document->addStyle('view/stylesheet/plaza/themeadmin.css');
+        $this->document->addScript('view/javascript/plaza/switch-toggle/js/bootstrap-toggle.min.js');
+        $this->document->addStyle('view/javascript/plaza/switch-toggle/css/bootstrap-toggle.min.css');
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
@@ -283,10 +389,6 @@ class ControllerPlazaBlogSetting extends Controller
     public function validate() {
         if (!$this->user->hasPermission('modify', 'plaza/blog/setting')) {
             $this->error['warning'] = $this->language->get('error_permission');
-        }
-
-        if (!$this->request->post['module_ptblog_post_limit']) {
-            $this->error['post_limit'] = $this->language->get('error_post_limit');
         }
 
         if (!$this->request->post['module_ptblog_meta_title']) {
@@ -301,20 +403,16 @@ class ControllerPlazaBlogSetting extends Controller
             $this->error['meta_keyword'] = $this->language->get('error_meta_keyword');
         }
 
-        if (!$this->request->post['module_ptblog_blog_width']) {
-            $this->error['blog_width'] = $this->language->get('error_image_blog');
+        if (!$this->request->post['module_ptblog_blog_width'] || !$this->request->post['module_ptblog_blog_height']) {
+            $this->error['error_image_blog'] = $this->language->get('error_image_blog');
         }
 
-        if (!$this->request->post['module_ptblog_blog_height']) {
-            $this->error['blog_height'] = $this->language->get('error_image_blog');
+        if (!$this->request->post['module_ptblog_category_width'] || !$this->request->post['module_ptblog_category_height']) {
+            $this->error['error_image_category'] = $this->language->get('error_image_category');
         }
 
-        if (!$this->request->post['module_ptblog_post_width']) {
-            $this->error['post_width'] = $this->language->get('error_image_post');
-        }
-
-        if (!$this->request->post['module_ptblog_post_height']) {
-            $this->error['post_height'] = $this->language->get('error_image_post');
+        if (!$this->request->post['module_ptblog_post_width'] || !$this->request->post['module_ptblog_post_height']) {
+            $this->error['error_image_post'] = $this->language->get('error_image_post');
         }
 
         if ($this->error && !isset($this->error['warning'])) {

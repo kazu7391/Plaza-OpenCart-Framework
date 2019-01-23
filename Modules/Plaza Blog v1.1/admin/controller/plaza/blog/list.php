@@ -496,4 +496,42 @@ class ControllerPlazaBlogList extends Controller
 
         return !$this->error;
     }
+
+    public function autocomplete() {
+        $json = array();
+
+        if (isset($this->request->get['filter_name']) ) {
+            $this->load->model('plaza/blog');
+
+            if (isset($this->request->get['filter_name'])) {
+                $filter_name = $this->request->get['filter_name'];
+            } else {
+                $filter_name = '';
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $limit = $this->request->get['limit'];
+            } else {
+                $limit = 5;
+            }
+
+            $filter_data = array(
+                'filter_name'  => $filter_name,
+                'start'        => 0,
+                'limit'        => $limit
+            );
+
+            $results = $this->model_plaza_blog->getPostLists($filter_data);
+
+            foreach ($results as $result) {
+                $json[] = array(
+                    'post_list_id' => $result['post_list_id'],
+                    'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+                );
+            }
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 }

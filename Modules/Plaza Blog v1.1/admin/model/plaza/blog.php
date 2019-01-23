@@ -299,7 +299,7 @@ class ModelPlazaBlog extends Model
     }
 
     public function getPostList($post_list_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "ptpost_list WHERE post_list_id = '" . (int) $post_list_id . "'");
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "ptpost_list pl LEFT JOIN " . DB_PREFIX . "ptpost_list_description pld ON (pl.post_list_id = pld.post_list_id) WHERE pl.post_list_id = '" . (int) $post_list_id . "'");
 
         return $query->row;
     }
@@ -351,6 +351,32 @@ class ModelPlazaBlog extends Model
     public function getAllPostList($data = array()) {
         $sql = "SELECT * FROM " . DB_PREFIX . "ptpost_list p LEFT JOIN " . DB_PREFIX . "ptpost_list_description pd ON (p.post_list_id = pd.post_list_id) WHERE pd.language_id = '" . (int) $this->config->get('config_language_id') . "'";
 
+        $sql .= " GROUP BY p.post_list_id";
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->rows;
+    }
+
+    public function getPostLists($data = array()) {
+        $sql = "SELECT * FROM " . DB_PREFIX . "ptpost_list p LEFT JOIN " . DB_PREFIX . "ptpost_list_description pd ON (p.post_list_id = pd.post_list_id) WHERE pd.language_id = '" . (int) $this->config->get('config_language_id') . "'";
+
+        if (!empty($data['filter_name'])) {
+            $sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+        }
+        
         $sql .= " GROUP BY p.post_list_id";
 
         if (isset($data['start']) || isset($data['limit'])) {
