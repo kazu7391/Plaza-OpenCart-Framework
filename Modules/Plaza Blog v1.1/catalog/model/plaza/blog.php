@@ -245,8 +245,4 @@ class ModelPlazaBlog extends Model
             return false;
         }
     }
-    
-    public function getPostLists($data = array()) {
-        
-    }
 }

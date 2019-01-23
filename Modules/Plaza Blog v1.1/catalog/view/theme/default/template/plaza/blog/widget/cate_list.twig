@@ -1,0 +1,5 @@
+{% if categories %}
+    {% for category in categories %}
+        <a href="{{ category.href }}">{{ category.name }}</a>
+    {% endfor %}
+{% endif %}

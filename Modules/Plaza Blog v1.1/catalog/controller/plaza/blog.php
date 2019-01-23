@@ -7,24 +7,6 @@ class ControllerPlazaBlog extends Controller
         $this->load->model('plaza/blog');
         $this->load->model('tool/image');
 
-        if (isset($this->request->get['filter'])) {
-            $filter = $this->request->get['filter'];
-        } else {
-            $filter = '';
-        }
-
-        if (isset($this->request->get['sort'])) {
-            $sort = $this->request->get['sort'];
-        } else {
-            $sort = 'p.sort_order';
-        }
-
-        if (isset($this->request->get['order'])) {
-            $order = $this->request->get['order'];
-        } else {
-            $order = 'ASC';
-        }
-
         if (isset($this->request->get['page'])) {
             $page = $this->request->get['page'];
         } else {
@@ -34,7 +16,7 @@ class ControllerPlazaBlog extends Controller
         if (isset($this->request->get['limit'])) {
             $limit = $this->request->get['limit'];
         } else {
-            $limit = $this->config->get('module_ptblog_post_limit');
+            $limit = $this->config->get('module_ptblog_blog_post_limit');
         }
 
         $this->document->setTitle($this->config->get('module_ptblog_meta_title'));
@@ -51,23 +33,22 @@ class ControllerPlazaBlog extends Controller
             'href' => $this->url->link('common/home')
         );
 
-        $data['breadcrumbs'][] = array(
-            'text' => $this->language->get('text_blog'),
-            'href' => $this->url->link('plaza/blog')
-        );
+        if(!empty($this->config->get('module_ptblog_blog_layout'))) {
+            $data['layout'] = $this->config->get('module_ptblog_blog_layout');
+        } else {
+            $data['layout'] = "right";
+        }
+
+        if(!empty($this->config->get('module_ptblog_blog_post_content'))) {
+            $data['post_content'] = $this->config->get('module_ptblog_blog_post_content');
+        } else {
+            $data['post_content'] = "grid";
+        }
 
         $url = '';
 
-        if (isset($this->request->get['filter'])) {
-            $url .= '&filter=' . $this->request->get['filter'];
-        }
-
-        if (isset($this->request->get['sort'])) {
-            $url .= '&sort=' . $this->request->get['sort'];
-        }
-
-        if (isset($this->request->get['order'])) {
-            $url .= '&order=' . $this->request->get['order'];
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
         }
 
         if (isset($this->request->get['limit'])) {
@@ -75,9 +56,6 @@ class ControllerPlazaBlog extends Controller
         }
 
         $filter_data = array(
-            'filter_filter'      => $filter,
-            'sort'               => $sort,
-            'order'              => $order,
             'start'              => ($page - 1) * $limit,
             'limit'              => $limit
         );
@@ -107,39 +85,13 @@ class ControllerPlazaBlog extends Controller
 
         $url = '';
 
-        if (isset($this->request->get['filter'])) {
-            $url .= '&filter=' . $this->request->get['filter'];
-        }
-
-        if (isset($this->request->get['limit'])) {
-            $url .= '&limit=' . $this->request->get['limit'];
-        }
-
-        $data['sorts'] = array();
-
-        $data['sorts'][] = array(
-            'text'  => $this->language->get('text_default'),
-            'value' => 'p.sort_order-ASC',
-            'href'  => $this->url->link('plaza/blog', '&sort=p.sort_order&order=ASC' . $url)
-        );
-
-        $url = '';
-
-        if (isset($this->request->get['filter'])) {
-            $url .= '&filter=' . $this->request->get['filter'];
-        }
-
-        if (isset($this->request->get['sort'])) {
-            $url .= '&sort=' . $this->request->get['sort'];
-        }
-
-        if (isset($this->request->get['order'])) {
-            $url .= '&order=' . $this->request->get['order'];
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
         }
 
         $data['limits'] = array();
 
-        $limits = array_unique(array($this->config->get('module_ptblog_post_limit'), 50, 75, 100));
+        $limits = array_unique(array($this->config->get('module_ptblog_blog_post_limit'), 50, 75, 100));
 
         sort($limits);
 
@@ -147,23 +99,11 @@ class ControllerPlazaBlog extends Controller
             $data['limits'][] = array(
                 'text'  => $value,
                 'value' => $value,
-                'href'  => $this->url->link('blog/blog', $url . '&limit=' . $value)
+                'href'  => $this->url->link('plaza/blog', $url . '&limit=' . $value)
             );
         }
 
         $url = '';
-
-        if (isset($this->request->get['filter'])) {
-            $url .= '&filter=' . $this->request->get['filter'];
-        }
-
-        if (isset($this->request->get['sort'])) {
-            $url .= '&sort=' . $this->request->get['sort'];
-        }
-
-        if (isset($this->request->get['order'])) {
-            $url .= '&order=' . $this->request->get['order'];
-        }
 
         if (isset($this->request->get['limit'])) {
             $url .= '&limit=' . $this->request->get['limit'];
@@ -178,9 +118,9 @@ class ControllerPlazaBlog extends Controller
         $data['pagination'] = $pagination->render();
         $data['results'] = sprintf($this->language->get('text_pagination'), ($post_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($post_total - $limit)) ? $post_total : ((($page - 1) * $limit) + $limit), $post_total, ceil($post_total / $limit));
 
-        $data['sort'] = $sort;
-        $data['order'] = $order;
         $data['limit'] = $limit;
+
+        $data['category_list_widget'] = $this->load->controller('plaza/blog/categories_list');
 
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['column_right'] = $this->load->controller('common/column_right');
@@ -260,30 +200,6 @@ class ControllerPlazaBlog extends Controller
         } else {
             $url = '';
 
-            if (isset($this->request->get['path'])) {
-                $url .= '&path=' . $this->request->get['path'];
-            }
-
-            if (isset($this->request->get['filter'])) {
-                $url .= '&filter=' . $this->request->get['filter'];
-            }
-
-            if (isset($this->request->get['search'])) {
-                $url .= '&search=' . $this->request->get['search'];
-            }
-
-            if (isset($this->request->get['description'])) {
-                $url .= '&description=' . $this->request->get['description'];
-            }
-
-            if (isset($this->request->get['sort'])) {
-                $url .= '&sort=' . $this->request->get['sort'];
-            }
-
-            if (isset($this->request->get['order'])) {
-                $url .= '&order=' . $this->request->get['order'];
-            }
-
             if (isset($this->request->get['page'])) {
                 $url .= '&page=' . $this->request->get['page'];
             }
@@ -335,7 +251,7 @@ class ControllerPlazaBlog extends Controller
         $category_info = $this->model_plaza_blog->getPostList($post_list_id);
 
         if($category_info) {
-            
+
         } else {
             $data['breadcrumbs'][] = array(
                 'text' => $this->language->get('text_error'),
@@ -366,9 +282,35 @@ class ControllerPlazaBlog extends Controller
     }
 
     public function categories_list() {
-        $this->load->language('plaza/blog');
+        $data = array();
 
-        $this->load->model('plaza/blog');
-        $this->load->model('tool/image');
+        $cate_show = false;
+
+        if(!empty($this->config->get('module_ptblog_cates_show'))) {
+            $cate_show = (int) $this->config->get('module_ptblog_cates_show');
+        }
+
+        $data['categories'] = array();
+
+        if($cate_show) {
+            if(!empty($this->config->get('module_ptblog_cates_list'))) {
+                $cate_list_ids = $this->config->get('module_ptblog_cates_list');
+
+                if($cate_list_ids) {
+                    foreach ($cate_list_ids as $cate_id) {
+                        $cate_info = $this->model_plaza_blog->getPostList($cate_id);
+
+                        if($cate_info) {
+                            $data['categories'][] = array(
+                                'name'  => $cate_info['name'],
+                                'href'  => $this->url->link('plaza/blog/category', '&post_list_id=' . $cate_id, true)
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->load->view('plaza/blog/widget/cate_list', $data);
     }
 }

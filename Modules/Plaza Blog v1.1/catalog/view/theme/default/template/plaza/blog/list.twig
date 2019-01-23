@@ -4,20 +4,48 @@
         {% for breadcrumb in breadcrumbs %}
             <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
         {% endfor %}
+        <li>{{ heading_title }}</li>
     </ul>
 </div>
 <div class="container">
     <div class="main">
-        <div class="row">{{ column_left }}
-            {% if column_left and column_right %}
-                {% set class = 'col-sm-6' %}
-            {% elseif column_left or column_right %}
+        <div class="page-title post-titles"><h3>{{ heading_title }}</h3></div>
+        <div class="row">
+            {% if layout == "left" %}
+            <div class="col-sm-3">
+                {{ category_list_widget }}
+            </div>
+            {% endif %}
+            {% if layout == "left" or layout == "right" %}
                 {% set class = 'col-sm-9' %}
             {% else %}
                 {% set class = 'col-sm-12' %}
             {% endif %}
             <div id="content" class="{{ class }}">{{ content_top }}
-                <div class="page-title post-titles"><h3>{{ heading_title }}</h3></div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 hidden-xs">
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+                            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 hidden-xs"></div>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <div class="form-group input-group input-group-sm">
+                            <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
+                            <select id="input-limit" class="form-control" onchange="location = this.value;">
+                                {% for limits in limits %}
+                                    {% if limits.value == limit %}
+                                        <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+                                    {% else %}
+                                        <option value="{{ limits.href }}">{{ limits.text }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 {% if posts %}
                     <div class="post-page">
                         {% set i = 0 %}
@@ -38,13 +66,20 @@
                         {% endfor %}
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 show-page">{{ pagination }}</div>
-                        <div class="col-sm-6">{{ results }}</div>
+                        <div class="col-sm-6 show-page text-left">{{ pagination }}</div>
+                        <div class="col-sm-6 text-right">{{ results }}</div>
                     </div>
                 {% else %}
                     <p>{{ text_empty }}</p>
                 {% endif %}
-                {{ content_bottom }}</div>
-            {{ column_right }}</div>
-    </div></div>
+                {{ content_bottom }}
+            </div>
+            {% if layout == "right" %}
+            <div class="col-sm-3">
+                {{ category_list_widget }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {{ footer }}
