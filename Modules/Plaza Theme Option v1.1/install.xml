@@ -888,6 +888,27 @@
                 $data['header'] = $this->load->controller('plaza/header');
             ]]></add>
         </operation>
+        <operation>
+            <search><![CDATA[class ControllerCommonHeader extends Controller {]]></search>
+            <add position="before"><![CDATA[
+            require_once(DIR_SYSTEM . 'Mobile_Detect.php');
+            ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[return $this->load->view('common/header', $data);]]></search>
+            <add position="replace"><![CDATA[
+        $detect = new Mobile_Detect;
+		if ( $detect->isTablet() ) {
+			return $this->load->view('plaza/page_section/header_tablet', $data);
+		} else {
+			if( $detect->isMobile()){
+				return $this->load->view('plaza/page_section/header_mobile', $data);
+			} else {
+				return $this->load->view('common/header', $data);
+			}
+		}
+            ]]></add>
+        </operation>
     </file>
 
     <file path="catalog/controller/common/column_left.php">
