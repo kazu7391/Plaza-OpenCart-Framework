@@ -7,22 +7,27 @@ class ControllerPlazaBlog extends Controller
         $this->load->model('plaza/blog');
         $this->load->model('tool/image');
 
-        if (isset($this->request->get['page'])) {
-            $page = $this->request->get['page'];
-        } else {
-            $page = 1;
-        }
-
-        if (isset($this->request->get['limit'])) {
-            $limit = $this->request->get['limit'];
-        } else {
-            $limit = $this->config->get('module_ptblog_blog_post_limit');
-        }
-
         $this->document->setTitle($this->config->get('module_ptblog_meta_title'));
         $this->document->setDescription($this->config->get('module_ptblog_meta_description'));
         $this->document->setKeywords($this->config->get('module_ptblog_meta_keyword'));
         $this->document->addLink($this->url->link('plaza/blog'), '');
+
+        $url = '';
+
+        if (isset($this->request->get['layout'])) {
+            $url .= '&layout=' . $this->request->get['layout'];
+        }
+
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
+        }
+
+        if (isset($this->request->get['limit'])) {
+            $url .= '&limit=' . $this->request->get['limit'];
+        }
+
+        $data['list_content_link'] = $this->url->link('plaza/blog', 'content=list' . $url, true);
+        $data['grid_content_link'] = $this->url->link('plaza/blog', 'content=grid' . $url, true);
 
         $data['heading_title'] = $this->config->get('module_ptblog_meta_title');
 
@@ -39,13 +44,29 @@ class ControllerPlazaBlog extends Controller
             $data['layout'] = "right";
         }
 
+        if (isset($this->request->get['layout'])) {
+            $data['layout'] = $this->request->get['layout'];
+        }
+
         if(!empty($this->config->get('module_ptblog_blog_post_content'))) {
             $data['post_content'] = $this->config->get('module_ptblog_blog_post_content');
         } else {
             $data['post_content'] = "grid";
         }
 
+        if (isset($this->request->get['content'])) {
+            $data['post_content'] = $this->request->get['content'];
+        }
+
         $url = '';
+
+        if (isset($this->request->get['layout'])) {
+            $url .= '&layout=' . $this->request->get['layout'];
+        }
+
+        if (isset($this->request->get['content'])) {
+            $url .= '&content=' . $this->request->get['content'];
+        }
 
         if (isset($this->request->get['page'])) {
             $url .= '&page=' . $this->request->get['page'];
@@ -53,6 +74,18 @@ class ControllerPlazaBlog extends Controller
 
         if (isset($this->request->get['limit'])) {
             $url .= '&limit=' . $this->request->get['limit'];
+        }
+
+        if (isset($this->request->get['page'])) {
+            $page = $this->request->get['page'];
+        } else {
+            $page = 1;
+        }
+
+        if (isset($this->request->get['limit'])) {
+            $limit = $this->request->get['limit'];
+        } else {
+            $limit = $this->config->get('module_ptblog_blog_post_limit');
         }
 
         $filter_data = array(
@@ -79,11 +112,19 @@ class ControllerPlazaBlog extends Controller
                 'image'		  => $image,
                 'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
                 'intro_text'  => html_entity_decode($result['intro_text'], ENT_QUOTES, 'UTF-8'),
-                'href'        => $this->url->link('plaza/blog/post', 'post_id=' . $result['post_id'] . $url)
+                'href'        => $this->url->link('plaza/blog/post', '&post_id=' . $result['post_id'] . $url)
             );
         }
 
         $url = '';
+
+        if (isset($this->request->get['layout'])) {
+            $url .= '&layout=' . $this->request->get['layout'];
+        }
+
+        if (isset($this->request->get['content'])) {
+            $url .= '&content=' . $this->request->get['content'];
+        }
 
         if (isset($this->request->get['page'])) {
             $url .= '&page=' . $this->request->get['page'];
@@ -99,11 +140,19 @@ class ControllerPlazaBlog extends Controller
             $data['limits'][] = array(
                 'text'  => $value,
                 'value' => $value,
-                'href'  => $this->url->link('plaza/blog', $url . '&limit=' . $value)
+                'href'  => $this->url->link('plaza/blog', $url . '&limit=' . $value, true)
             );
         }
 
         $url = '';
+
+        if (isset($this->request->get['layout'])) {
+            $url .= '&layout=' . $this->request->get['layout'];
+        }
+
+        if (isset($this->request->get['content'])) {
+            $url .= '&content=' . $this->request->get['content'];
+        }
 
         if (isset($this->request->get['limit'])) {
             $url .= '&limit=' . $this->request->get['limit'];
@@ -120,7 +169,21 @@ class ControllerPlazaBlog extends Controller
 
         $data['limit'] = $limit;
 
-        $data['category_list_widget'] = $this->load->controller('plaza/blog/categories_list');
+        $data['category_list_widget'] = $this->categories_list();
+
+        $latest_blog_show = false;
+
+        if(!empty($this->config->get('module_ptblog_blog_latest_post'))) {
+            $latest_blog_show = (int) $this->config->get('module_ptblog_blog_latest_post');
+        }
+
+        if(!empty($this->config->get('module_ptblog_blog_latest_post_limit'))) {
+            $latest_blog_limit = (int) $this->config->get('module_ptblog_blog_latest_post_limit');
+        } else {
+            $latest_blog_limit = 5;
+        }
+
+        $data['latest_blog_widget'] = $this->latest_blog($latest_blog_show, $latest_blog_limit);
 
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['column_right'] = $this->load->controller('common/column_right');
@@ -130,6 +193,239 @@ class ControllerPlazaBlog extends Controller
         $data['header'] = $this->load->controller('common/header');
 
         $this->response->setOutput($this->load->view('plaza/blog/list', $data));
+    }
+
+    public function category() {
+        $this->load->language('plaza/blog');
+
+        $this->load->model('plaza/blog');
+        $this->load->model('tool/image');
+
+        if (isset($this->request->get['post_list_id'])) {
+            $post_list_id = (int)$this->request->get['post_list_id'];
+        } else {
+            $post_list_id = 0;
+        }
+
+        $category_info = $this->model_plaza_blog->getPostList($post_list_id);
+
+        if($category_info) {
+            $url = '';
+
+            if (isset($this->request->get['layout'])) {
+                $url .= '&layout=' . $this->request->get['layout'];
+            }
+
+            if (isset($this->request->get['content'])) {
+                $url .= '&content=' . $this->request->get['content'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $url .= '&limit=' . $this->request->get['limit'];
+            }
+
+            $data['breadcrumbs'] = array();
+
+            $data['breadcrumbs'][] = array(
+                'text' => $this->language->get('text_home'),
+                'href' => $this->url->link('common/home')
+            );
+
+            $data['breadcrumbs'][] = array(
+                'text' => $this->language->get('text_blog'),
+                'href' => $this->url->link('plaza/blog', $url, true)
+            );
+
+            $this->document->setTitle($category_info['meta_title']);
+            $this->document->setDescription($category_info['meta_description']);
+            $this->document->setKeywords($category_info['meta_keyword']);
+            $this->document->addLink($this->url->link('plaza/blog/category', 'post_list_id=' . $this->request->get['post_list_id'], true), true);
+
+            $data['category_title'] = $category_info['name'];
+            
+            if(!empty($this->config->get('module_ptblog_category_layout'))) {
+                $data['layout'] = $this->config->get('module_ptblog_category_layout');
+            } else {
+                $data['layout'] = "right";
+            }
+
+            if (isset($this->request->get['layout'])) {
+                $data['layout'] = $this->request->get['layout'];
+            }
+
+            if(!empty($this->config->get('module_ptblog_category_post_content'))) {
+                $data['post_content'] = $this->config->get('module_ptblog_category_post_content');
+            } else {
+                $data['post_content'] = "grid";
+            }
+
+            if (isset($this->request->get['content'])) {
+                $data['post_content'] = $this->request->get['content'];
+            }
+            
+            $url = '';
+
+            if (isset($this->request->get['layout'])) {
+                $url .= '&layout=' . $this->request->get['layout'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $url .= '&limit=' . $this->request->get['limit'];
+            }
+
+            $data['list_content_link'] = $this->url->link('plaza/blog/category', 'post_list_id=' . $this->request->get['post_list_id'] . '&content=list' . $url, true);
+            $data['grid_content_link'] = $this->url->link('plaza/blog/category', 'post_list_id=' . $this->request->get['post_list_id'] . '&content=grid' . $url, true);
+
+            $url = '';
+
+            if (isset($this->request->get['layout'])) {
+                $url .= '&layout=' . $this->request->get['layout'];
+            }
+
+            if (isset($this->request->get['content'])) {
+                $url .= '&content=' . $this->request->get['content'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            $data['limits'] = array();
+
+            $limits = array_unique(array($this->config->get('module_ptblog_category_post_limit'), 50, 75, 100));
+
+            sort($limits);
+
+            foreach($limits as $value) {
+                $data['limits'][] = array(
+                    'text'  => $value,
+                    'value' => $value,
+                    'href'  => $this->url->link('plaza/blog/category', 'post_list_id=' . $this->request->get['post_list_id'] . $url . '&limit=' . $value, true)
+                );
+            }
+
+            if (isset($this->request->get['page'])) {
+                $page = $this->request->get['page'];
+            } else {
+                $page = 1;
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $limit = $this->request->get['limit'];
+            } else {
+                $limit = $this->config->get('module_ptblog_category_post_limit');
+            }
+
+            $filter_data = array(
+                'start'              => ($page - 1) * $limit,
+                'limit'              => $limit
+            );
+
+            $results = $this->model_plaza_blog->getPostsByList($filter_data, $post_list_id);
+
+            $post_total = count($results);
+
+            $width = (int) $this->config->get('module_ptblog_category_width');
+            $height = (int) $this->config->get('module_ptblog_category_height');
+
+            $data['posts'] = array();
+
+            foreach ($results as $result) {
+                $image = $this->model_tool_image->resize($result['image'], $width, $height);
+
+                $data['posts'][] = array(
+                    'post_id'     => $result['post_id'],
+                    'name'        => $result['name'],
+                    'author'	  => $result['author'],
+                    'image'		  => $image,
+                    'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+                    'intro_text'  => html_entity_decode($result['intro_text'], ENT_QUOTES, 'UTF-8'),
+                    'href'        => $this->url->link('plaza/blog/post', '&post_id=' . $result['post_id'] . $url)
+                );
+            }
+
+            $url = '';
+
+            if (isset($this->request->get['layout'])) {
+                $url .= '&layout=' . $this->request->get['layout'];
+            }
+
+            if (isset($this->request->get['content'])) {
+                $url .= '&content=' . $this->request->get['content'];
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $url .= '&limit=' . $this->request->get['limit'];
+            }
+
+            $pagination = new Pagination();
+            $pagination->total = $post_total;
+            $pagination->page = $page;
+            $pagination->limit = $limit;
+            $pagination->url = $this->url->link('plaza/blog/category', 'post_list_id=' . $this->request->get['post_list_id'] . $url . '&page={page}');
+
+            $data['pagination'] = $pagination->render();
+            $data['results'] = sprintf($this->language->get('text_pagination'), ($post_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($post_total - $limit)) ? $post_total : ((($page - 1) * $limit) + $limit), $post_total, ceil($post_total / $limit));
+
+            $data['limit'] = $limit;
+
+            $latest_blog_show = false;
+
+            if(!empty($this->config->get('module_ptblog_category_latest_post'))) {
+                $latest_blog_show = (int) $this->config->get('module_ptblog_category_latest_post');
+            }
+
+            if(!empty($this->config->get('module_ptblog_category_latest_post_limit'))) {
+                $latest_blog_limit = (int) $this->config->get('module_ptblog_category_latest_post_limit');
+            } else {
+                $latest_blog_limit = 5;
+            }
+
+            $data['latest_blog_widget'] = $this->latest_blog($latest_blog_show, $latest_blog_limit);
+
+            $data['column_left'] = $this->load->controller('common/column_left');
+            $data['column_right'] = $this->load->controller('common/column_right');
+            $data['content_top'] = $this->load->controller('common/content_top');
+            $data['content_bottom'] = $this->load->controller('common/content_bottom');
+            $data['footer'] = $this->load->controller('common/footer');
+            $data['header'] = $this->load->controller('common/header');
+
+            $this->response->setOutput($this->load->view('plaza/blog/category', $data));
+        } else {
+            $data['breadcrumbs'][] = array(
+                'text' => $this->language->get('text_error'),
+                'href' => $this->url->link('plaza/blog/category', '&post_id=' . $post_list_id)
+            );
+
+            $this->document->setTitle($this->language->get('text_error'));
+
+            $data['heading_title'] = $this->language->get('text_error');
+
+            $data['text_error'] = $this->language->get('text_error');
+
+            $data['button_continue'] = $this->language->get('button_continue');
+
+            $data['continue'] = $this->url->link('common/home');
+
+            $this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
+
+            $data['column_left'] = $this->load->controller('common/column_left');
+            $data['column_right'] = $this->load->controller('common/column_right');
+            $data['content_top'] = $this->load->controller('common/content_top');
+            $data['content_bottom'] = $this->load->controller('common/content_bottom');
+            $data['footer'] = $this->load->controller('common/footer');
+            $data['header'] = $this->load->controller('common/header');
+
+            $this->response->setOutput($this->load->view('error/not_found', $data));
+        }
     }
 
     public function post() {
@@ -147,6 +443,24 @@ class ControllerPlazaBlog extends Controller
         $post_info = $this->model_plaza_blog->getPost($post_id);
 
         if ($post_info) {
+            $url = '';
+
+            if (isset($this->request->get['layout'])) {
+                $url .= '&layout=' . $this->request->get['layout'];
+            }
+
+            if (isset($this->request->get['content'])) {
+                $url .= '&content=' . $this->request->get['content'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $url .= '&limit=' . $this->request->get['limit'];
+            }
+
             $data['breadcrumbs'] = array();
 
             $data['breadcrumbs'][] = array(
@@ -156,18 +470,18 @@ class ControllerPlazaBlog extends Controller
 
             $data['breadcrumbs'][] = array(
                 'text' => $this->language->get('text_blog'),
-                'href' => $this->url->link('plaza/blog')
+                'href' => $this->url->link('plaza/blog', $url, true)
             );
 
             $data['breadcrumbs'][] = array(
                 'text' => $post_info['name'],
-                'href' => $this->url->link('plaza/blog/post', '&post_id=' . $this->request->get['post_id'])
+                'href' => $this->url->link('plaza/blog/post', $url . '&post_id=' . $this->request->get['post_id'], true)
             );
 
             $this->document->setTitle($post_info['meta_title']);
             $this->document->setDescription($post_info['meta_description']);
             $this->document->setKeywords($post_info['meta_keyword']);
-            $this->document->addLink($this->url->link('plaza/blog/post', 'post_id=' . $this->request->get['post_id']), true);
+            $this->document->addLink($this->url->link('plaza/blog/post', 'post_id=' . $this->request->get['post_id'], true), true);
 
             $data['heading_title'] = $post_info['name'];
             $data['author'] = $post_info['author'];
@@ -235,51 +549,6 @@ class ControllerPlazaBlog extends Controller
             $this->response->setOutput($this->load->view('error/not_found', $data));
         }
     }
-    
-    public function category() {
-        $this->load->language('plaza/blog');
-
-        $this->load->model('plaza/blog');
-        $this->load->model('tool/image');
-
-        if (isset($this->request->get['post_list_id'])) {
-            $post_list_id = (int)$this->request->get['post_list_id'];
-        } else {
-            $post_list_id = 0;
-        }
-
-        $category_info = $this->model_plaza_blog->getPostList($post_list_id);
-
-        if($category_info) {
-
-        } else {
-            $data['breadcrumbs'][] = array(
-                'text' => $this->language->get('text_error'),
-                'href' => $this->url->link('plaza/blog/category', '&post_id=' . $post_list_id)
-            );
-
-            $this->document->setTitle($this->language->get('text_error'));
-
-            $data['heading_title'] = $this->language->get('text_error');
-
-            $data['text_error'] = $this->language->get('text_error');
-
-            $data['button_continue'] = $this->language->get('button_continue');
-
-            $data['continue'] = $this->url->link('common/home');
-
-            $this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
-
-            $data['column_left'] = $this->load->controller('common/column_left');
-            $data['column_right'] = $this->load->controller('common/column_right');
-            $data['content_top'] = $this->load->controller('common/content_top');
-            $data['content_bottom'] = $this->load->controller('common/content_bottom');
-            $data['footer'] = $this->load->controller('common/footer');
-            $data['header'] = $this->load->controller('common/header');
-
-            $this->response->setOutput($this->load->view('error/not_found', $data));
-        }
-    }
 
     public function categories_list() {
         $data = array();
@@ -297,13 +566,31 @@ class ControllerPlazaBlog extends Controller
                 $cate_list_ids = $this->config->get('module_ptblog_cates_list');
 
                 if($cate_list_ids) {
+                    $url = '';
+
+                    if (isset($this->request->get['layout'])) {
+                        $url .= '&layout=' . $this->request->get['layout'];
+                    }
+
+                    if (isset($this->request->get['content'])) {
+                        $url .= '&content=' . $this->request->get['content'];
+                    }
+
+                    if (isset($this->request->get['page'])) {
+                        $url .= '&page=' . $this->request->get['page'];
+                    }
+
+                    if (isset($this->request->get['limit'])) {
+                        $url .= '&limit=' . $this->request->get['limit'];
+                    }
+
                     foreach ($cate_list_ids as $cate_id) {
                         $cate_info = $this->model_plaza_blog->getPostList($cate_id);
 
                         if($cate_info) {
                             $data['categories'][] = array(
                                 'name'  => $cate_info['name'],
-                                'href'  => $this->url->link('plaza/blog/category', '&post_list_id=' . $cate_id, true)
+                                'href'  => $this->url->link('plaza/blog/category', '&post_list_id=' . $cate_id . $url, true)
                             );
                         }
                     }
@@ -312,5 +599,55 @@ class ControllerPlazaBlog extends Controller
         }
 
         return $this->load->view('plaza/blog/widget/cate_list', $data);
+    }
+
+    public function latest_blog($latest_blog_show, $limit) {
+        $data = array();
+
+        $data['latest_blog'] = array();
+
+        if($latest_blog_show) {
+            $url = '';
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $url .= '&limit=' . $this->request->get['limit'];
+            }
+
+            if (isset($this->request->get['layout'])) {
+                $url .= '&layout=' . $this->request->get['layout'];
+            }
+
+            if (isset($this->request->get['content'])) {
+                $url .= '&content=' . $this->request->get['content'];
+            }
+
+            $filter_data = array(
+                'sort'  => 'p.date_added',
+                'order' => 'DESC',
+                'start' => 0,
+                'limit' => $limit
+            );
+
+            $results = $this->model_plaza_blog->getPosts($filter_data);
+            foreach ($results as $result) {
+                $image = $this->model_tool_image->resize($result['image'], 50, 50);
+
+                $data['latest_blog'][] = array(
+                    'post_id'     => $result['post_id'],
+                    'name'        => $result['name'],
+                    'author'	  => $result['author'],
+                    'image'		  => $image,
+                    'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+                    'intro_text'  => html_entity_decode($result['intro_text'], ENT_QUOTES, 'UTF-8'),
+                    'href'        => $this->url->link('plaza/blog/post', 'post_id=' . $result['post_id'] . $url)
+                );
+            }
+        }
+
+        return $this->load->view('plaza/blog/widget/latest_blog', $data);
     }
 }
