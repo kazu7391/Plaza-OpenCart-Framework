@@ -109,6 +109,20 @@ class ModelPlazaBlog extends Model
         return $post_data;
     }
 
+    public function getRelatedPosts($post_id) {
+        $sql = "SELECT * FROM " . DB_PREFIX . "ptpost_related_post WHERE post_id = '" . $post_id . "'";
+
+        $query = $this->db->query($sql);
+
+        $related_posts = false;
+
+        foreach ($query->rows as $result) {
+            $related_posts[] = $result['related_post_id'];
+        }
+
+        return $related_posts;
+    }
+
     public function getPosts($data = array()) {
         $sql = "SELECT p.post_id " . " FROM " . DB_PREFIX . "ptpost p";
 

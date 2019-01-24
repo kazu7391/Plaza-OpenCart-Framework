@@ -21,7 +21,7 @@
             {% else %}
                 {% set class = 'col-sm-12' %}
             {% endif %}
-            <div id="content" class="{{ class }}">{{ content_top }}
+            <div id="content" class="{{ class }}">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 hidden-xs">
                         <div class="btn-group btn-group-sm">
@@ -100,7 +100,6 @@
                 {% else %}
                     <p>{{ text_post_empty }}</p>
                 {% endif %}
-                {{ content_bottom }}
             </div>
             {% if layout == "right" %}
                 <div class="col-sm-3">

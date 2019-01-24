@@ -473,11 +473,6 @@ class ControllerPlazaBlog extends Controller
                 'href' => $this->url->link('plaza/blog', $url, true)
             );
 
-            $data['breadcrumbs'][] = array(
-                'text' => $post_info['name'],
-                'href' => $this->url->link('plaza/blog/post', $url . '&post_id=' . $this->request->get['post_id'], true)
-            );
-
             $this->document->setTitle($post_info['meta_title']);
             $this->document->setDescription($post_info['meta_description']);
             $this->document->setKeywords($post_info['meta_keyword']);
@@ -503,6 +498,56 @@ class ControllerPlazaBlog extends Controller
 
             $data['image'] = $this->model_tool_image->resize($post_info['image'], $image_size_width, $image_size_height);
 
+            $show_related = false;
+
+            $data['related_posts'] = array();
+            
+            if(!empty($this->config->get('module_ptblog_post_related'))) {
+                $show_related = (int) $this->config->get('module_ptblog_post_related');
+            }
+
+            if($show_related) {
+                $related_posts = $this->model_plaza_blog->getRelatedPosts($post_id);
+
+                if($related_posts) {
+                    if(!empty($this->config->get('module_ptblog_post_related_limit'))) {
+                        $related_limit = (int) $this->config->get('module_ptblog_post_related_limit');
+                    } else {
+                        $related_limit = 5;
+                    }
+
+                    $related_posts = array_slice($related_posts, 0, $related_limit);
+
+                    foreach ($related_posts as $pid) {
+                        $related_post_info = $this->model_plaza_blog->getPost($pid);
+
+                        $image = $this->model_tool_image->resize($related_post_info['image'], 50, 50);
+
+                        $data['related_posts'][] = array(
+                            'post_id'     => $related_post_info['post_id'],
+                            'name'        => $related_post_info['name'],
+                            'author'	  => $related_post_info['author'],
+                            'image'		  => $image,
+                            'date_added'  => date($this->language->get('date_format_short'), strtotime($related_post_info['date_added'])),
+                            'intro_text'  => html_entity_decode($related_post_info['intro_text'], ENT_QUOTES, 'UTF-8'),
+                            'href'        => $this->url->link('plaza/blog/post', '&post_id=' . $related_post_info['post_id'] . $url)
+                        );
+                    }
+                }
+            }
+
+            if(!empty($this->config->get('module_ptblog_post_layout'))) {
+                $data['layout'] = $this->config->get('module_ptblog_post_layout');
+            } else {
+                $data['layout'] = "full";
+            }
+
+            if($data['layout'] == "full") {
+                $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css');
+                $this->document->addStyle('catalog/view/javascript/jquery/swiper/css/opencart.css');
+                $this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js');
+            }
+
             $data['column_left'] = $this->load->controller('common/column_left');
             $data['column_right'] = $this->load->controller('common/column_right');
             $data['content_top'] = $this->load->controller('common/content_top');
@@ -512,19 +557,9 @@ class ControllerPlazaBlog extends Controller
 
             $this->response->setOutput($this->load->view('plaza/blog/post', $data));
         } else {
-            $url = '';
-
-            if (isset($this->request->get['page'])) {
-                $url .= '&page=' . $this->request->get['page'];
-            }
-
-            if (isset($this->request->get['limit'])) {
-                $url .= '&limit=' . $this->request->get['limit'];
-            }
-
             $data['breadcrumbs'][] = array(
                 'text' => $this->language->get('text_error'),
-                'href' => $this->url->link('plaza/blog/post', $url . '&post_id=' . $post_id)
+                'href' => $this->url->link('plaza/blog/post', '&post_id=' . $post_id)
             );
 
             $this->document->setTitle($this->language->get('text_error'));
