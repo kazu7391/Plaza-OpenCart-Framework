@@ -1366,7 +1366,7 @@ class ControllerPlazaUltimatemenu extends Controller
 
         $links[] = array(
             'label' => 'Home Page',
-            'url'   => $common_url
+            'url'   => 'index.php?route=common/home'
         );
 
         $links[] = array(

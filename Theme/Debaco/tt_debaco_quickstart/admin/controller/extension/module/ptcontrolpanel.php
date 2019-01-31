@@ -148,6 +148,12 @@ class ControllerExtensionModulePtcontrolpanel extends Controller
             $data['module_ptcontrolpanel_scroll_top'] = $this->config->get('module_ptcontrolpanel_scroll_top');
         }
 
+        if (isset($this->request->post['module_ptcontrolpanel_lazy_load'])) {
+            $data['module_ptcontrolpanel_lazy_load'] = $this->request->post['module_ptcontrolpanel_lazy_load'];
+        } else {
+            $data['module_ptcontrolpanel_lazy_load'] = $this->config->get('module_ptcontrolpanel_lazy_load');
+        }
+
         if (isset($this->request->post['module_ptcontrolpanel_header_layout'])) {
             $data['module_ptcontrolpanel_header_layout'] = $this->request->post['module_ptcontrolpanel_header_layout'];
         } else {
@@ -633,6 +639,8 @@ class ControllerExtensionModulePtcontrolpanel extends Controller
         $this->document->addScript('view/javascript/plaza/jscolor.min.js');
         $this->document->addScript('view/javascript/plaza/switch-toggle/js/bootstrap-toggle.min.js');
         $this->document->addStyle('view/javascript/plaza/switch-toggle/css/bootstrap-toggle.min.css');
+        $this->document->addScript('view/javascript/plaza/selection/js/bootstrap-select.min.js');
+        $this->document->addStyle('view/javascript/plaza/selection/css/bootstrap-select.min.css');
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');

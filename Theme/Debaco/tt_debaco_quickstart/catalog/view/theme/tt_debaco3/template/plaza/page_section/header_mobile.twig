@@ -43,8 +43,10 @@
 {% for analytic in analytics %}
 {{ analytic }}
 {% endfor %}
-<!-- Quick view -->
-<!-- General -->
+<!-- Lazy Load -->
+{% if lazy_load %}
+<script src="catalog/view/javascript/plaza/lazyload/jquery.lazy.min.js" ></script>
+{% endif %}
 <!-- Sticky Menu -->
 {% if sticky_header %}
 <script >

@@ -43,6 +43,15 @@
 {% for analytic in analytics %}
 {{ analytic }}
 {% endfor %}
+  <!-- Lazy Load -->
+  {% if lazy_load %}
+    <script src="catalog/view/javascript/plaza/lazyload/jquery.lazy.min.js" ></script>
+    <script>
+      $(function() {
+        $('.lazy-img').lazy();
+      });
+    </script>
+  {% endif %}
   <!-- Quick view -->
   {% if use_quick_view %}
     <script src="catalog/view/javascript/plaza/cloudzoom/cloud-zoom.1.0.2.min.js" ></script>
@@ -50,17 +59,16 @@
     <script src="catalog/view/javascript/plaza/quickview/quickview.js" ></script>
     <link href="catalog/view/theme/tt_debaco1/stylesheet/plaza/quickview/quickview.css" rel="stylesheet" type="text/css" />
   {% endif %}
-  <!-- General -->
   <!-- Sticky Menu -->
   {% if sticky_header %}
    <script >
-		$(window).scroll(function () {
-			if ($(this).scrollTop() > 400) {
-				$('.scroll-fix').addClass("scroll-fixed");
-				} else {
-				$('.scroll-fix').removeClass("scroll-fixed");
-			}
-		});
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 400) {
+            $('.scroll-fix').addClass("scroll-fixed");
+        } else {
+            $('.scroll-fix').removeClass("scroll-fixed");
+        }
+      });
 	</script>
   {% endif %}
   <!-- Scroll Top -->
