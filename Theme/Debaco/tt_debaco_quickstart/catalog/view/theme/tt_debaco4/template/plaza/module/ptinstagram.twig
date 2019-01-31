@@ -12,7 +12,7 @@
     {% if slider.view_mode != 'slider' %}
         <div class="instagram-slides row">
             {% for instagram in instagrams %}
-                <img src="{{ instagram.medium_image }}" alt="{{ instagram.medium_image }}" />
+                <a class="fancybox" href="{{ instagram.link }}" target="_blank" style="display: block;"><img src="{{ instagram.medium_image }}" alt="{{ instagram.medium_image }}" /></a>
             {% endfor %}
         </div>
     {% endif %}
@@ -23,7 +23,7 @@
                 <div class="swiper-wrapper">
                     {% for instagram in instagrams %}
                         <div class="swiper-slide">
-                            <img src="{{ instagram.medium_image }}" alt="{{ instagram.medium_image }}" />
+                            <a class="fancybox" href="{{ instagram.link }}" target="_blank" style="display: block;"><img src="{{ instagram.medium_image }}" alt="{{ instagram.medium_image }}" /></a>
                         </div>
                     {% endfor %}
                 </div>
@@ -76,6 +76,6 @@
             });
         </script>
     {% endif %}
-	<p class="text-follow">{{ text_follow }}</p>
+	<p class="text-follow"><a href="https://www.instagram.com/{{ username }}" target="_blank">{{ text_follow }}</a></p>
 {% endif %}
 </div>
