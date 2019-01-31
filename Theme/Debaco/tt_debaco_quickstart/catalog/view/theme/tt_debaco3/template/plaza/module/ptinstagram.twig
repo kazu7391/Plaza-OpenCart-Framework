@@ -1,0 +1,81 @@
+<div id="instagram_block_home" class="block">
+    <div class="block-title">
+        <h3>{{ heading_title }}</h3>
+			{% if text_module %}
+				<p class="text-module">{{ text_module }}</p>
+			{% endif %}
+    </div>
+    {% if error_connect == false %}
+    <p class="text_error_instagram">{{ text_error }}</p>
+    {% else %}
+
+    {% if slider.view_mode != 'slider' %}
+        <div class="instagram-slides row">
+            {% for instagram in instagrams %}
+                <img src="{{ instagram.medium_image }}" alt="{{ instagram.medium_image }}" />
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if slider.view_mode == 'slider' %}
+        <div class="row swiper-viewport">
+            <div class="swiper-container instagram-slides">
+                <div class="swiper-wrapper">
+                    {% for instagram in instagrams %}
+                        <div class="swiper-slide">
+                            <img src="{{ instagram.medium_image }}" alt="{{ instagram.medium_image }}" />
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if slider.pagination %}
+                    <div class="swiper-pagination instagram-pagination"></div>
+                {% endif %}
+
+                {% if slider.navigation %}
+                    <div class="swiper-pager">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(".instagram-slides").swiper({
+                spaceBetween: 0,
+                {% if slider.pagination %}
+                pagination: '.instagram-pagination',
+                paginationClickable: true,
+                {% endif %}
+                {% if slider.navigation %}
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                {% endif %}
+                speed: {% if slider.speed %} {{ slider.speed }} {% else %} 300 {% endif %},
+                slidesPerView: {{ slider.items }},
+                slidesPerColumn: {{ slider.rows }},
+                autoplay: {% if slider.auto %} 3000 {% else %} false {% endif %},
+                loop: false,
+				// Responsive breakpoints
+				breakpoints: {
+					479: {
+					  slidesPerView: 4
+					},
+					767: {
+					  slidesPerView: 4
+					},
+					991: {
+					  slidesPerView: 5
+					  
+					},
+					1199: {
+					  slidesPerView: 5
+					  
+					}
+				}
+            });
+        </script>
+    {% endif %}
+	<p class="text-follow">{{ text_follow }}</p>
+{% endif %}
+</div>
