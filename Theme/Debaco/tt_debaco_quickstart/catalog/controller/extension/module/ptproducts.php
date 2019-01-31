@@ -874,6 +874,8 @@ class ControllerExtensionModulePtproducts extends Controller
                 'product_id'        => $result['product_id'],
                 'thumb'   	        => $image,
                 'rotate_image'      => $rotate_image,
+                'img_width'         => $width,
+                'img_height'        => $height,
                 'name'    	        => $result['name'],
                 'price'   	        => $price,
                 'special' 	        => $special,

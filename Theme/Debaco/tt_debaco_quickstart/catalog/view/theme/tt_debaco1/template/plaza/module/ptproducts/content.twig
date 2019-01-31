@@ -12,11 +12,10 @@
 					{% endif %}
 				{% endif %}
 				<a href="{{ href }}">
-
 					{% if rotate_image %}
-						<img src="{{ rotate_image }}" alt="{{ name }}" title="{{ name }}" class="img-responsive img-rotate-image" />
+						<img data-src="{{ rotate_image }}" width="{{ img_width }}" height="{{ img_height }}" alt="{{ name }}" title="{{ name }}" class="img-responsive img-rotate-image lazy-img" />
 					{% endif %}
-					<img src="{{ thumb }}" alt="{{ name }}" title="{{ name }}" class="img-responsive img-mod-{{ section_id }}-{{ product_id }}" />
+					<img data-src="{{ thumb }}" width="{{ img_width }}" height="{{ img_height }}" alt="{{ name }}" title="{{ name }}" class="lazy-img img-responsive img-mod-{{ section_id }}-{{ product_id }}" />
 					{% if swatches_images %}
 						<input type="hidden" value="{{ thumb }}" class="img-default-{{ section_id }}-{{ product_id }}" />
 						{% for s_image in swatches_images %}
